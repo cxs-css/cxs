@@ -13,7 +13,6 @@ const cxs = (...args) => {
 
   args.forEach(arg => {
     if (typeof arg === 'string') {
-      // cache[arg] = cache[arg] || {}
       classNames.push(arg)
     } else if (typeof arg === 'object') {
       const hashname = 'cxs-' + hash(JSON.stringify(arg), 128)
@@ -38,7 +37,7 @@ const createSubRule = (baseHashname, key, obj) => {
   if (/^:/.test(key)) {
     // Pseudo-class
     const rules = createRules(baseHashname + key, obj)
-    return rules[0]
+    return rules[0] // Ignore nested objects
   } else if (/^@media/.test(key)) {
     // Media query
     const rules = createRules(baseHashname, obj, key)
@@ -63,9 +62,6 @@ const createRules = (hashname, style, media) => {
   for (let key in prefixed) {
     const value = prefixed[key]
     if (Array.isArray(value)) {
-      // Handle prefixed styles
-
-      // Handle common declarations
       value.forEach(val => {
         const declaration = `${kebabCase(key)}:${val}`
         declarations.push(declaration)
@@ -75,8 +71,6 @@ const createRules = (hashname, style, media) => {
       const r = createSubRule(hashname, key, value)
       rules.push(r)
     } else {
-
-      // Handle common declarations...
       const val = typeof value === 'number'
         ? addPx(key, value)
         : value
@@ -99,7 +93,6 @@ const createRules = (hashname, style, media) => {
   return rules
 }
 
-// To do extractCommonRules
 const extractCommonDeclarations = (style, media) => {
   const commonRules = []
 
