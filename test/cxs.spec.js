@@ -12,24 +12,25 @@ const style = {
   fontSize: 32,
 }
 
+test.beforeEach(() => {
+  cxs.clearCache()
+})
+
 test('should not throw', t => {
   t.notThrows(() => {
     const cx = cxs(style)
-    cxs.clearCache()
   })
 })
 
 test('returns a classname', t => {
   const cx = cxs(style)
   t.is(typeof cx, 'string')
-  cxs.clearCache()
 })
 
 test('returns a consistent hashed classname', t => {
   const hashname = hash(JSON.stringify(style), 128)
   const cx = cxs(style)
   t.is(cx, `cxs-${hashname}`)
-  cxs.clearCache()
 })
 
 test('adds the rule to cache', t => {
@@ -38,13 +39,11 @@ test('adds the rule to cache', t => {
   const cx = cxs(style)
   t.is(typeof cache, 'object')
   t.is(typeof cache[id], 'object')
-  cxs.clearCache()
 })
 
 test('handles multiple classes', t => {
   const cx = cxs(style, 'red', 'm1')
   t.regex(cx, /^cxs.+\sred\sm1$/)
-  cxs.clearCache()
 })
 
 test('clears cache', t => {
@@ -60,7 +59,6 @@ test('attaches a style tag and CSSStyleSheet', t => {
   const tag = document.getElementById('cxs')
   t.true(cxs.sheet instanceof CSSStyleSheet)
   t.true(tag.tagName === 'STYLE')
-  cxs.clearCache()
 })
 
 test('dedupes repeated styles', t => {
@@ -73,7 +71,6 @@ test('dedupes repeated styles', t => {
   const cx3 = cxs(dupe)
   const rules = cxs.getRules()
   t.is(rules.length, 2)
-  cxs.clearCache()
 })
 
 test('Adds px unit to number values', t => {
@@ -83,7 +80,6 @@ test('Adds px unit to number values', t => {
   const cx = cxs(sx)
   const rules = cxs.getRules()
   t.regex(rules[0], /font-size:32px}$/)
-  cxs.clearCache()
 })
 
 test('adds vendor prefixes', t => {
@@ -93,7 +89,6 @@ test('adds vendor prefixes', t => {
   const cx = cxs(sx)
   const rules = cxs.getRules()
   t.regex(rules[0], /\-webkit\-flex/)
-  cxs.clearCache()
 })
 
 test('creates pseudoclass rules', t => {
@@ -109,8 +104,6 @@ test('creates pseudoclass rules', t => {
   t.is(rules.length, 2)
   const hoverRule = Object.keys(cache).reduce((a, b) => /\:hover$/.test(b) ? cache[b] : null, null)
   t.regex(hoverRule.selector, /\:hover$/)
-
-  cxs.clearCache()
 })
 
 test('creates @media rules', t => {
@@ -125,11 +118,9 @@ test('creates @media rules', t => {
   const rules = cxs.getRules()
   t.is(rules.length, 2)
   t.regex(rules[1], /^@media/)
-
-  cxs.clearCache()
 })
 
-test('should extract common declarations', t => {
+test('extracts common declarations', t => {
   t.plan(4)
   const sx = {
     display: 'block',
@@ -142,8 +133,15 @@ test('should extract common declarations', t => {
   t.regex(rules[1], /^\.cxs\-display\-block/)
   t.regex(rules[2], /^\.cxs\-text-align-center/)
   t.is(cx.split(' ').length, 3)
+})
 
-  cxs.clearCache()
+test('ignores null values', t => {
+  const cx = cxs({
+    color: 'tomato',
+    padding: null
+  })
+  const css = cxs.getCss()
+  t.is(css.includes('null'), false)
 })
 
 /*

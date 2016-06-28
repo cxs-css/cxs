@@ -22,6 +22,30 @@ const colors = [
   '#888',
 ]
 
+const store = {
+  _state: {
+    title: 'Hello cxs',
+    count: 0
+  },
+  get state () {
+    return store._state
+  },
+  set state (obj) {
+    store._state = { ...state, ...obj }
+    store.listeners.forEach(l => l(store))
+  },
+  setState (obj) {
+    store._state = { ...store.state, ...obj }
+    store.listeners.forEach(l => l(store))
+  },
+  listeners: [],
+  subscribe (listener) {
+    if (typeof listener === 'function') {
+      store.listeners.push(listener)
+    }
+  }
+}
+
 const Button = ({
   text,
   className,
@@ -49,31 +73,22 @@ const Button = ({
   `
 }
 
-const store = {
-  _state: {
-    title: 'Hello cxs',
-    count: 0
-  },
-  get state () {
-    return store._state
-  },
-  set state (obj) {
-    store._state = { ...state, ...obj }
-    store.listeners.forEach(l => l(store))
-  },
-  setState (obj) {
-    store._state = { ...store.state, ...obj }
-    store.listeners.forEach(l => l(store))
-  },
-  listeners: [],
-  subscribe (listener) {
-    if (typeof listener === 'function') {
-      store.listeners.push(listener)
-    }
+// For perf testing
+const Box = ({
+  color
+}) => {
+  const cx = {
+    height: 32,
+    backgroundColor: color
   }
+
+  return jx`
+    <div className=${cx}>
+    </div>
+  `
 }
 
-const view = (store) => {
+const View = (store) => {
   const { setState, state } = store
   const { title, count } = state
 
@@ -133,14 +148,14 @@ const view = (store) => {
 console.log('hello')
 
 const update = (store) => {
-  const newTree = view(store)
+  const newTree = View(store)
   yo.update(tree, newTree)
   // cxs.attach()
   console.log(cxs.getRules().length)
   console.log(cxs.getRules())
 }
 
-const tree = view(store)
+const tree = View(store)
 // cxs.attach()
 
 store.subscribe(update)

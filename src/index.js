@@ -48,12 +48,22 @@ const createSubRule = (baseHashname, key, obj) => {
   }
 }
 
+const filterNull = (obj) => {
+  const newObj = {}
+  for (let key in obj) {
+    if (obj[key]) {
+      newObj[key] = obj[key]
+    }
+  }
+  return newObj
+}
+
 const createRules = (hashname, style, media) => {
   const selector = '.' + hashname
   const declarations = []
   const rules = []
 
-  const { customStyle, commonRules } = extractCommonDeclarations(style, media)
+  const { customStyle, commonRules } = extractCommonDeclarations(filterNull(style), media)
 
   commonRules.forEach(r => rules.push(r))
 
@@ -61,7 +71,9 @@ const createRules = (hashname, style, media) => {
 
   for (let key in prefixed) {
     const value = prefixed[key]
-    if (Array.isArray(value)) {
+    if (value === null || typeof value  === 'undefined') {
+      return
+    } else if (Array.isArray(value)) {
       value.forEach(val => {
         const declaration = `${kebabCase(key)}:${val}`
         declarations.push(declaration)
