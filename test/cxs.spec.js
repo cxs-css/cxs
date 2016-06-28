@@ -2,12 +2,7 @@
 import test from 'ava'
 import hash from 'node-murmurhash'
 import jsdom from 'jsdom-global'
-import ccx, {
-  store,
-  cache,
-  getRules,
-  attach
-} from '../src/ccx'
+import cxs, { cache } from '../src'
 
 jsdom('<html></html>')
 
@@ -19,53 +14,53 @@ const style = {
 
 test('should not throw', t => {
   t.notThrows(() => {
-    const cx = ccx(style)
-    ccx.clearCache()
+    const cx = cxs(style)
+    cxs.clearCache()
   })
 })
 
 test('returns a classname', t => {
-  const cx = ccx(style)
+  const cx = cxs(style)
   t.is(typeof cx, 'string')
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('returns a consistent hashed classname', t => {
   const hashname = hash(JSON.stringify(style), 128)
-  const cx = ccx(style)
-  t.is(cx, `cx-${hashname}`)
-  ccx.clearCache()
+  const cx = cxs(style)
+  t.is(cx, `cxs-${hashname}`)
+  cxs.clearCache()
 })
 
 test('adds the rule to cache', t => {
   t.plan(2)
-  const id = `cx-${hash(JSON.stringify(style), 128)}`
-  const cx = ccx(style)
+  const id = `cxs-${hash(JSON.stringify(style), 128)}`
+  const cx = cxs(style)
   t.is(typeof cache, 'object')
   t.is(typeof cache[id], 'object')
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('handles multiple classes', t => {
-  const cx = ccx(style, 'red', 'm1')
-  t.regex(cx, /^cx.+\sred\sm1$/)
-  ccx.clearCache()
+  const cx = cxs(style, 'red', 'm1')
+  t.regex(cx, /^cxs.+\sred\sm1$/)
+  cxs.clearCache()
 })
 
 test('clears cache', t => {
   t.plan(1)
-  const cx = ccx(style)
-  ccx.clearCache()
+  const cx = cxs(style)
+  cxs.clearCache()
   t.deepEqual(cache, ({}))
 })
 
 test('attaches a style tag and CSSStyleSheet', t => {
   t.plan(2)
-  attach()
-  const tag = document.getElementById('ccx')
-  t.true(ccx.sheet instanceof CSSStyleSheet)
+  cxs.attach()
+  const tag = document.getElementById('cxs')
+  t.true(cxs.sheet instanceof CSSStyleSheet)
   t.true(tag.tagName === 'STYLE')
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('dedupes repeated styles', t => {
@@ -73,32 +68,32 @@ test('dedupes repeated styles', t => {
     color: 'cyan',
     fontSize: 32
   }
-  const cx1 = ccx(style)
-  const cx2 = ccx(dupe)
-  const cx3 = ccx(dupe)
-  const rules = getRules()
+  const cx1 = cxs(style)
+  const cx2 = cxs(dupe)
+  const cx3 = cxs(dupe)
+  const rules = cxs.getRules()
   t.is(rules.length, 2)
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('Adds px unit to number values', t => {
   const sx = {
     fontSize: 32
   }
-  const cx = ccx(sx)
-  const rules = getRules()
+  const cx = cxs(sx)
+  const rules = cxs.getRules()
   t.regex(rules[0], /font-size:32px}$/)
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('adds vendor prefixes', t => {
   const sx = {
     display: 'flex'
   }
-  const cx = ccx(sx)
-  const rules = getRules()
+  const cx = cxs(sx)
+  const rules = cxs.getRules()
   t.regex(rules[0], /\-webkit\-flex/)
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('creates pseudoclass rules', t => {
@@ -109,13 +104,13 @@ test('creates pseudoclass rules', t => {
       color: 'magenta'
     }
   }
-  const cx = ccx(sx)
-  const rules = getRules()
+  const cx = cxs(sx)
+  const rules = cxs.getRules()
   t.is(rules.length, 2)
   const hoverRule = Object.keys(cache).reduce((a, b) => /\:hover$/.test(b) ? cache[b] : null, null)
   t.regex(hoverRule.selector, /\:hover$/)
 
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('creates @media rules', t => {
@@ -126,31 +121,32 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   }
-  const cx = ccx(sx)
-  const rules = getRules()
+  const cx = cxs(sx)
+  const rules = cxs.getRules()
   t.is(rules.length, 2)
   t.regex(rules[1], /^@media/)
 
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 test('should extract common declarations', t => {
+  t.plan(4)
   const sx = {
     display: 'block',
     textAlign: 'center',
     fontSize: 48
   }
-  const cx = ccx(sx)
-  const rules = getRules()
-  console.log(rules)
+  const cx = cxs(sx)
+  const rules = cxs.getRules()
+  t.is(rules.length, 3)
+  t.regex(rules[1], /^\.cxs\-display\-block/)
+  t.regex(rules[2], /^\.cxs\-text-align-center/)
+  t.is(cx.split(' ').length, 3)
 
-  ccx.clearCache()
+  cxs.clearCache()
 })
 
 /*
-- Should extract common rules
-- Common rules should match property value pairs
-
 - context rerender
 - It should skip existing rules
 - It should create new updated rules

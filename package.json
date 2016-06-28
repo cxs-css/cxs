@@ -1,11 +1,13 @@
 {
-  "name": "ccx",
-  "version": "1.0.0",
+  "name": "cxs",
+  "version": "1.0.0-beta.1",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "start": "webpack-dev-server",
-    "test": "ava"
+    "test-watch": "ava -v --watch",
+    "test": "ava -v"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,7 @@
     "add-px-to-style": "^1.0.0",
     "autoprefixer": "^6.3.6",
     "ava": "^0.15.2",
+    "babel-cli": "^6.10.1",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",

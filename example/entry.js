@@ -1,17 +1,57 @@
 
 import yo from 'yo-yo'
-import ccx, { getRules } from '../src/ccx'
+import cxs from '../src'
+import { createElement } from 'bel'
+import hyperx from 'hyperx'
+
+
+const cxsCreateElement = (tag, props, children) => {
+  if (props.className && typeof props.className === 'object') {
+    props.className = cxs(props.className)
+  }
+  return createElement(tag, props, children)
+}
+
+const jx = hyperx(cxsCreateElement)
 
 const colors = [
-  'cyan',
-  'magenta',
-  'yellow'
+  '#000',
+  '#222',
+  '#444',
+  '#666',
+  '#888',
 ]
 
+const Button = ({
+  text,
+  className,
+  onclick = () => {}
+}) => {
+  return jx`
+    <button className=${{
+        boxSizing: 'border-box',
+        border: 'none',
+        borderRadius: 3,
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'bold',
+        display: 'inline-block',
+        padding: 8,
+        margin: 0,
+        color: 'white',
+        appearance: 'none',
+        backgroundColor: 'black',
+        ...className
+      }}
+      onclick=${onclick}>
+      ${text}
+    </button>
+  `
+}
 
 const store = {
   _state: {
-    title: 'Hello ccx',
+    title: 'Hello cxs',
     count: 0
   },
   get state () {
@@ -39,36 +79,52 @@ const view = (store) => {
 
   const cx = {
     root: {
-      fontFamily: '-apple-system, sans-serif'
+      fontFamily: '-apple-system, sans-serif',
+      padding: 32,
+      '@media screen and (min-width:40em)': {
+        padding: 64
+      }
     },
     heading: {
+    },
+    buttons: {
       display: 'flex',
-      alignItems: 'center',
-      color: 'magenta'
+      marginLeft: -8,
+      marginRight: -8,
+    },
+    button: {
+      flex: '1 1 auto',
+      margin: 8
     },
     block: {
       textAlign: 'center',
       fontSize: 48,
       height: 64,
       padding: 32,
+      color: 'white',
       backgroundColor: colors[count % colors.length]
     }
   }
 
-  return yo`
-    <div className=${ccx(cx.root)}>
-      <h1 className=${ccx(cx.heading)}>
+  return jx`
+    <div className=${cx.root}>
+      <h1 className=${cx.heading}>
         ${title} ${count}
       </h1>
-      <button
-        onclick=${(e) => {
-          const count = state.count + 1
-          setState({ count })
-        }}>
-        +
-      </button>
-      <div className=${ccx(cx.block)}>
+      <div className=${cx.block}>
         ${count}
+      </div>
+      <div className=${cx.buttons}>
+        ${Button({
+          text: '-',
+          className: cx.button,
+          onclick: (e) => setState({ count: state.count - 1 })
+        })}
+        ${Button({
+          text: '+',
+          className: cx.button,
+          onclick: (e) => setState({ count: state.count + 1 })
+        })}
       </div>
     </div>
   `
@@ -76,24 +132,16 @@ const view = (store) => {
 
 console.log('hello')
 
-const style = document.createElement('style')
-style.id = 'ccx'
-document.head.appendChild(style)
-const addStyles = () => {
-  const cssRules = getRules()
-  cssRules.forEach((r, i) => style.sheet.insertRule(r, i))
-  console.log(cssRules.length)
-  console.log(style.sheet)
-}
-
 const update = (store) => {
   const newTree = view(store)
   yo.update(tree, newTree)
-  addStyles()
+  // cxs.attach()
+  console.log(cxs.getRules().length)
+  console.log(cxs.getRules())
 }
 
 const tree = view(store)
-addStyles()
+// cxs.attach()
 
 store.subscribe(update)
 
