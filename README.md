@@ -1,6 +1,8 @@
 
 # cxs
 
+**WIP**
+
 Functional CSS for functional UI components
 
 cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
