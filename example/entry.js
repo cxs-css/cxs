@@ -170,14 +170,14 @@ console.log('hello')
 const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
-  // cxs.attach()
+  cxs.attach()
   console.log(cxs.getRules().length)
   console.log(cxs.getRules())
   console.log(cxs.sheet)
 }
 
 const tree = View(store)
-// cxs.attach()
+cxs.attach()
 
 store.subscribe(update)
 

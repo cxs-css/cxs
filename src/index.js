@@ -223,7 +223,5 @@ cxs.clearCache = () => {
   cache.rules = {}
 }
 
-cache.subscribe(cxs.attach)
-
 export default cxs
 
