@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,8 +13,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "add-px-to-style": "^1.0.0",
-    "autoprefixer": "^6.3.6",
     "ava": "^0.15.2",
     "babel-cli": "^6.10.1",
     "babel-loader": "^6.2.4",
@@ -25,10 +23,6 @@
     "jsdom": "^9.3.0",
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
-    "lodash": "^4.13.1",
-    "mocha-jsdom": "^1.1.0",
-    "node-murmurhash": "^2.1.0",
-    "postcss-js": "^0.1.3",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "yo-yo": "^1.2.1"
@@ -37,5 +31,11 @@
     "require": [
       "babel-register"
     ]
+  },
+  "dependencies": {
+    "add-px-to-style": "^1.0.0",
+    "inline-style-prefix-all": "^2.0.2",
+    "lodash": "^4.13.1",
+    "node-murmurhash": "^2.1.0"
   }
 }
