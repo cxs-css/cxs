@@ -3,10 +3,10 @@ import hash from 'node-murmurhash'
 import { kebabCase } from 'lodash'
 import addPx from 'add-px-to-style'
 import prefix from 'inline-style-prefix-all'
+import cache from './cache'
 import commonDeclarations from './common-declarations'
 
 let styleTag = null
-export let cache = {}
 
 const cxs = (...args) => {
   const classNames = []
@@ -22,10 +22,10 @@ const cxs = (...args) => {
         if (!/\:/.test(rule.selector)) {
           classNames.push(rule.selector.replace(/^\./, ''))
         }
-        if (cache[rule.id]) {
+        if (cache.rules[rule.id]) {
           // console.warn('Rule already exists', cache[rule.id], rule)
         } else {
-          cache[rule.id] = rule
+          cache.add([rule.id], rule)
         }
       })
     }
@@ -181,7 +181,6 @@ const sortRules = (a, b) => {
   return a.order - b.order
 }
 
-
 cxs.attach = () => {
   if (typeof document === 'undefined') {
     console.warn('Cannot attach stylesheet without a document')
@@ -208,22 +207,23 @@ cxs.attach = () => {
 }
 
 cxs.getRules = () => {
-  const cssRules = Object.keys(cache || {})
-    .map(k => cache[k].css || false)
+  const cssRules = Object.keys(cache.rules || {})
+    .map(k => cache.rules[k].css || false)
     .filter(r => r.length)
     .sort(sortRules)
 
   return cssRules
 }
 
-
 cxs.getCss = () => {
   return cxs.getRules().join('')
 }
 
 cxs.clearCache = () => {
-  cache = {}
+  cache.rules = {}
 }
+
+cache.subscribe(cxs.attach)
 
 export default cxs
 

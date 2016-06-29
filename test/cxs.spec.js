@@ -2,7 +2,8 @@
 import test from 'ava'
 import hash from 'node-murmurhash'
 import jsdom from 'jsdom-global'
-import cxs, { cache } from '../src'
+import cxs from '../src'
+import cache from '../src/cache'
 
 jsdom('<html></html>')
 
@@ -37,8 +38,8 @@ test('adds the rule to cache', t => {
   t.plan(2)
   const id = `cxs-${hash(JSON.stringify(style), 128)}`
   const cx = cxs(style)
-  t.is(typeof cache, 'object')
-  t.is(typeof cache[id], 'object')
+  t.is(typeof cache.rules, 'object')
+  t.is(typeof cache.rules[id], 'object')
 })
 
 test('handles multiple classes', t => {
@@ -50,7 +51,7 @@ test('clears cache', t => {
   t.plan(1)
   const cx = cxs(style)
   cxs.clearCache()
-  t.deepEqual(cache, ({}))
+  t.deepEqual(cache.rules, ({}))
 })
 
 test('attaches a style tag and CSSStyleSheet', t => {
@@ -102,7 +103,7 @@ test('creates pseudoclass rules', t => {
   const cx = cxs(sx)
   const rules = cxs.getRules()
   t.is(rules.length, 2)
-  const hoverRule = Object.keys(cache).reduce((a, b) => /\:hover$/.test(b) ? cache[b] : null, null)
+  const hoverRule = Object.keys(cache.rules).reduce((a, b) => /\:hover$/.test(b) ? cache.rules[b] : null, null)
   t.regex(hoverRule.selector, /\:hover$/)
 })
 
