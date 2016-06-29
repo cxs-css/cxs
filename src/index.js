@@ -19,83 +19,43 @@ const cxs = (...args) => {
       const rules = createRules(hashname, arg)
 
       rules.forEach(rule => {
-        if (rule.selector !== '.' + hashname && !/\:/.test(rule.selector)) {
+        if (!/\:/.test(rule.selector)) {
           classNames.push(rule.selector.replace(/^\./, ''))
         }
-        // if (cache[rule.id]) { // console.warn('Rule already exists', cache[rule.id], rule) }
-        cache[rule.id] = rule
+        if (cache[rule.id]) {
+          // console.warn('Rule already exists', cache[rule.id], rule)
+        } else {
+          cache[rule.id] = rule
+        }
       })
-
-      classNames.push(hashname)
     }
   })
 
   return classNames.join(' ')
 }
 
-const createSubRule = (baseHashname, key, obj) => {
-  if (/^:/.test(key)) {
-    // Pseudo-class
-    const rules = createRules(baseHashname + key, obj)
-    return rules[0] // Ignore nested objects
-  } else if (/^@media/.test(key)) {
-    // Media query
-    const rules = createRules(baseHashname, obj, key)
-    return rules[0]
-  } else {
-    console.warn('not a pseudoclass or media query', key, obj)
-    return ''
-  }
-}
-
-const filterNull = (obj) => {
-  const newObj = {}
-  for (let key in obj) {
-    if (obj[key]) {
-      newObj[key] = obj[key]
-    }
-  }
-  return newObj
-}
-
-const createRules = (hashname, style, media) => {
+const createRules = (hashname, rawStyle, media) => {
   const selector = '.' + hashname
   const declarations = []
   const rules = []
+  const style = filterNull(rawStyle)
 
-  const { customStyle, commonRules } = extractCommonDeclarations(filterNull(style), media)
+  extractCommonDeclarations(style, { media, hashname })
+    .forEach(r => rules.push(r))
 
-  commonRules.forEach(r => rules.push(r))
-
+  const customStyle = filterCommonDeclarations(style)
   const prefixed = prefix(customStyle)
 
-  for (let key in prefixed) {
-    const value = prefixed[key]
-    if (value === null || typeof value  === 'undefined') {
-      return
-    } else if (Array.isArray(value)) {
-      value.forEach(val => {
-        const declaration = `${kebabCase(key)}:${val}`
-        declarations.push(declaration)
-      })
-    } else if (typeof value === 'object') {
-      // Handle pseudo-classes, media queries, etc.
-      const r = createSubRule(hashname, key, value)
-      rules.push(r)
-    } else {
-      const val = typeof value === 'number'
-        ? addPx(key, value)
-        : value
-      const declaration = `${kebabCase(key)}:${val}`
-      declarations.push(declaration)
-    }
-  }
+  createNestedRules(hashname, prefixed)
+    .forEach(r => rules.push(r))
 
-  const ruleSet = `${selector}{${declarations.join(';')}}`
-  const css = media ? `${media} { ${ruleSet} }` : ruleSet
+  const ruleset = createRuleset(selector, prefixed)
+  const css = media ? `${media} { ${ruleset} }` : ruleset
+  const id = media ? hashname + media : hashname
 
   const rule = {
-    id: hashname + (media ? media : ''),
+    id,
+    order: media ? 2 : 1,
     selector,
     css
   }
@@ -105,58 +65,130 @@ const createRules = (hashname, style, media) => {
   return rules
 }
 
-const extractCommonDeclarations = (style, media) => {
+const createRuleset = (selector, style) => {
+  const declarations = []
+
+  for (let key in style) {
+    const value = style[key]
+    const prop = toCssProperty(key)
+    if (isNestedStyle(value)) {
+      // Skip
+    } else if (Array.isArray(value)) {
+      value.forEach(v => {
+        const declaration = prop + ':' + v
+        declarations.push(declaration)
+      })
+    } else if (typeof value === 'number') {
+      const declaration = prop + ':' + addPx(key, value)
+      declarations.push(declaration)
+    } else if (typeof value === 'string') {
+      const declaration = prop + ':' + value
+      declarations.push(declaration)
+    }
+  }
+
+  return `${selector}{${declarations.join(';')}}`
+}
+
+const createNestedRules = (hashname, style) => {
+  const rules = []
+
+  for (let key in style) {
+    const value = style[key]
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      if (/^:/.test(key)) {
+        // Pseudo-class
+        createRules(hashname + key, value)
+          .forEach(r => rules.push(r))
+      } else if (/^@media/.test(key)) {
+        // Media query
+        createRules(hashname, value, key)
+          .forEach(r => rules.push(r))
+      }
+    }
+  }
+
+  return rules
+}
+
+const filterCommonDeclarations = (style) => {
+  const newStyle = {}
+  for (let key in style) {
+    const index = commonDeclarations[key] ? commonDeclarations[key].indexOf(style[key]) : -1
+    if (index < 0) {
+      newStyle[key] = style[key]
+    }
+  }
+  return newStyle
+}
+
+const extractCommonDeclarations = (style, { media, hashname }) => {
   const commonRules = []
 
-  if (media) {
-    return {
-      commonRules,
-      customStyle: style
-    }
+  if (media || /:/.test(hashname)) {
+    return commonRules
   }
 
   for (let key in style) {
     const index = commonDeclarations[key] ? commonDeclarations[key].indexOf(style[key]) : -1
     if (index > -1) {
-      const property = kebabCase(key)
+      const property = toCssProperty(key)
       // To do: handle prefixed declarations (flex, inline-flex)
       const value = style[key]
       const selector = `.cxs-${property}-${value}`
       const rule = {
         id: selector,
+        order: 0,
         selector,
-        css: `${selector}{${property}:${value}}`
+        css: createRuleset(selector, { [key]: value })
       }
       commonRules.push(rule)
       delete style[key]
     }
   }
 
-  return {
-    customStyle: style,
-    commonRules
+  return commonRules
+}
+
+const filterNull = (obj) => {
+  const newObj = {}
+  for (let key in obj) {
+    if (obj[key] !== null) {
+      newObj[key] = obj[key]
+    }
+  }
+  return newObj
+}
+
+const toCssProperty = (key) => {
+  if (/^[A-Z]/.test(key)) {
+    const prop = '-' + kebabCase(key)
+    return prop
+  } else {
+    return kebabCase(key)
   }
 }
 
-export const getRules = () => {
-  const cssRules = Object.keys(cache || {})
-    .map(k => cache[k].css || false)
-    .filter(r => r.length)
-
-  return cssRules
+const createDeclaration = (key, value) => {
+  return toCssProperty(key) + ':' + value
 }
 
-export const getCss = () => {
-  return getRules().join('')
+const isNestedStyle = (value) => {
+  return value === null || (typeof value === 'object' && !Array.isArray(value))
 }
 
-export const attach = () => {
+const sortRules = (a, b) => {
+  return a.order - b.order
+}
+
+
+cxs.attach = () => {
   if (typeof document === 'undefined') {
     console.warn('Cannot attach stylesheet without a document')
     return
   }
 
-  const rules = getRules()
+  const rules = cxs.getRules()
   styleTag = styleTag || document.getElementById('cxs')
 
   if (styleTag === null) {
@@ -167,18 +199,31 @@ export const attach = () => {
   }
 
   rules.forEach((rule, i) => {
-    cxs.sheet.insertRule(rule, i)
+    try {
+      cxs.sheet.insertRule(rule, cxs.sheet.cssRules.length)
+    } catch (e) {
+      // console.warn('Could not insert rule', rule, e)
+    }
   })
 }
 
-export const clearCache = () => {
-  cache = {}
+cxs.getRules = () => {
+  const cssRules = Object.keys(cache || {})
+    .map(k => cache[k].css || false)
+    .filter(r => r.length)
+    .sort(sortRules)
+
+  return cssRules
 }
 
-cxs.getRules = getRules
-cxs.getCss = getCss
-cxs.attach = attach
-cxs.clearCache = clearCache
+
+cxs.getCss = () => {
+  return cxs.getRules().join('')
+}
+
+cxs.clearCache = () => {
+  cache = {}
+}
 
 export default cxs
 

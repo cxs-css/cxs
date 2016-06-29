@@ -144,6 +144,28 @@ test('ignores null values', t => {
   t.is(css.includes('null'), false)
 })
 
+test('handles 0 values', t => {
+  const cx = cxs({
+    padding: 0,
+    fontFamily: 0,
+    border: 0
+  })
+  const css = cxs.getCss()
+  t.is(css.includes('border'), true)
+})
+
+test('should handle ::-moz-inner-focus', t => {
+  const cx = cxs({
+    color: 'tomato',
+    '::-moz-inner-focus': {
+      border: 0,
+      padding: 0
+    }
+  })
+  const css = cxs.getCss()
+  t.is(css.includes('-moz-inner-focus'), true)
+})
+
 /*
 - context rerender
 - It should skip existing rules

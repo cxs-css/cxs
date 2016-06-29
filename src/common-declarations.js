@@ -74,7 +74,7 @@ const commonDeclarations = {
     'fixed',
   ],
 
-  border: [ 0 ],
+  // border: [ 0 ],
   borderRadius: [ 0 ],
 
   // inherits

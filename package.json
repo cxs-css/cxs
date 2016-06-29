@@ -2,7 +2,7 @@
   "name": "cxs",
   "version": "1.0.0-beta.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "start": "webpack-dev-server",

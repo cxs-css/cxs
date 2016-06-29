@@ -20,6 +20,12 @@ const colors = [
   '#444',
   '#666',
   '#888',
+  'cyan',
+  '#07f',
+  '#70f',
+  '#f07',
+  'magenta',
+  'yellow',
 ]
 
 const store = {
@@ -121,6 +127,12 @@ const View = (store) => {
     }
   }
 
+  const boxes = Array.from({ length: count })
+    .map((n, i) => i)
+    .map((n) => {
+      return Box({ color: colors[n % colors.length] })
+    })
+
   return jx`
     <div className=${cx.root}>
       <h1 className=${cx.heading}>
@@ -140,6 +152,14 @@ const View = (store) => {
           className: cx.button,
           onclick: (e) => setState({ count: state.count + 1 })
         })}
+        ${Button({
+          text: '++',
+          className: cx.button,
+          onclick: (e) => setState({ count: state.count + 8 })
+        })}
+      </div>
+      <div>
+        ${boxes}
       </div>
     </div>
   `
@@ -150,13 +170,14 @@ console.log('hello')
 const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
-  // cxs.attach()
+  cxs.attach()
   console.log(cxs.getRules().length)
   console.log(cxs.getRules())
+  console.log(cxs.sheet)
 }
 
 const tree = View(store)
-// cxs.attach()
+cxs.attach()
 
 store.subscribe(update)
 
