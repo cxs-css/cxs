@@ -1,9 +1,10 @@
 
 import hash from 'node-murmurhash'
-import cache from './cache'
+import { find } from 'lodash'
 import createRules from './create-rules'
 
-let styleTag = null
+export let styleTag = null
+export let cache = {}
 
 const cxs = (...args) => {
   const classNames = []
@@ -19,15 +20,16 @@ const cxs = (...args) => {
         if (!/\:/.test(rule.selector)) {
           classNames.push(rule.selector.replace(/^\./, ''))
         }
-        if (cache.rules[rule.id]) {
+        if (cache[rule.id]) {
           // console.warn('Rule already exists', cache[rule.id], rule)
         } else {
-          cache.add([rule.id], rule)
+          cache[rule.id] = rule
         }
       })
     }
   })
 
+  cxs.attach()
   return classNames.join(' ')
 }
 
@@ -51,18 +53,31 @@ cxs.attach = () => {
     cxs.sheet = styleTag.sheet
   }
 
+  let matches = []
   rules.forEach((rule, i) => {
-    try {
-      cxs.sheet.insertRule(rule, cxs.sheet.cssRules.length)
-    } catch (e) {
-      // console.warn('Could not insert rule', rule, e)
+    const match = find(cxs.sheet.cssRules, sheetRule => {
+      const reg = new RegExp('^' + sheetRule.selectorText)
+      return reg.test(rule)
+    })
+
+    if (match) {
+      matches.push(match)
+      // console.log('match', match, rule)
+    }
+
+    if (!match) {
+      try {
+        cxs.sheet.insertRule(rule, cxs.sheet.cssRules.length)
+      } catch (e) {
+        // console.warn('Could not insert rule', rule, e)
+      }
     }
   })
 }
 
 cxs.getRules = () => {
-  const cssRules = Object.keys(cache.rules || {})
-    .map(k => cache.rules[k].css || false)
+  const cssRules = Object.keys(cache || {})
+    .map(k => cache[k].css || false)
     .filter(r => r.length)
     .sort(sortRules)
 
@@ -74,7 +89,7 @@ cxs.getCss = () => {
 }
 
 cxs.clearCache = () => {
-  cache.rules = {}
+  cache = {}
 }
 
 export default cxs

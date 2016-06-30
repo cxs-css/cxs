@@ -1,8 +1,4 @@
 
-const arrCommonDeclarations = [
-  { key: 'display', value: 'none' }
-]
-
 const commonDeclarations = {
   boxSizing: [
     'border-box',
