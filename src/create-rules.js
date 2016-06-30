@@ -1,8 +1,11 @@
 
-import { kebabCase } from 'lodash'
 import addPx from 'add-px-to-style'
 import prefix from 'inline-style-prefix-all'
 import commonDeclarations from './common-declarations'
+import filterNull from './util/filter-null'
+import createDeclaration from './util/create-declaration'
+import isNestedStyle from './util/is-nested-style'
+import toCssProperty from './util/to-css-property'
 
 const createRules = (hashname, rawStyle, media) => {
   const selector = '.' + hashname
@@ -120,32 +123,6 @@ const extractCommonDeclarations = (style, { media, hashname }) => {
   return commonRules
 }
 
-const filterNull = (obj) => {
-  const newObj = {}
-  for (let key in obj) {
-    if (obj[key] !== null) {
-      newObj[key] = obj[key]
-    }
-  }
-  return newObj
-}
-
-const toCssProperty = (key) => {
-  if (/^[A-Z]/.test(key)) {
-    const prop = '-' + kebabCase(key)
-    return prop
-  } else {
-    return kebabCase(key)
-  }
-}
-
-const createDeclaration = (key, value) => {
-  return toCssProperty(key) + ':' + value
-}
-
-const isNestedStyle = (value) => {
-  return value === null || (typeof value === 'object' && !Array.isArray(value))
-}
 
 export default createRules
 
