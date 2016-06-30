@@ -56,6 +56,7 @@ test('clears cache', t => {
 
 test('attaches a style tag and CSSStyleSheet', t => {
   t.plan(2)
+  cxs(style)
   cxs.attach()
   const tag = document.getElementById('cxs')
   t.true(cxs.sheet instanceof CSSStyleSheet)
