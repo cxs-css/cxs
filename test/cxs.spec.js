@@ -46,6 +46,13 @@ test('handles multiple classes', t => {
   t.regex(cx, /^cxs.+\sred\sm1$/)
 })
 
+test('attaches a style tag', t => {
+  t.plan(2)
+  const tag = document.getElementById('cxs')
+  t.true(cxs.sheet instanceof CSSStyleSheet)
+  t.is(tag.tagName, 'STYLE')
+})
+
 test('clears cache', t => {
   t.plan(1)
   const cx = cxs(style)
