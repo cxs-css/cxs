@@ -1,24 +1,29 @@
 
 import yo from 'yo-yo'
-import cxs from '../src'
-
+import cxs from '../src/jsscxs'
 
 const orange = '#f80'
 const yellow = '#cf0'
 const green = '#0fa'
 const blue = '#0cf'
+const tomato = 'tomato'
 
 const colors = [
   orange,
   yellow,
   green,
-  blue
+  blue,
+  tomato,
+  'cyan',
+  'magenta',
+  'yellow',
 ]
 
 const Box = (n) => {
   const cx = cxs({
     display: 'inline-block',
-    padding: 64,
+    margin: (n % 7 + 1) * 8,
+    padding: (n % 13 + 1) * 16,
     backgroundColor: colors[n % colors.length]
   })
 
@@ -75,7 +80,7 @@ document.body.appendChild(tree)
 const interval = setInterval(() => {
   state.count++
   update(state)
-}, 50)
+}, 2)
 
 describe('perf', () => {
   const start = Date.now()
