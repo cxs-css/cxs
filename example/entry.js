@@ -1,6 +1,7 @@
 
 import yo from 'yo-yo'
-import cxs from '../src'
+import cxs from '../src/jsscxs'
+import sheet from '../src/jss-sheet'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 
@@ -102,9 +103,9 @@ const View = (store) => {
     root: {
       fontFamily: '-apple-system, sans-serif',
       padding: 32,
-      '@media screen and (min-width:40em)': {
-        padding: 64
-      }
+      // '@media screen and (min-width:40em)': {
+      //   padding: 64
+      // }
     },
     heading: {
     },
@@ -170,14 +171,11 @@ console.log('hello')
 const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
-  cxs.attach()
-  console.log(cxs.getRules().length)
-  console.log(cxs.getRules())
-  console.log(cxs.sheet)
+  console.log(sheet)
+  sheet.attach()
 }
 
 const tree = View(store)
-cxs.attach()
 
 store.subscribe(update)
 

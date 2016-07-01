@@ -2,7 +2,7 @@
   "name": "cxs",
   "version": "1.0.0-beta.5",
   "description": "",
-  "main": "dist/index.js",
+  "main": "src/jsscxs.js",
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "start": "webpack-dev-server",
@@ -23,6 +23,11 @@
     "jsdom": "^9.3.0",
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
+    "jss": "^4.0.2",
+    "jss-camel-case": "^1.1.0",
+    "jss-default-unit": "^2.2.0",
+    "jss-nested": "^1.0.3",
+    "jss-vendor-prefixer": "^2.0.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "yo-yo": "^1.2.1"
