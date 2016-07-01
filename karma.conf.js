@@ -12,7 +12,7 @@ var configuration = {
   autoWatch: true,
 
   files: [
-    'test/karma.js'
+    'perf/karma.js'
   ],
 
   frameworks: [
@@ -28,7 +28,7 @@ var configuration = {
   ],
 
   preprocessors: {
-    'test/karma.js': [ 'webpack' ]
+    'perf/karma.js': [ 'webpack' ]
   },
 
   webpack: {
