@@ -6,6 +6,7 @@
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "start": "webpack-dev-server",
+    "perf": "karma start",
     "test-watch": "ava -v --watch",
     "test": "ava -v"
   },
@@ -23,6 +24,13 @@
     "jsdom": "^9.3.0",
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
+    "karma": "^1.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.1.1",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.5.3",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "yo-yo": "^1.2.1"

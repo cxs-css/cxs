@@ -1,6 +1,6 @@
 
 import hash from 'node-murmurhash'
-import { find } from 'lodash'
+import find from 'lodash/find'
 import createRules from './create-rules'
 
 export let styleTag = null
@@ -20,9 +20,7 @@ const cxs = (...args) => {
         if (!/\:/.test(rule.selector)) {
           classNames.push(rule.selector.replace(/^\./, ''))
         }
-        if (cache[rule.id]) {
-          // console.warn('Rule already exists', cache[rule.id], rule)
-        } else {
+        if (!cache[rule.id]) {
           cache[rule.id] = rule
         }
       })
