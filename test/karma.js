@@ -52,7 +52,7 @@ const App = ({ count, duration, ratio }) => {
           <pre className=${cx.results}>${duration}ms, ratio: ${ratio}</pre>
         `
       )}
-      <div className=${boxes}>
+      <div className=${cx.boxes}>
         ${boxes}
       </div>
     </div>
