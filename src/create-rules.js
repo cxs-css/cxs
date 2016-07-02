@@ -42,6 +42,7 @@ const createRules = (name, style, parent) => {
 
 const createNestedRules = (name, style, parent) => {
   return Object.keys(style)
+    .filter(key => !!style[key])
     .filter(key => typeof style[key] === 'object')
     .map(key => {
       if (/^:/.test(key)) {
