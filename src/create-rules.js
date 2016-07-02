@@ -81,10 +81,10 @@ const createRuleset = (selector, styles, parent) => {
   return parent ? `${parent} { ${ruleset} }` : ruleset
 }
 
-const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
-
+const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : prefixValue(val)
 const kebab = (str) => str.replace(/([A-Z])/g, g => '-' + g.toLowerCase())
 const prefixProp = (prop) => cssVendor.supportedProperty(kebab(prop))
+const prefixValue = (v) => cssVendor.supportedValue(v) || v
 
 export default createRules
 
