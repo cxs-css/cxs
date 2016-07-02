@@ -1,38 +1,26 @@
 
 import hash from 'node-murmurhash'
-import find from 'lodash/find'
 import createRules from './create-rules'
 
 export let styleTag = null
 export let cache = {}
 
-const cxs = (...args) => {
+const cxs = (style) => {
   const classNames = []
+  const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
+  const rules = createRules(hashname, style)
 
-  args.forEach(arg => {
-    if (typeof arg === 'string') {
-      classNames.push(arg)
-    } else if (typeof arg === 'object') {
-      const hashname = 'cxs-' + hash(JSON.stringify(arg), 128)
-      const rules = createRules(hashname, arg)
-
-      rules.forEach(rule => {
-        if (!/\:/.test(rule.selector)) {
-          classNames.push(rule.selector.replace(/^\./, ''))
-        }
-        if (!cache[rule.id]) {
-          cache[rule.id] = rule
-        }
-      })
+  rules.forEach(rule => {
+    if (!/\:/.test(rule.selector)) {
+      classNames.push(rule.selector.replace(/^\./, ''))
+    }
+    if (!cache[rule.id]) {
+      cache[rule.id] = rule
     }
   })
 
   cxs.attach()
   return classNames.join(' ')
-}
-
-const sortRules = (a, b) => {
-  return a.order - b.order
 }
 
 cxs.attach = () => {
@@ -41,7 +29,7 @@ cxs.attach = () => {
     return
   }
 
-  const rules = cxs.getRules()
+  const rules = cxs.rules
   styleTag = styleTag || document.getElementById('cxs')
 
   if (styleTag === null) {
@@ -51,44 +39,30 @@ cxs.attach = () => {
     cxs.sheet = styleTag.sheet
   }
 
-  let matches = []
-  rules.forEach((rule, i) => {
-    const match = find(cxs.sheet.cssRules, sheetRule => {
-      const reg = new RegExp('^' + sheetRule.selectorText)
-      return reg.test(rule)
-    })
-
-    if (match) {
-      matches.push(match)
-      // console.log('match', match, rule)
-    }
-
-    if (!match) {
-      try {
-        cxs.sheet.insertRule(rule, cxs.sheet.cssRules.length)
-      } catch (e) {
-        // console.warn('Could not insert rule', rule, e)
-      }
-    }
-  })
+  for (var i = 0; i < rules.length; i++) {
+    const rule = rules[i]
+    try {
+      cxs.sheet.insertRule(rule.css, cxs.sheet.cssRules.length)
+    } catch (e) {}
+  }
 }
 
-cxs.getRules = () => {
-  const cssRules = Object.keys(cache || {})
-    .map(k => cache[k].css || false)
-    .filter(r => r.length)
-    .sort(sortRules)
+Object.defineProperty(cxs, 'rules', {
+  get () {
+    return Object.keys(cache || {})
+      .map(k => cache[k] || false)
+      .filter(r => r.css.length)
+      .sort((a, b) => a.order - b.order)
+  }
+})
 
-  return cssRules
-}
-
-cxs.getCss = () => {
-  return cxs.getRules().join('')
-}
-
-cxs.clearCache = () => {
-  cache = {}
-}
+Object.defineProperty(cxs, 'css', {
+  get () {
+    return cxs.rules
+      .map(r => r.css)
+      .join('')
+  }
+})
 
 export default cxs
 

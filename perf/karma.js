@@ -1,6 +1,7 @@
 
 import yo from 'yo-yo'
-import cxs from '../src/jsscxs'
+import cxs from '../src'
+// import cxs from '../src/jss/jsscxs'
 
 const orange = '#f80'
 const yellow = '#cf0'

@@ -10,8 +10,6 @@ const commonDeclarations = {
     'inline',
     'table',
     'table-cell',
-    // 'flex',
-    // 'inline-flex',
     'none'
   ],
 
@@ -40,7 +38,8 @@ const commonDeclarations = {
   whiteSpace: [ 'nowrap' ],
   listStyle: [ 'none' ],
   overflow: [
-    'hidden'
+    'hidden',
+    'scroll'
   ],
 
   margin: [ 0 ],
@@ -70,10 +69,7 @@ const commonDeclarations = {
     'fixed',
   ],
 
-  // border: [ 0 ],
   borderRadius: [ 0 ],
-
-  // inherits
 }
 
 export default commonDeclarations

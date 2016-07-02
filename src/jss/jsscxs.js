@@ -13,7 +13,6 @@ const cxs = (...args) => {
     }
   })
 
-  // sheet.attach()
   return classNames.join(' ')
 }
 
