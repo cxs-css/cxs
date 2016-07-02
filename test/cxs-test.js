@@ -1,9 +1,8 @@
 
 import test from 'ava'
-import hash from 'node-murmurhash'
+import hash from 'murmurhash-js/murmurhash3_gc'
 import jsdom from 'jsdom-global'
-import cxs from '../src'
-import cache from '../src/cache'
+import cxs, { cache } from '../src'
 
 jsdom('<html></html>')
 
@@ -34,11 +33,6 @@ test('returns a consistent hashed classname', t => {
   t.is(cx, `cxs-${hashname}`)
 })
 
-test('handles multiple classes', t => {
-  const cx = cxs(style, 'red', 'm1')
-  t.regex(cx, /^cxs.+\sred\sm1$/)
-})
-
 test('attaches a style tag and CSSStyleSheet', t => {
   t.plan(2)
   cxs.attach()
@@ -52,8 +46,8 @@ test('Adds px unit to number values', t => {
     fontSize: 32
   }
   const cx = cxs(sx)
-  const rules = cxs.getRules()
-  t.regex(rules[0], /font-size:32px}$/)
+  const rules = cxs.rules
+  t.regex(rules[0].css, /font-size:32px}$/)
 })
 
 test('adds vendor prefixes', t => {
@@ -61,8 +55,8 @@ test('adds vendor prefixes', t => {
     display: 'flex'
   }
   const cx = cxs(sx)
-  const rules = cxs.getRules()
-  t.regex(rules[0], /\-webkit\-flex/)
+  const rules = cxs.rules
+  t.regex(rules[0].css, /\-webkit\-flex/)
 })
 
 test('creates pseudoclass rules', t => {
@@ -74,9 +68,9 @@ test('creates pseudoclass rules', t => {
     }
   }
   const cx = cxs(sx)
-  const rules = cxs.getRules()
+  const rules = cxs.rules
   t.is(rules.length, 2)
-  const hoverRule = Object.keys(cache.rules).reduce((a, b) => /\:hover$/.test(b) ? cache.rules[b] : null, null)
+  const hoverRule = Object.keys(cache).reduce((a, b) => /\:hover$/.test(b) ? cache[b] : null, null)
   t.regex(hoverRule.selector, /\:hover$/)
 })
 
@@ -89,9 +83,9 @@ test('creates @media rules', t => {
     }
   }
   const cx = cxs(sx)
-  const rules = cxs.getRules()
+  const rules = cxs.rules
   t.is(rules.length, 2)
-  t.regex(rules[1], /^@media/)
+  t.regex(rules[1].css, /^@media/)
 })
 
 test('dedupes repeated styles', t => {
@@ -104,7 +98,7 @@ test('dedupes repeated styles', t => {
   const cx2 = cxs(dupe)
   const cx3 = cxs(dupe)
 
-  t.is(cxs.getRules().length, 2)
+  t.is(cxs.rules.length, 2)
 })
 
 test('ignores null values', t => {
@@ -112,7 +106,7 @@ test('ignores null values', t => {
     color: 'tomato',
     padding: null
   })
-  const css = cxs.getCss()
+  const css = cxs.css
   t.is(css.includes('null'), false)
 })
 
@@ -122,7 +116,7 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  const css = cxs.getCss()
+  const css = cxs.css
   t.is(css.includes('border'), true)
 })
 
@@ -134,14 +128,7 @@ test('should handle ::-moz-inner-focus', t => {
       padding: 0
     }
   })
-  const css = cxs.getCss()
+  const css = cxs.css
   t.is(css.includes('-moz-inner-focus'), true)
 })
 
-/*
-- context rerender
-- It should skip existing rules
-- It should create new updated rules
-
-- after render clean up
-*/

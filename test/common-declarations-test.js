@@ -1,6 +1,6 @@
 
 import test from 'ava'
-import hash from 'node-murmurhash'
+import hash from 'murmurhash-js/murmurhash3_gc'
 import jsdom from 'jsdom-global'
 import cxs from '../src'
 
@@ -21,10 +21,10 @@ test.beforeEach(t => {
 test('extracts common declarations', t => {
   t.plan(2)
 
-  const rules = cxs.getRules()
+  const rules = cxs.rules
 
-  t.regex(rules[1], /^\.cxs\-display\-block/)
-  t.regex(rules[2], /^\.cxs\-text-align-center/)
+  t.regex(rules[0].css, /^\.cxs\-display\-block/)
+  t.regex(rules[1].css, /^\.cxs\-text-align-center/)
 })
 
 test('extracted declarations are included in className', t => {
