@@ -9,6 +9,7 @@ const createRules = (name, style, parent) => {
 
   // Create styles array
   const styles = Object.keys(style)
+    .filter(key => style[key] !== null)
     .filter(key => typeof style[key] !== 'object')
     .map(key => {
       const value = parseValue(key, style[key])
@@ -30,7 +31,7 @@ const createRules = (name, style, parent) => {
 
   // Add base rule
   rules.unshift({
-    id: name + parent,
+    id: name + (parent || ''),
     order: parent ? 2 : 1,
     selector: '.' + name,
     css: createRuleset('.' + name, filteredStyles, parent)

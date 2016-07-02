@@ -47,6 +47,8 @@ cxs.attach = () => {
   }
 }
 
+cxs.clearCache = () => cache = {}
+
 Object.defineProperty(cxs, 'rules', {
   get () {
     return Object.keys(cache || {})
