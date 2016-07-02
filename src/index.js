@@ -1,5 +1,5 @@
 
-import hash from 'node-murmurhash'
+import hash from 'murmurhash-js/murmurhash3_gc'
 import createRules from './create-rules'
 
 export let styleTag = null
