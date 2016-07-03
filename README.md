@@ -101,7 +101,7 @@ cxs.clearCache()
 ### Vendor prefixes
 
 cxs **does not** handle vendor prefixing to keep the module size at a minimum.
-To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`]()
+To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
 
 ```js
 import cxs from 'cxs'
@@ -112,6 +112,14 @@ const prefixed = prefixer({
 })
 const cx = cxs(prefixed)
 ```
+
+### Other CSS-in-JS options
+
+Compared to other, similar modules, cxs is an attempt to create a smaller and simpler API and a smaller overall module.
+For more customizable and robust solutions, see the following:
+
+- [Aphrodite](https://github.com/Khan/aphrodite)
+- [jss](https://github.com/jsstyles/jss)
 
 ### Browser support
 
