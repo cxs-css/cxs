@@ -1,8 +1,7 @@
 
 const config = {
   entry: {
-    bundle: './example/entry.js',
-    size: './example/empty.js'
+    bundle: './example/entry.js'
   },
   output: {
     path: __dirname + '/example',
@@ -12,9 +11,6 @@ const config = {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
     ]
-  },
-  node: {
-    fs: 'empty'
   },
   devServer: {
     contentBase: 'example'
