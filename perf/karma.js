@@ -1,7 +1,6 @@
 
 import yo from 'yo-yo'
 import cxs from '../src'
-// import cxs from '../src/jss/jsscxs'
 
 const orange = '#f80'
 const yellow = '#cf0'
@@ -74,6 +73,7 @@ const tree = App(state)
 const update = (state) => {
   const next = App(state)
   yo.update(tree, next)
+  cxs.attach()
 }
 
 document.body.appendChild(tree)

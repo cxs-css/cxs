@@ -4,7 +4,6 @@ import cxs from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 
-
 const cxsCreateElement = (tag, props, children) => {
   if (props.className && typeof props.className === 'object') {
     props.className = cxs(props.className)
@@ -177,9 +176,11 @@ console.log('hello')
 const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
+  cxs.attach()
 }
 
 const tree = View(store)
+cxs.attach()
 
 store.subscribe(update)
 

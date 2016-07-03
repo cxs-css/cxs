@@ -5,21 +5,23 @@ import createRules from './create-rules'
 export let styleTag = null
 export let cache = {}
 
+export let options = {
+  autoAttach: false
+}
+
 const cxs = (style) => {
   const classNames = []
   const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
   const rules = createRules(hashname, style)
 
-  rules.forEach(rule => {
-    if (!/\:/.test(rule.selector)) {
-      classNames.push(rule.selector.replace(/^\./, ''))
-    }
-    if (!cache[rule.id]) {
-      cache[rule.id] = rule
-    }
-  })
+  rules.forEach(r => cache[r.id] = r)
 
-  cxs.attach()
+  rules.filter(r => !/\:/.test(r.selector))
+    .forEach(r => classNames.push(r.selector.replace(/^\./, '')))
+
+  if (options.autoAttach) {
+    cxs.attach()
+  }
   return classNames.join(' ')
 }
 
@@ -39,14 +41,16 @@ cxs.attach = () => {
     cxs.sheet = styleTag.sheet
   }
 
-  for (var i = 0; i < rules.length; i++) {
-    const rule = rules[i]
-    try {
-      cxs.sheet.insertRule(rule.css, cxs.sheet.cssRules.length)
-    } catch (e) {}
-  }
+  // Insert all rules
+  // note: filtering for new rules does not seem to have a huge performance impact
+  rules.forEach(rule => {
+      try {
+        cxs.sheet.insertRule(rule.css, cxs.sheet.cssRules.length)
+      } catch (e) {}
+    })
 }
 
+cxs.options = options
 cxs.clearCache = () => cache = {}
 
 Object.defineProperty(cxs, 'rules', {
