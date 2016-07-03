@@ -1,6 +1,5 @@
 
 import addPx from 'add-px-to-style'
-import cssVendor from 'css-vendor'
 import commonDeclarations from './common-declarations'
 
 const createRules = (name, style, parent) => {
@@ -10,15 +9,22 @@ const createRules = (name, style, parent) => {
   // Create styles array
   const styles = Object.keys(style)
     .filter(key => style[key] !== null)
-    .filter(key => typeof style[key] !== 'object')
+    .filter(key => Array.isArray(style[key]) || typeof style[key] !== 'object')
     .map(key => {
       const value = parseValue(key, style[key])
       return {
         key,
-        prop: prefixProp(key),
+        prop: kebab(key),
         value
       }
     })
+    .reduce((a, b) => {
+      if (Array.isArray(b.value)) {
+        return [...a, ...b.value.map(v => ({ ...b, value: v }))]
+      } else {
+        return [...a, b]
+      }
+    }, [])
 
   // Extract common declarations as rules
   const commonRules = styles
@@ -43,7 +49,7 @@ const createRules = (name, style, parent) => {
 const createNestedRules = (name, style, parent) => {
   return Object.keys(style)
     .filter(key => !!style[key])
-    .filter(key => typeof style[key] === 'object')
+    .filter(key => !Array.isArray(style[key]) && typeof style[key] === 'object')
     .map(key => {
       if (/^:/.test(key)) {
         return createRules(name + key, style[key], parent)
@@ -81,10 +87,8 @@ const createRuleset = (selector, styles, parent) => {
   return parent ? `${parent} { ${ruleset} }` : ruleset
 }
 
-const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : prefixValue(val)
+const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
 const kebab = (str) => str.replace(/([A-Z])/g, g => '-' + g.toLowerCase())
-const prefixProp = (prop) => cssVendor.supportedProperty(kebab(prop))
-const prefixValue = (v) => cssVendor.supportedValue(v) || v
 
 export default createRules
 

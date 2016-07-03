@@ -103,3 +103,9 @@ cxs.clearCache()
   - Currently uses CSSStyleSheet.insertRule()
 
 MIT License
+
+
+---
+
+mini no prefixer: 20.8 KB (vs 39.4 kb w/ jss)
+

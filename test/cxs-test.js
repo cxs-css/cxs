@@ -1,6 +1,7 @@
 
 import test from 'ava'
 import hash from 'murmurhash-js/murmurhash3_gc'
+import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs, { cache } from '../src'
 
@@ -50,15 +51,6 @@ test('Adds px unit to number values', t => {
   t.regex(rules[0].css, /font-size:32px}$/)
 })
 
-test('adds vendor prefixes', t => {
-  const sx = {
-    display: 'flex'
-  }
-  const cx = cxs(sx)
-  const rules = cxs.rules
-  t.regex(rules[0].css, /\-webkit\-flex/)
-})
-
 test('creates pseudoclass rules', t => {
   t.plan(2)
   const sx = {
@@ -99,6 +91,16 @@ test('dedupes repeated styles', t => {
   const cx3 = cxs(dupe)
 
   t.is(cxs.rules.length, 2)
+})
+
+test('handles array values', t => {
+  t.pass(2)
+  t.notThrows(() => {
+    const cx = cxs({
+      color: [ 'blue', 'var(--blue)' ]
+    })
+  })
+  t.regex(cxs.css, /var/)
 })
 
 test('ignores null values', t => {
