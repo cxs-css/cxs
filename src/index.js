@@ -1,5 +1,5 @@
 
-import sheet from './jss-sheet'
+import sheet from './sheet'
 
 const cxs = (...args) => {
   const classNames = []
