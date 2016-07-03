@@ -103,6 +103,18 @@ test('handles array values', t => {
   t.regex(cxs.css, /var/)
 })
 
+test('handles prefixed styles with array values', t => {
+  t.pass(3)
+  t.notThrows(() => {
+    const prefixed = prefixer({
+      display: 'flex'
+    })
+    cxs(prefixed)
+  })
+  t.regex(cxs.css, /\-webkit\-flex/)
+  t.regex(cxs.css, /\-ms\-flexbox/)
+})
+
 test('ignores null values', t => {
   const cx = cxs({
     color: 'tomato',
