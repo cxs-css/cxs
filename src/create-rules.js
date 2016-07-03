@@ -9,22 +9,18 @@ const createRules = (name, style, parent) => {
   // Create styles array
   const styles = Object.keys(style)
     .filter(key => style[key] !== null)
-    .filter(key => Array.isArray(style[key]) || typeof style[key] !== 'object')
+    .filter(key => isArr(style[key]) || !isObj(style[key]))
     .map(key => {
-      const value = parseValue(key, style[key])
       return {
         key,
         prop: kebab(key),
-        value
+        value: parseValue(key, style[key])
       }
     })
-    .reduce((a, b) => {
-      if (Array.isArray(b.value)) {
-        return [...a, ...b.value.map(v => ({ ...b, value: v }))]
-      } else {
-        return [...a, b]
-      }
-    }, [])
+    .reduce((a, b) => isArr(b.value)
+        ? [...a, ...b.value.map(v => ({ ...b, value: v }))]
+        : [...a, b]
+    , [])
 
   // Extract common declarations as rules
   const commonRules = styles
@@ -49,7 +45,7 @@ const createRules = (name, style, parent) => {
 const createNestedRules = (name, style, parent) => {
   return Object.keys(style)
     .filter(key => !!style[key])
-    .filter(key => !Array.isArray(style[key]) && typeof style[key] === 'object')
+    .filter(key => !isArr(style[key]) && isObj(style[key]))
     .map(key => {
       if (/^:/.test(key)) {
         return createRules(name + key, style[key], parent)
@@ -61,7 +57,9 @@ const createNestedRules = (name, style, parent) => {
 }
 
 const reduceCommonRules = (parent) => (a, style) => {
-  const index = commonDeclarations[style.key] ? commonDeclarations[style.key].indexOf(style.value) : -1
+  const index = commonDeclarations[style.key]
+    ? commonDeclarations[style.key].indexOf(style.value)
+    : -1
   if (index > -1) {
     const selector = `.cxs-${style.prop}-${style.value}`
     return [...a, {
@@ -76,17 +74,21 @@ const reduceCommonRules = (parent) => (a, style) => {
 }
 
 const filterCommonDeclarations = (style) => {
-  const index = commonDeclarations[style.key] ? commonDeclarations[style.key].indexOf(style.value) : -1
-  return index < 0
+  return (
+    commonDeclarations[style.key]
+      ? commonDeclarations[style.key].indexOf(style.value)
+      : -1
+  ) < 0
 }
 
 const createRuleset = (selector, styles, parent) => {
-  const declarations = styles
-    .map(({ prop, value }) => prop + ':' + value)
+  const declarations = styles.map(s => s.prop + ':' + s.value)
   const ruleset = `${selector}{${declarations.join(';')}}`
   return parent ? `${parent} { ${ruleset} }` : ruleset
 }
 
+const isObj = v => typeof v === 'object'
+const isArr = v => Array.isArray(v)
 const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
 const kebab = (str) => str.replace(/([A-Z])/g, g => '-' + g.toLowerCase())
 
