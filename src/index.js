@@ -1,38 +1,28 @@
 
-import hash from 'node-murmurhash'
-import cache from './cache'
+import hash from 'murmurhash-js/murmurhash3_gc'
 import createRules from './create-rules'
 
-let styleTag = null
+export let styleTag = null
+export let cache = {}
 
-const cxs = (...args) => {
-  const classNames = []
-
-  args.forEach(arg => {
-    if (typeof arg === 'string') {
-      classNames.push(arg)
-    } else if (typeof arg === 'object') {
-      const hashname = 'cxs-' + hash(JSON.stringify(arg), 128)
-      const rules = createRules(hashname, arg)
-
-      rules.forEach(rule => {
-        if (!/\:/.test(rule.selector)) {
-          classNames.push(rule.selector.replace(/^\./, ''))
-        }
-        if (cache.rules[rule.id]) {
-          // console.warn('Rule already exists', cache[rule.id], rule)
-        } else {
-          cache.add([rule.id], rule)
-        }
-      })
-    }
-  })
-
-  return classNames.join(' ')
+export let options = {
+  autoAttach: false
 }
 
-const sortRules = (a, b) => {
-  return a.order - b.order
+const cxs = (style) => {
+  const classNames = []
+  const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
+  const rules = createRules(hashname, style)
+
+  rules.forEach(r => cache[r.id] = r)
+
+  rules.filter(r => !/\:/.test(r.selector))
+    .forEach(r => classNames.push(r.selector.replace(/^\./, '')))
+
+  if (options.autoAttach) {
+    cxs.attach()
+  }
+  return classNames.join(' ')
 }
 
 cxs.attach = () => {
@@ -41,7 +31,7 @@ cxs.attach = () => {
     return
   }
 
-  const rules = cxs.getRules()
+  const rules = cxs.rules
   styleTag = styleTag || document.getElementById('cxs')
 
   if (styleTag === null) {
@@ -51,31 +41,34 @@ cxs.attach = () => {
     cxs.sheet = styleTag.sheet
   }
 
-  rules.forEach((rule, i) => {
-    try {
-      cxs.sheet.insertRule(rule, cxs.sheet.cssRules.length)
-    } catch (e) {
-      // console.warn('Could not insert rule', rule, e)
-    }
-  })
+  // Insert all rules
+  // note: filtering for new rules does not seem to have a huge performance impact
+  rules.forEach(rule => {
+      try {
+        cxs.sheet.insertRule(rule.css, cxs.sheet.cssRules.length)
+      } catch (e) {}
+    })
 }
 
-cxs.getRules = () => {
-  const cssRules = Object.keys(cache.rules || {})
-    .map(k => cache.rules[k].css || false)
-    .filter(r => r.length)
-    .sort(sortRules)
+cxs.options = options
+cxs.clearCache = () => cache = {}
 
-  return cssRules
-}
+Object.defineProperty(cxs, 'rules', {
+  get () {
+    return Object.keys(cache || {})
+      .map(k => cache[k] || false)
+      .filter(r => r.css.length)
+      .sort((a, b) => a.order - b.order)
+  }
+})
 
-cxs.getCss = () => {
-  return cxs.getRules().join('')
-}
-
-cxs.clearCache = () => {
-  cache.rules = {}
-}
+Object.defineProperty(cxs, 'css', {
+  get () {
+    return cxs.rules
+      .map(r => r.css)
+      .join('')
+  }
+})
 
 export default cxs
 

@@ -4,7 +4,6 @@ import cxs from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 
-
 const cxsCreateElement = (tag, props, children) => {
   if (props.className && typeof props.className === 'object') {
     props.className = cxs(props.className)
@@ -107,6 +106,13 @@ const View = (store) => {
       }
     },
     heading: {
+      color: 'green',
+      '@media (min-width:40em)': {
+        padding: 16,
+        ':hover': {
+          color: 'tomato'
+        }
+      }
     },
     buttons: {
       display: 'flex',
@@ -115,7 +121,7 @@ const View = (store) => {
     },
     button: {
       flex: '1 1 auto',
-      margin: 8
+      margin: 8,
     },
     block: {
       textAlign: 'center',
@@ -171,9 +177,6 @@ const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
   cxs.attach()
-  console.log(cxs.getRules().length)
-  console.log(cxs.getRules())
-  console.log(cxs.sheet)
 }
 
 const tree = View(store)
