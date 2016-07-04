@@ -17,6 +17,7 @@ const cxs = (style) => {
   rules.forEach(r => cache[r.id] = r)
 
   rules.filter(r => !/\:/.test(r.selector))
+    .filter(r => !/\s/.test(r.selector))
     .forEach(r => classNames.push(r.selector.replace(/^\./, '')))
 
   if (options.autoAttach) {
