@@ -56,7 +56,6 @@ const createNestedRules = (name, style, parent) => {
       } else if (/^@/.test(key)) {
         return createRules(name, style[key], key)
       } else {
-        // testing nested selectors
         return createRules(name + ' ' + key, style[key], parent)
       }
     })
