@@ -22,14 +22,18 @@ const createRules = (name, style, parent) => {
         : [...a, b]
     , [])
 
-  // Extract common declarations as rules
-  const commonRules = styles
-    .reduce(reduceCommonRules(parent), [])
-    .forEach(r => rules.push(r))
+  const isPseudo = /:/.test(name)
 
+  if (!isPseudo) {
+    // Extract common declarations as rules
+    const commonRules = styles
+      .reduce(reduceCommonRules(parent), [])
+      .forEach(r => rules.push(r))
+  }
   // Remove common declarations
-  const filteredStyles = styles
-    .filter(filterCommonDeclarations)
+  const filteredStyles = isPseudo
+    ? styles
+    : styles.filter(filterCommonDeclarations)
 
   // Add base rule
   rules.unshift({
@@ -51,6 +55,8 @@ const createNestedRules = (name, style, parent) => {
         return createRules(name + key, style[key], parent)
       } else if (/^@/.test(key)) {
         return createRules(name, style[key], key)
+      } else {
+        return createRules(name + ' ' + key, style[key], parent)
       }
     })
     .reduce((a, b) => a.concat(b), [])

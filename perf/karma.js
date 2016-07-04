@@ -73,7 +73,6 @@ const tree = App(state)
 const update = (state) => {
   const next = App(state)
   yo.update(tree, next)
-  cxs.attach()
 }
 
 document.body.appendChild(tree)

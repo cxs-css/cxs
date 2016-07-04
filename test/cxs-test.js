@@ -17,7 +17,7 @@ test.beforeEach(() => {
   cxs.clearCache()
 })
 
-test('should not throw', t => {
+test('does not throw', t => {
   t.notThrows(() => {
     const cx = cxs(style)
   })
@@ -67,6 +67,19 @@ test('creates pseudoclass rules', t => {
   t.regex(hoverRule.selector, /\:hover$/)
 })
 
+test('does not extract common declarations for pseudoclass rules', t => {
+  t.plan(3)
+  const cx = cxs({
+    textDecoration: 'none',
+    ':hover': {
+      textDecoration: 'underline'
+    }
+  })
+  t.regex(cx, /text\-decoration\-none/)
+  t.false(/text\-decoration\-underline/.test(cx))
+  t.regex(cxs.css, /underline/)
+})
+
 test('creates @media rules', t => {
   t.plan(2)
   const sx = {
@@ -79,6 +92,28 @@ test('creates @media rules', t => {
   const rules = cxs.rules
   t.is(rules.length, 2)
   t.regex(rules[1].css, /^@media/)
+})
+
+test('creates nested selectors', t => {
+  t.plan(4)
+  let cx
+  t.notThrows(() => {
+    cx = cxs({
+      color: 'blue',
+      'h1': {
+        fontSize: 32,
+        'a': {
+          color: 'inherit',
+          ':hover': {
+            textDecoration: 'underline'
+          }
+        }
+      }
+    })
+  })
+  t.false(/h1/.test(cx))
+  t.regex(cxs.css, /h1/)
+  t.regex(cxs.css, /a\:hover/)
 })
 
 test('dedupes repeated styles', t => {
