@@ -1,6 +1,6 @@
 
 import yo from 'yo-yo'
-import cxs from '../src'
+import cxs, { options } from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 
@@ -11,7 +11,7 @@ const cxsCreateElement = (tag, props, children) => {
   return createElement(tag, props, children)
 }
 
-const jx = hyperx(cxsCreateElement)
+const h = hyperx(cxsCreateElement)
 
 const colors = [
   '#000',
@@ -56,7 +56,7 @@ const Button = ({
   className,
   onclick = () => {}
 }) => {
-  return jx`
+  return h`
     <button className=${{
         boxSizing: 'border-box',
         border: 'none',
@@ -87,8 +87,36 @@ const Box = ({
     backgroundColor: color
   }
 
-  return jx`
+  return h`
     <div className=${cx}>
+    </div>
+  `
+}
+
+const Video = () => {
+  const cx = {
+    root: {
+      position: 'relative',
+      height: 0,
+      padding: 0,
+      paddingBottom: '56.25%'
+    },
+    iframe: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      border: 0
+    }
+  }
+  return h`
+    <div className=${cx.root}>
+      <iframe className=${cx.iframe}
+        width='420' height='315'
+        src='https://www.youtube.com/embed/PrZZfaDp02o?rel=0&amp;controls=0&amp;showinfo=0'
+        frameborder='0' allowfullscreen></iframe>
     </div>
   `
 }
@@ -99,11 +127,12 @@ const View = (store) => {
 
   const cx = {
     root: {
-      fontFamily: '-apple-system, sans-serif',
-      padding: 32,
-      '@media screen and (min-width:40em)': {
-        padding: 64
-      }
+      fontFamily: 'SF Mono, Roboto Mono, monospace',
+      // fontFamily: '-apple-system, sans-serif',
+      // padding: 32,
+      // '@media screen and (min-width:40em)': {
+      //   padding: 64
+      // }
     },
     heading: {
       color: 'green',
@@ -139,8 +168,9 @@ const View = (store) => {
       return Box({ color: colors[n % colors.length] })
     })
 
-  return jx`
+  return h`
     <div className=${cx.root}>
+      ${Video()}
       <h1 className=${cx.heading}>
         ${title} ${count}
       </h1>
@@ -171,16 +201,12 @@ const View = (store) => {
   `
 }
 
-console.log('hello')
-
 const update = (store) => {
   const newTree = View(store)
   yo.update(tree, newTree)
-  cxs.attach()
 }
 
 const tree = View(store)
-cxs.attach()
 
 store.subscribe(update)
 

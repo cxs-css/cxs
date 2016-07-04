@@ -1,6 +1,6 @@
 
 import hash from 'murmurhash-js/murmurhash3_gc'
-import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import createRules from './create-rules'
 
 export let styleTag = null
@@ -8,7 +8,7 @@ export let cache = {}
 
 export let options = {
   autoAttach: true,
-  throttle: 50
+  debounce: 0
 }
 
 const cxs = (style) => {
@@ -46,14 +46,16 @@ const attach = () => {
 
   // Insert all rules
   // note: filtering for new rules does not seem to have a huge performance impact
-  rules.forEach(rule => {
+  // .filter(rule => [].slice.call(cxs.sheet.cssRules).map(r => r.selectorText).indexOf(rule.selector) < 0)
+  rules
+    .forEach(rule => {
       try {
         cxs.sheet.insertRule(rule.css, cxs.sheet.cssRules.length)
       } catch (e) {}
     })
 }
 
-cxs.attach = throttle(attach, options.throttle)
+cxs.attach = debounce(attach, options.debounce)
 
 cxs.options = options
 cxs.clearCache = () => cache = {}
