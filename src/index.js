@@ -1,12 +1,14 @@
 
 import hash from 'murmurhash-js/murmurhash3_gc'
+import throttle from 'lodash.throttle'
 import createRules from './create-rules'
 
 export let styleTag = null
 export let cache = {}
 
 export let options = {
-  autoAttach: false
+  autoAttach: true,
+  throttle: 50
 }
 
 const cxs = (style) => {
@@ -26,7 +28,7 @@ const cxs = (style) => {
   return classNames.join(' ')
 }
 
-cxs.attach = () => {
+const attach = () => {
   if (typeof document === 'undefined') {
     console.warn('Cannot attach stylesheet without a document')
     return
@@ -50,6 +52,8 @@ cxs.attach = () => {
       } catch (e) {}
     })
 }
+
+cxs.attach = throttle(attach, options.throttle)
 
 cxs.options = options
 cxs.clearCache = () => cache = {}

@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "add-px-to-style": "^1.0.0",
+    "lodash.throttle": "^4.0.1",
     "murmurhash-js": "^1.0.0"
   },
   "ava": {
