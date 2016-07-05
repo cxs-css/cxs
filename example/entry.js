@@ -31,15 +31,10 @@ const colors = [
 
 const store = {
   _state: {
-    title: 'Hello cxs',
     count: 0
   },
   get state () {
     return store._state
-  },
-  set state (obj) {
-    store._state = { ...state, ...obj }
-    store.listeners.forEach(l => l(store))
   },
   setState (obj) {
     store._state = { ...store.state, ...obj }
@@ -56,28 +51,42 @@ const store = {
 const Button = ({
   text,
   className,
+  inverse,
   ...props
 }) => {
-  return h`
-    <button className=${{
-        boxSizing: 'border-box',
-        border: 'none',
-        borderRadius: 3,
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        fontWeight: 'bold',
-        display: 'inline-block',
-        padding: 8,
-        margin: 0,
-        color: 'white',
-        appearance: 'none',
-        backgroundColor: 'black',
-        ...className
-      }}
-      ${props}>
-      ${text}
-    </button>
-  `
+  const cx = {
+    boxSizing: 'border-box',
+    border: 'none',
+    borderRadius: 3,
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+    fontWeight: 'bold',
+    display: 'inline-block',
+    padding: 8,
+    margin: 0,
+    appearance: 'none',
+    textDecoration: 'none',
+    color: inverse ? 'black' : 'white',
+    backgroundColor: inverse ? 'white' : 'black',
+    ...className,
+    ':hover': {
+      boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .125)'
+    }
+  }
+
+  if (props.href) {
+    return h`
+      <a className=${cx} ${props}>
+        ${text}
+      </a>
+    `
+  } else {
+    return h`
+      <button className=${cx} ${props}>
+        ${text}
+      </button>
+    `
+  }
 }
 
 const Video = ({
@@ -154,6 +163,9 @@ const Header = () => {
     description: {
       display: 'inline',
       backgroundColor: 'black'
+    },
+    button: {
+      marginTop: 16
     }
   }
 
@@ -165,6 +177,12 @@ const Header = () => {
             <h1 className=${cx.title}>cxs</h1>
             <br />
             <p className=${cx.description}>${pkg.description}</p>
+            ${Button({
+              className: cx.button,
+              inverse: 'true',
+              href: 'https://github.com/jxnblk/cxs',
+              text: 'GitHub'
+            })}
           </div>
         `
       })}
@@ -180,16 +198,24 @@ const Readme = () => {
     maxWidth: 640,
     margin: 'auto',
     'h1': {
-      fontSize: 64,
+      fontSize: 32,
       fontWeight: 500,
       lineHeight: 1,
       marginBottom: 0
     },
+    'a': {
+      color: '#07c'
+    },
+    'code': {
+      fontFamily: 'inherit',
+    },
     'pre': {
+      fontFamily: 'inherit',
+      fontSize: 14,
       padding: 16,
       overflowX: 'scroll',
-      color: 'white',
-      backgroundColor: 'black'
+      // color: 'white',
+      backgroundColor: '#f3f3f3'
     }
   }
 
@@ -210,10 +236,12 @@ const Css = () => {
       margin: 'auto',
     },
     pre: {
+      fontFamily: 'inherit',
+      fontSize: 14,
+      lineHeight: 1.25,
       padding: 16,
       overflowX: 'scroll',
-      color: 'white',
-      backgroundColor: 'black'
+      backgroundColor: '#f3f3f3'
     }
   }
 
@@ -232,14 +260,11 @@ const Css = () => {
 
 const View = (store) => {
   const { setState, state } = store
-  const { title, count } = state
+  const { count } = state
 
   const cx = {
     root: {
-      fontFamily: 'SF Mono, Roboto Mono, monospace',
-      'a': {
-        color: '#07c'
-      }
+      fontFamily: 'SF Mono, Roboto Mono, monospace'
     }
   }
 
