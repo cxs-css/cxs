@@ -6,6 +6,7 @@
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "build": "webpack -p",
+    "gh-pages": "gh-pages -d example",
     "start": "webpack-dev-server",
     "perf": "karma start",
     "test-watch": "ava -v --watch",
@@ -21,6 +22,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
+    "gh-pages": "^0.11.0",
     "html-loader": "^0.4.3",
     "inline-style-prefixer": "^2.0.0",
     "jsdom": "^9.3.0",
