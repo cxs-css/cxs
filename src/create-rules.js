@@ -26,7 +26,7 @@ const createRules = (name, style, parent) => {
 
   if (!isPseudo) {
     // Extract common declarations as rules
-    const commonRules = styles
+    styles
       .reduce(reduceCommonRules(parent), [])
       .forEach(r => rules.push(r))
   }

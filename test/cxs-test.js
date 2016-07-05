@@ -10,7 +10,7 @@ jsdom('<html></html>')
 const style = {
   color: 'tomato',
   display: 'flex',
-  fontSize: 32,
+  fontSize: 32
 }
 
 test.beforeEach(() => {
@@ -19,7 +19,7 @@ test.beforeEach(() => {
 
 test('does not throw', t => {
   t.notThrows(() => {
-    const cx = cxs(style)
+    cxs(style)
   })
 })
 
@@ -54,7 +54,7 @@ test('Adds px unit to number values', t => {
   const sx = {
     fontSize: 32
   }
-  const cx = cxs(sx)
+  cxs(sx)
   const rules = cxs.rules
   t.regex(rules[0].css, /font-size:32px}$/)
 })
@@ -67,11 +67,11 @@ test('creates pseudoclass rules', t => {
       color: 'magenta'
     }
   }
-  const cx = cxs(sx)
+  cxs(sx)
   const rules = cxs.rules
   t.is(rules.length, 2)
-  const hoverRule = Object.keys(cache).reduce((a, b) => /\:hover$/.test(b) ? cache[b] : null, null)
-  t.regex(hoverRule.selector, /\:hover$/)
+  const hoverRule = Object.keys(cache).reduce((a, b) => /:hover$/.test(b) ? cache[b] : null, null)
+  t.regex(hoverRule.selector, /:hover$/)
 })
 
 test('does not extract common declarations for pseudoclass rules', t => {
@@ -95,7 +95,7 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   }
-  const cx = cxs(sx)
+  cxs(sx)
   const rules = cxs.rules
   t.is(rules.length, 2)
   t.regex(rules[1].css, /^@media/)
@@ -120,7 +120,7 @@ test('creates nested selectors', t => {
   })
   t.false(/h1/.test(cx))
   t.regex(cxs.css, /h1/)
-  t.regex(cxs.css, /a\:hover/)
+  t.regex(cxs.css, /a:hover/)
 })
 
 test('dedupes repeated styles', t => {
@@ -129,9 +129,9 @@ test('dedupes repeated styles', t => {
     fontSize: 32
   }
 
-  const cx1 = cxs(style)
-  const cx2 = cxs(dupe)
-  const cx3 = cxs(dupe)
+  cxs(style)
+  cxs(dupe)
+  cxs(dupe)
 
   t.is(cxs.rules.length, 2)
 })
@@ -139,7 +139,7 @@ test('dedupes repeated styles', t => {
 test('handles array values', t => {
   t.pass(2)
   t.notThrows(() => {
-    const cx = cxs({
+    cxs({
       color: [ 'blue', 'var(--blue)' ]
     })
   })
@@ -159,7 +159,7 @@ test('handles prefixed styles with array values', t => {
 })
 
 test('ignores null values', t => {
-  const cx = cxs({
+  cxs({
     color: 'tomato',
     padding: null
   })
@@ -168,7 +168,7 @@ test('ignores null values', t => {
 })
 
 test('handles 0 values', t => {
-  const cx = cxs({
+  cxs({
     padding: 0,
     fontFamily: 0,
     border: 0
@@ -178,7 +178,7 @@ test('handles 0 values', t => {
 })
 
 test('should handle ::-moz-inner-focus', t => {
-  const cx = cxs({
+  cxs({
     color: 'tomato',
     '::-moz-inner-focus': {
       border: 0,

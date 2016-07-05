@@ -1,6 +1,4 @@
 
-var webpack = require('webpack')
-
 var configuration = {
   browsers: [
     'Firefox',

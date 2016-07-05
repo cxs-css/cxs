@@ -1,6 +1,5 @@
 
 import test from 'ava'
-import hash from 'murmurhash-js/murmurhash3_gc'
 import jsdom from 'jsdom-global'
 import cxs from '../src'
 

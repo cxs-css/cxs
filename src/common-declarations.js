@@ -1,7 +1,7 @@
 
 const commonDeclarations = {
   boxSizing: [
-    'border-box',
+    'border-box'
   ],
 
   display: [
@@ -16,24 +16,24 @@ const commonDeclarations = {
   float: [
     'none',
     'left',
-    'right',
+    'right'
   ],
 
   textAlign: [
     'left',
     'center',
     'right',
-    'justify',
+    'justify'
   ],
 
   fontWeight: [
     'bold',
-    'normal',
+    'normal'
   ],
 
   textDecoration: [
     'none',
-    'underline',
+    'underline'
   ],
   whiteSpace: [ 'nowrap' ],
   listStyle: [ 'none' ],
@@ -60,16 +60,16 @@ const commonDeclarations = {
     'top',
     'middle',
     'bottom',
-    'baseline',
+    'baseline'
   ],
 
   position: [
     'relative',
     'absolute',
-    'fixed',
+    'fixed'
   ],
 
-  borderRadius: [ 0 ],
+  borderRadius: [ 0 ]
 }
 
 export default commonDeclarations

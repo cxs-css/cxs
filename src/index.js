@@ -16,9 +16,9 @@ const cxs = (style) => {
   const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
   const rules = createRules(hashname, style)
 
-  rules.forEach(r => cache[r.id] = r)
+  rules.forEach(r => { cache[r.id] = r })
 
-  rules.filter(r => !/\:/.test(r.selector))
+  rules.filter(r => !/:/.test(r.selector))
     .filter(r => !/\s/.test(r.selector))
     .forEach(r => classNames.push(r.selector.replace(/^\./, '')))
 
@@ -58,7 +58,9 @@ const attach = () => {
 cxs.attach = debounce(attach, options.debounce)
 
 cxs.options = options
-cxs.clearCache = () => cache = {}
+cxs.clearCache = () => {
+  cache = {}
+}
 
 Object.defineProperty(cxs, 'rules', {
   get () {

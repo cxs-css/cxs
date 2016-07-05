@@ -16,7 +16,7 @@ const colors = [
   tomato,
   'cyan',
   'magenta',
-  'yellow',
+  'yellow'
 ]
 
 const Box = (n) => {
