@@ -35,11 +35,11 @@ const attach = () => {
   }
 
   const rules = cxs.rules
-  styleTag = styleTag || document.getElementById('cxs')
+  styleTag = styleTag || document.getElementById('cxs-style')
 
   if (styleTag === null) {
     styleTag = document.createElement('style')
-    styleTag.id = 'cxs'
+    styleTag.id = 'cxs-style'
     document.head.appendChild(styleTag)
     cxs.sheet = styleTag.sheet
   }

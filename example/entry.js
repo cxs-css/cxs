@@ -3,6 +3,8 @@ import yo from 'yo-yo'
 import cxs, { options } from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
+import pkg from '../package.json'
+import readme from '../README.md'
 
 const cxsCreateElement = (tag, props, children) => {
   if (props.className && typeof props.className === 'object') {
@@ -54,7 +56,7 @@ const store = {
 const Button = ({
   text,
   className,
-  onclick = () => {}
+  ...props
 }) => {
   return h`
     <button className=${{
@@ -72,30 +74,25 @@ const Button = ({
         backgroundColor: 'black',
         ...className
       }}
-      onclick=${onclick}>
+      ${props}>
       ${text}
     </button>
   `
 }
 
-// For perf testing
-const Box = ({
-  color
-}) => {
-  const cx = {
-    height: 32,
-    backgroundColor: color
-  }
-
-  return h`
-    <div className=${cx}>
-    </div>
-  `
-}
-
-const Video = () => {
+const Video = ({
+  children
+} = {}) => {
   const cx = {
     root: {
+      position: 'relative',
+      backgroundColor: 'black',
+    },
+    container: {
+      maxWidth: 1024,
+      margin: 'auto',
+    },
+    inner: {
       position: 'relative',
       height: 0,
       padding: 0,
@@ -109,14 +106,126 @@ const Video = () => {
       width: '100%',
       height: '100%',
       border: 0
+    },
+    children: {
+      position: 'relative',
+      zIndex: 1,
     }
   }
   return h`
     <div className=${cx.root}>
-      <iframe className=${cx.iframe}
-        width='420' height='315'
-        src='https://www.youtube.com/embed/PrZZfaDp02o?rel=0&amp;controls=0&amp;showinfo=0'
-        frameborder='0' allowfullscreen></iframe>
+      <div className=${cx.container}>
+        <div className=${cx.inner}>
+          <iframe className=${cx.iframe}
+            width='420' height='315'
+            src='http://www.youtube.com/embed/PrZZfaDp02o?rel=0&amp;controls=0&amp;showinfo=0'
+            frameborder='0' allowfullscreen></iframe>
+        </div>
+      </div>
+      ${children}
+      <div className=${cx.children}>
+      </div>
+    </div>
+  `
+}
+
+const Header = () => {
+  const cx = {
+    inner: {
+      display: 'inline-block',
+      maxWidth: 384,
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      padding: 48,
+      color: 'white'
+    },
+    title: {
+      display: 'inline-block',
+      fontSize: 64,
+      margin: 0,
+      fontWeight: 500,
+      lineHeight: 1,
+      backgroundColor: 'black',
+      '@media (min-width: 40em)': {
+        fontSize: 96
+      }
+    },
+    description: {
+      display: 'inline',
+      backgroundColor: 'black'
+    }
+  }
+
+  return h`
+    <header>
+      ${Video({
+        children: h`
+          <div className=${cx.inner}>
+            <h1 className=${cx.title}>cxs</h1>
+            <br />
+            <p className=${cx.description}>${pkg.description}</p>
+          </div>
+        `
+      })}
+    </header>
+  `
+}
+
+const Readme = () => {
+  const cx = {
+    fontSize: 14,
+    lineHeight: 1.5,
+    padding: 32,
+    maxWidth: 640,
+    margin: 'auto',
+    'h1': {
+      fontSize: 64,
+      fontWeight: 500,
+      lineHeight: 1,
+      marginBottom: 0
+    },
+    'pre': {
+      padding: 16,
+      overflowX: 'scroll',
+      color: 'white',
+      backgroundColor: 'black'
+    }
+  }
+
+  const root = h`
+    <div className=${cx}></div>
+  `
+
+  root.innerHTML = readme
+
+  return root
+}
+
+const Css = () => {
+  const cx = {
+    root: {
+      padding: 32,
+      maxWidth: 640,
+      margin: 'auto',
+    },
+    pre: {
+      padding: 16,
+      overflowX: 'scroll',
+      color: 'white',
+      backgroundColor: 'black'
+    }
+  }
+
+  const css = cxs.css
+    .replace(/;/g, ';\n  ')
+    .replace(/{/g, ' {\n  ')
+    .replace(/}/g, '}\n')
+
+  return h`
+    <div className=${cx.root}>
+      <h4>Generated CSS for this page</h4>
+      <pre className=${cx.pre}>${css}</pre>
     </div>
   `
 }
@@ -128,75 +237,17 @@ const View = (store) => {
   const cx = {
     root: {
       fontFamily: 'SF Mono, Roboto Mono, monospace',
-      // fontFamily: '-apple-system, sans-serif',
-      // padding: 32,
-      // '@media screen and (min-width:40em)': {
-      //   padding: 64
-      // }
-    },
-    heading: {
-      color: 'green',
-      '@media (min-width:40em)': {
-        padding: 16,
-        ':hover': {
-          color: 'tomato'
-        }
+      'a': {
+        color: '#07c'
       }
-    },
-    buttons: {
-      display: 'flex',
-      marginLeft: -8,
-      marginRight: -8,
-    },
-    button: {
-      flex: '1 1 auto',
-      margin: 8,
-    },
-    block: {
-      textAlign: 'center',
-      fontSize: 48,
-      height: 64,
-      padding: 32,
-      color: 'white',
-      backgroundColor: colors[count % colors.length]
     }
   }
 
-  const boxes = Array.from({ length: count })
-    .map((n, i) => i)
-    .map((n) => {
-      return Box({ color: colors[n % colors.length] })
-    })
-
   return h`
     <div className=${cx.root}>
-      ${Video()}
-      <h1 className=${cx.heading}>
-        ${title} ${count}
-      </h1>
-      <div className=${cx.block}>
-        ${count}
-      </div>
-      <div className=${cx.buttons}>
-        ${Button({
-          text: '-',
-          className: cx.button,
-          onclick: (e) => setState({ count: state.count - 1 })
-        })}
-        ${Button({
-          text: '+',
-          className: cx.button,
-          onclick: (e) => setState({ count: state.count + 1 })
-        })}
-        ${Button({
-          text: '++',
-          className: cx.button,
-          onclick: (e) => setState({ count: state.count + 8 })
-        })}
-      </div>
-      <div>
-        ${boxes}
-      </div>
+      ${Header()}
+      ${Readme()}
+      ${Css()}
     </div>
   `
 }

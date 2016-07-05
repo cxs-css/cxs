@@ -9,7 +9,9 @@ const config = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.json$/, loader: 'json' },
+      { test: /\.md/, loader: 'html!markdown' }
     ]
   },
   devServer: {

@@ -11,10 +11,13 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
 
 ## Features
 - Avoids collisions with hashed classnames
-- Supports pseudo-classes
-- Supports media queries
+- Supports pseudo-classes without JS
+- Supports media queries without using `window.matchMedia`
 - Dedupes repeated styles
 - Automatically extracts common CSS declarations like `display: block` and `float: left`
+- Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
+- Scoped styles with a component-based architecture
+- No separate CSS files to process or maintain
 
 
 ```sh
@@ -34,6 +37,8 @@ const Button = ({ text, onclick }) => {
   // adding hashed classnames to HTML.
   // Numbers are converted to px values.
   // Pseudo classes and @media queries work as well.
+  // cxs attaches a stylesheet to the head and updates
+  // rules with each call.
   const className = cxs({
     fontSize: 14,
     color: 'white',
@@ -58,14 +63,8 @@ const Button = ({ text, onclick }) => {
 ```
 
 ```js
-// attach the stylesheet to the document after rendering
-const tree = view(state)
-document.body.appendChild(tree)
-cxs.attach()
-```
-
-```js
-// Or return a CSS string for server-side rendering
+// For server-side rendering,
+// get the CSS string after rendering a component tree
 const body = view(state).toString()
 const css = cxs.css
 
@@ -86,6 +85,8 @@ const html `<!DOCTYPE html>
 const className = cxs({ color: 'tomato' })
 
 // Attach a style tag and CSSStyleSheet to the document
+// This is useful for manually controlling style insertion
+// when `options.autoAttach` is set to false.
 cxs.attach()
 
 // An array of cached CSS rules
@@ -96,6 +97,14 @@ const css = cxs.css
 
 // Clears the rule cache. This can be used after building a DOM tree and attaching styles
 cxs.clearCache()
+
+// Options
+
+// Disable automatic style insertion by setting `autoAttach` to false.
+cxs.options.autoAttach = true
+
+// Change the debounce time
+cxs.options.debounce = 0
 ```
 
 ### Vendor prefixes

@@ -34,13 +34,20 @@ test('returns a consistent hashed classname', t => {
   t.is(cx, `cxs-${hashname}`)
 })
 
-test('attaches a style tag and CSSStyleSheet', t => {
+test('attaches a style tag and CSSStyleSheet', async t => {
   t.plan(1)
   cxs.attach()
-  const tag = document.getElementById('cxs')
+  const getTag = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const tag = document.getElementById('cxs-style')
+        resolve(tag.tagName)
+      }, 200)
+    })
+  }
   // Travis error with CSSStyleSheet is undefined
   // t.true(cxs.sheet instanceof CSSStyleSheet)
-  t.true(tag.tagName === 'STYLE')
+  t.is(await getTag(), 'STYLE')
 })
 
 test('Adds px unit to number values', t => {
