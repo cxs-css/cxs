@@ -1,6 +1,6 @@
 
 import yo from 'yo-yo'
-import cxs, { options } from '../src'
+import cxs from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 import pkg from '../package.json'
@@ -14,20 +14,6 @@ const cxsCreateElement = (tag, props, children) => {
 }
 
 const h = hyperx(cxsCreateElement)
-
-const colors = [
-  '#000',
-  '#222',
-  '#444',
-  '#666',
-  '#888',
-  'cyan',
-  '#07f',
-  '#70f',
-  '#f07',
-  'magenta',
-  'yellow',
-]
 
 const store = {
   _state: {
@@ -95,11 +81,11 @@ const Video = ({
   const cx = {
     root: {
       position: 'relative',
-      backgroundColor: 'black',
+      backgroundColor: 'black'
     },
     container: {
       maxWidth: 1024,
-      margin: 'auto',
+      margin: 'auto'
     },
     inner: {
       position: 'relative',
@@ -118,7 +104,7 @@ const Video = ({
     },
     children: {
       position: 'relative',
-      zIndex: 1,
+      zIndex: 1
     }
   }
   return h`
@@ -207,7 +193,7 @@ const Readme = () => {
       color: '#07c'
     },
     'code': {
-      fontFamily: 'inherit',
+      fontFamily: 'inherit'
     },
     'pre': {
       fontFamily: 'inherit',
@@ -233,7 +219,7 @@ const Css = () => {
     root: {
       padding: 32,
       maxWidth: 640,
-      margin: 'auto',
+      margin: 'auto'
     },
     pre: {
       fontFamily: 'inherit',
@@ -259,9 +245,6 @@ const Css = () => {
 }
 
 const View = (store) => {
-  const { setState, state } = store
-  const { count } = state
-
   const cx = {
     root: {
       fontFamily: 'SF Mono, Roboto Mono, monospace'
