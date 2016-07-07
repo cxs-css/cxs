@@ -101,6 +101,28 @@ test('creates @media rules', t => {
   t.regex(rules[1].css, /^@media/)
 })
 
+test('creates @keyframe rules', t => {
+  t.plan(3)
+  cxs({
+    animationName: 'rainbow',
+    animationTimingFunction: 'linear',
+    animationDuration: '1s',
+    animationIterationCount: 'infinite',
+    '@keyframes rainbow': {
+      from: {
+        color: 'cyan'
+      },
+      '100%': {
+        color: 'magenta'
+      }
+    }
+  })
+  console.log('animations', cxs.css)
+  t.regex(cxs.css, /@keyframes rainbow { from/)
+  t.regex(cxs.css, /@keyframes rainbow { 100%/)
+  t.false(/@keyframes.*@keyframes/.test(cxs.css))
+})
+
 test('creates nested selectors', t => {
   t.plan(4)
   let cx
