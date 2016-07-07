@@ -3,7 +3,7 @@ import test from 'ava'
 import hash from 'murmurhash-js/murmurhash3_gc'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { cache } from '../src'
+import cxs, { cache, styleId } from '../src'
 
 jsdom('<html></html>')
 
@@ -40,7 +40,7 @@ test('attaches a style tag and CSSStyleSheet', async t => {
   const getTag = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const tag = document.getElementById('cxs-style')
+        const tag = document.getElementById(styleId)
         resolve(tag.tagName)
       }, 200)
     })

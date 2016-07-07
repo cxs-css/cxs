@@ -11,6 +11,9 @@ export let options = {
   debounce: 0
 }
 
+const randomHex = () => Math.floor(Math.random() * 16777215).toString(16)
+export const styleId = 'cxs-' + hash(randomHex(), 128)
+
 const cxs = (style) => {
   const classNames = []
   const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
@@ -30,16 +33,16 @@ const cxs = (style) => {
 
 const attach = () => {
   if (typeof document === 'undefined') {
-    console.warn('Cannot attach stylesheet without a document')
+    // console.warn('Cannot attach stylesheet without a document')
     return
   }
 
   const rules = cxs.rules
-  styleTag = styleTag || document.getElementById('cxs-style')
+  styleTag = styleTag || document.getElementById(styleId)
 
   if (styleTag === null) {
     styleTag = document.createElement('style')
-    styleTag.id = 'cxs-style'
+    styleTag.id = styleId
     document.head.appendChild(styleTag)
     cxs.sheet = styleTag.sheet
   }
