@@ -38,8 +38,16 @@ const createRules = (name, style, parent) => {
     : styles.filter(filterCommonDeclarations)
 
   // Add base rule
-  // const selector = /^@keyframes/.test(parent) ? name : '.' + name
   const selector = /^([0-9]|from|to)/.test(name) ? name : '.' + name
+
+  if (/^@keyframes/.test(parent)) {
+    return [{
+      id: name + parent,
+      order: 3,
+      selector,
+      css: createRuleset(selector, filteredStyles)
+    }]
+  }
 
   rules.unshift({
     id: name + (parent || ''),
@@ -59,7 +67,13 @@ const createNestedRules = (name, style, parent) => {
       if (/^:/.test(key)) {
         return createRules(name + key, style[key], parent)
       } else if (/^@keyframes/.test(key)) {
-        return createRules(null, style[key], key)
+        const subrules = createRules(null, style[key], key)
+        return [{
+          id: key,
+          order: 3,
+          selector: key,
+          css: `${key} { ${subrules.map(r => r.css).join('')} }`
+        }]
       } else if (/^@/.test(key)) {
         return createRules(name, style[key], key)
       } else {
