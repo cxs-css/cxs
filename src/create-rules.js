@@ -6,6 +6,8 @@ const createRules = (name, style, parent) => {
   // Extract nested rules
   const rules = createNestedRules(name, style, parent)
 
+  if (!name) return rules
+
   // Create styles array
   const styles = Object.keys(style)
     .filter(key => style[key] !== null)
@@ -36,11 +38,22 @@ const createRules = (name, style, parent) => {
     : styles.filter(filterCommonDeclarations)
 
   // Add base rule
+  const selector = /^([0-9]|from|to)/.test(name) ? name : '.' + name
+
+  if (/^@keyframes/.test(parent)) {
+    return [{
+      id: name + parent,
+      order: 3,
+      selector,
+      css: createRuleset(selector, filteredStyles)
+    }]
+  }
+
   rules.unshift({
     id: name + (parent || ''),
     order: parent ? 2 : 1,
-    selector: '.' + name,
-    css: createRuleset('.' + name, filteredStyles, parent)
+    selector,
+    css: createRuleset(selector, filteredStyles, parent)
   })
 
   return rules
@@ -53,10 +66,19 @@ const createNestedRules = (name, style, parent) => {
     .map(key => {
       if (/^:/.test(key)) {
         return createRules(name + key, style[key], parent)
+      } else if (/^@keyframes/.test(key)) {
+        const subrules = createRules(null, style[key], key)
+        return [{
+          id: key,
+          order: 3,
+          selector: key,
+          css: `${key} { ${subrules.map(r => r.css).join('')} }`
+        }]
       } else if (/^@/.test(key)) {
         return createRules(name, style[key], key)
       } else {
-        return createRules(name + ' ' + key, style[key], parent)
+        const selector = name ? `${name} ${key}` : key
+        return createRules(selector, style[key], parent)
       }
     })
     .reduce((a, b) => a.concat(b), [])
