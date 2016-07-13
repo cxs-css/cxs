@@ -29,9 +29,12 @@ test('returns a classname', t => {
 })
 
 test('returns a consistent hashed classname', t => {
+  t.plan(2)
   const hashname = hash(JSON.stringify(style), 128)
   const cx = cxs(style)
+  const cxtwo = cxs(style)
   t.is(cx, `cxs-${hashname}`)
+  t.is(cx, cxtwo) // Double-double checking
 })
 
 test('attaches a style tag and CSSStyleSheet', async t => {
