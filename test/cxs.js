@@ -104,6 +104,28 @@ test('creates @media rules', t => {
   t.regex(rules[1].css, /^@media/)
 })
 
+test('keeps @media rules order', t => {
+  t.plan(4)
+  const sx = {
+    color: 'cyan',
+    '@media screen and (min-width:32em)': {
+      color: 'magenta'
+    },
+    '@media screen and (min-width:48em)': {
+      color: 'yellow'
+    },
+    '@media screen and (min-width:64em)': {
+      color: 'black'
+    }
+  }
+  cxs(sx)
+  const rules = cxs.rules
+  t.is(rules.length, 4)
+  t.regex(rules[1].css, /32/)
+  t.regex(rules[2].css, /48/)
+  t.regex(rules[3].css, /64/)
+})
+
 test('creates @keyframe rules', t => {
   t.plan(2)
   cxs({

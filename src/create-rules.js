@@ -2,6 +2,8 @@
 import addPx from 'add-px-to-style'
 import commonDeclarations from './common-declarations'
 
+export const isNested = s => /\s|:|^@|^\d|^from$|^to$/.test(s)
+
 const createRules = (name, style, parent) => {
   // Extract nested rules
   const rules = createNestedRules(name, style, parent)
@@ -24,16 +26,14 @@ const createRules = (name, style, parent) => {
         : [...a, b]
     , [])
 
-  const isPseudo = /:/.test(name)
-
-  if (!isPseudo) {
+  if (!isNested(name) && !parent) {
     // Extract common declarations as rules
     styles
       .reduce(reduceCommonRules(parent), [])
       .forEach(r => rules.push(r))
   }
   // Remove common declarations
-  const filteredStyles = isPseudo
+  const filteredStyles = isNested(name)
     ? styles
     : styles.filter(filterCommonDeclarations)
 
