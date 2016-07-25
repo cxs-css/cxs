@@ -28,7 +28,7 @@ const cxs = (style) => {
   if (options.autoAttach) {
     cxs.attach()
   }
-  return classNames.reduce((a,b) => {
+  return classNames.reduce((a, b) => {
     if (a.indexOf(b) > -1) return a
     return [ ...a, b ]
   }, []).join(' ')
