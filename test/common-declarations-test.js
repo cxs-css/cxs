@@ -16,7 +16,10 @@ test.beforeEach(t => {
       textDecoration: 'none'
     },
     'h1': {
-      display: 'inline-block'
+      display: 'inline-block',
+      ':hover': {
+        display: 'inline'
+      }
     },
     '@media screen': {
       display: 'table'
