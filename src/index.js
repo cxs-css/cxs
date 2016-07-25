@@ -21,14 +21,17 @@ const cxs = (style) => {
 
   rules.forEach(r => { cache[r.id] = r })
 
-  rules.filter(r => !/:/.test(r.selector))
-    .filter(r => !/\s/.test(r.selector))
+  rules.filter(r => !(/:/.test(r.selector)))
+    .filter(r => !(/\s/.test(r.selector)))
     .forEach(r => classNames.push(r.selector.replace(/^\./, '')))
 
   if (options.autoAttach) {
     cxs.attach()
   }
-  return classNames.join(' ')
+  return classNames.reduce((a,b) => {
+    if (a.indexOf(b) > -1) return a
+    return [ ...a, b ]
+  }, []).join(' ')
 }
 
 const attach = () => {
