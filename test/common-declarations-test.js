@@ -20,6 +20,17 @@ test.beforeEach(t => {
     },
     '@media screen': {
       display: 'table'
+    },
+    '@keyframes hello': {
+      from: {
+        display: 'block'
+      },
+      '50%': {
+        display: 'table'
+      },
+      to: {
+        display: 'inline-block'
+      }
     }
   }
 
@@ -36,7 +47,8 @@ test('extracts common declarations', t => {
 })
 
 test('does not extract common declarations from nested rules', t => {
-  t.plan(2)
+  t.plan(3)
+  t.false(/text\-decoration\-none/.test(t.context.cx))
   t.false(/inline\-block/.test(t.context.cx))
   t.false(/table/.test(t.context.cx))
 })
