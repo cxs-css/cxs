@@ -1,6 +1,7 @@
 
 import hash from 'murmurhash-js/murmurhash3_gc'
 import debounce from 'lodash.debounce'
+import sortBy from 'lodash.sortby'
 import createRules from './create-rules'
 
 export let styleTag = null
@@ -70,10 +71,12 @@ cxs.clearCache = () => {
 
 Object.defineProperty(cxs, 'rules', {
   get () {
-    return Object.keys(cache || {})
+    const unorderedRules = Object
+      .keys(cache || {})
       .map(k => cache[k] || false)
-      .filter(r => r.css.length)
-      .sort((a, b) => a.order - b.order)
+      .filter(r => r.css.length);
+
+    return sortBy(unorderedRules, 'order');
   }
 })
 
@@ -86,4 +89,3 @@ Object.defineProperty(cxs, 'css', {
 })
 
 export default cxs
-
