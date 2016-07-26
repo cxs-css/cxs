@@ -11,9 +11,10 @@ Functional CSS for functional UI components
 cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
 
 ## Features
-- Avoids collisions with hashed classnames
-- Supports pseudo-classes without JS
+- Avoids collisions with consistently hashed classnames
+- Supports pseudo-classes without JS event listeners
 - Supports media queries without using `window.matchMedia`
+- Support @keyframe rules
 - Dedupes repeated styles
 - Automatically extracts common CSS declarations like `display: block` and `float: left`
 - Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
