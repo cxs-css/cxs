@@ -74,9 +74,9 @@ Object.defineProperty(cxs, 'rules', {
     const unorderedRules = Object
       .keys(cache || {})
       .map(k => cache[k] || false)
-      .filter(r => r.css.length);
+      .filter(r => r.css.length)
 
-    return sortBy(unorderedRules, 'order');
+    return sortBy(unorderedRules, 'order')
   }
 })
 
