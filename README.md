@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-**WIP**
+**Experimental**
 
 Functional CSS for functional UI components
 
@@ -19,6 +19,13 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
 - Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
 - Scoped styles with a component-based architecture
 - No separate CSS files to process or maintain
+- **Use JavaScript to author styles**
+  - Objects & Object.assign
+  - Module imports
+  - Anything from npm
+  - Numbers and operators
+  - Functions
+  - Plus whatever you can dream up
 
 
 ```sh
@@ -79,6 +86,8 @@ const html `<!DOCTYPE html>
 `
 ```
 
+*Note: if you ARE NOT using babel, be sure to import with `require('cxs').default`*
+
 ## API
 
 ```js
@@ -122,6 +131,11 @@ const prefixed = prefixer({
 })
 const cx = cxs(prefixed)
 ```
+
+### Related
+
+- [react-cxs](https://github.com/jxnblk/react-cxs)
+- [hyp](https://github.com/jxnblk/hyp)
 
 ### Other CSS-in-JS options
 
