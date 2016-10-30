@@ -29,6 +29,7 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
   - Numbers and operators
   - Functions
   - Plus whatever you can dream up
+  - No fiddling with tagged template literals
 
 
 ```sh

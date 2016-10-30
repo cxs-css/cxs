@@ -9,7 +9,6 @@
     "gh-pages": "gh-pages -d example",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundle-size ./",
-    "perf": "karma start",
     "standard": "standard",
     "test-watch": "ava -v --watch",
     "test": "standard && ava -v"
@@ -32,12 +31,6 @@
     "jsdom": "^9.3.0",
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
-    "karma": "^1.1.0",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-mocha": "^1.1.1",
-    "karma-safari-launcher": "^1.0.0",
-    "karma-webpack": "^1.7.0",
     "markdown-loader": "^0.1.7",
     "mocha": "^2.5.3",
     "standard": "^7.1.2",
@@ -48,7 +41,6 @@
   "dependencies": {
     "add-px-to-style": "^1.0.0",
     "glamor": "^2.17.14",
-    "lodash.debounce": "^4.0.6",
     "murmurhash-js": "^1.0.0"
   },
   "ava": {

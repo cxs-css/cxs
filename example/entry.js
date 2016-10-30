@@ -163,6 +163,7 @@ const Header = () => {
             <h1 className=${cx.title}>cxs</h1>
             <br />
             <p className=${cx.description}>${pkg.description}</p>
+            <br />
             ${Button({
               className: cx.button,
               inverse: 'true',
@@ -247,7 +248,7 @@ const Css = () => {
 const View = (store) => {
   const cx = {
     root: {
-      fontFamily: 'SF Mono, Roboto Mono, monospace'
+      fontFamily: '"Roboto Mono", SF Mono, Menlo, monospace'
     }
   }
 
