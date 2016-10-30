@@ -1,9 +1,10 @@
 
 import test from 'ava'
 import hash from 'murmurhash-js/murmurhash3_gc'
+import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { cache, styleId } from '../src'
+import cxs from '../src'
 
 jsdom('<html></html>')
 
@@ -14,7 +15,7 @@ const style = {
 }
 
 test.beforeEach(() => {
-  cxs.clearCache()
+  cxs.sheet.flush()
 })
 
 test('does not throw', t => {
@@ -37,20 +38,8 @@ test('returns a consistent hashed classname', t => {
   t.is(cx, cxtwo) // Double-double checking
 })
 
-test('attaches a style tag and CSSStyleSheet', async t => {
-  t.plan(1)
-  cxs.attach()
-  const getTag = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const tag = document.getElementById(styleId)
-        resolve(tag.tagName)
-      }, 200)
-    })
-  }
-  // Travis error with CSSStyleSheet is undefined
-  // t.true(cxs.sheet instanceof CSSStyleSheet)
-  t.is(await getTag(), 'STYLE')
+test('has a glamor StyleSheet instance', t => {
+  t.true(cxs.sheet instanceof StyleSheet)
 })
 
 test('Adds px unit to number values', t => {
@@ -59,7 +48,7 @@ test('Adds px unit to number values', t => {
   }
   cxs(sx)
   const rules = cxs.rules
-  t.regex(rules[0].css, /font-size:32px}$/)
+  t.regex(rules[0].cssText, /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
@@ -73,21 +62,7 @@ test('creates pseudoclass rules', t => {
   cxs(sx)
   const rules = cxs.rules
   t.is(rules.length, 2)
-  const hoverRule = Object.keys(cache).reduce((a, b) => /:hover$/.test(b) ? cache[b] : null, null)
-  t.regex(hoverRule.selector, /:hover$/)
-})
-
-test('does not extract common declarations for pseudoclass rules', t => {
-  t.plan(3)
-  const cx = cxs({
-    textDecoration: 'none',
-    ':hover': {
-      textDecoration: 'underline'
-    }
-  })
-  t.regex(cx, /text\-decoration\-none/)
-  t.false(/text\-decoration\-underline/.test(cx))
-  t.regex(cxs.css, /underline/)
+  t.regex(cxs.css, /:hover/)
 })
 
 test('creates @media rules', t => {
@@ -101,7 +76,7 @@ test('creates @media rules', t => {
   cxs(sx)
   const rules = cxs.rules
   t.is(rules.length, 2)
-  t.regex(rules[1].css, /^@media/)
+  t.regex(rules[1].cssText, /^@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -121,9 +96,9 @@ test('keeps @media rules order', t => {
   cxs(sx)
   const rules = cxs.rules
   t.is(rules.length, 4)
-  t.regex(rules[1].css, /32/)
-  t.regex(rules[2].css, /48/)
-  t.regex(rules[3].css, /64/)
+  t.regex(rules[1].cssText, /32/)
+  t.regex(rules[2].cssText, /48/)
+  t.regex(rules[3].cssText, /64/)
 })
 
 test('creates @keyframe rules', t => {
@@ -167,19 +142,6 @@ test('creates nested selectors', t => {
   t.false(/h1/.test(cx))
   t.regex(cxs.css, /h1/)
   t.regex(cxs.css, /a:hover/)
-})
-
-test('dedupes repeated styles', t => {
-  const dupe = {
-    color: 'cyan',
-    fontSize: 32
-  }
-
-  cxs(style)
-  cxs(dupe)
-  cxs(dupe)
-
-  t.is(cxs.rules.length, 2)
 })
 
 test('handles array values', t => {

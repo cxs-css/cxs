@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "1.0.0",
+  "version": "2.0.0-b0",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
   "main": "dist/index.js",
   "scripts": {
@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "add-px-to-style": "^1.0.0",
+    "glamor": "^2.17.14",
     "lodash.debounce": "^4.0.6",
     "murmurhash-js": "^1.0.0"
   },
