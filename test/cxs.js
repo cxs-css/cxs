@@ -16,6 +16,7 @@ const style = {
 
 test.beforeEach(() => {
   cxs.sheet.flush()
+  cxs.clear()
 })
 
 test('does not throw', t => {
@@ -142,6 +143,19 @@ test('creates nested selectors', t => {
   t.false(/h1/.test(cx))
   t.regex(cxs.css, /h1/)
   t.regex(cxs.css, /a:hover/)
+})
+
+test('dedupes repeated styles', t => {
+  const dupe = {
+    color: 'cyan',
+    fontSize: 32
+  }
+
+  cxs(style)
+  cxs(dupe)
+  cxs(dupe)
+
+  t.is(cxs.rules.length, 2)
 })
 
 test('handles array values', t => {

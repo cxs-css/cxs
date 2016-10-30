@@ -3,6 +3,8 @@ import hash from 'murmurhash-js/murmurhash3_gc'
 import createRules from './create-rules'
 import sheet from './sheet'
 
+export const cache = []
+
 const cxs = (style) => {
   const classNames = []
   const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
@@ -14,9 +16,12 @@ const cxs = (style) => {
       classNames.push(r.selector.replace(/^\./, ''))
     })
 
-  rules.forEach(r => {
-    sheet.insert(r.css)
-  })
+  rules
+    .filter(r => cache.indexOf(r.id) < 0)
+    .forEach(r => {
+      cache.push(r.id)
+      sheet.insert(r.css)
+    })
 
   return classNames.reduce((a, b) => {
     if (a.indexOf(b) > -1) return a
@@ -25,6 +30,12 @@ const cxs = (style) => {
 }
 
 cxs.sheet = sheet
+
+cxs.clear = () => {
+  while (cache.length) {
+    cache.pop()
+  }
+}
 
 Object.defineProperty(cxs, 'rules', {
   get () {
