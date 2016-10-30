@@ -1,8 +1,6 @@
 
 import addPx from 'add-px-to-style'
 
-// export const isNested = s => /\s|:|^@|^\d|^from$|^to$/.test(s)
-
 const createRules = (name, style, parent) => {
   // Extract nested rules
   const rules = createNestedRules(name, style, parent)

@@ -11,10 +11,12 @@ Functional CSS for functional UI components
 cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
 
 ## Features
+- 5.6KB gzipped
 - Avoids collisions with consistently hashed classnames
 - Supports pseudo-classes without JS event listeners
 - Supports media queries without using `window.matchMedia`
 - Support @keyframe rules
+- Supports nested selectors - useful for styling markdown and other user-generated content
 - ~~Dedupes repeated styles~~
 - ~~Automatically extracts common CSS declarations like `display: block` and `float: left`~~
 - Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
@@ -120,6 +122,11 @@ const prefixed = prefixer({
 })
 const cx = cxs(prefixed)
 ```
+
+### Common Declarations
+
+The previous version of cxs attempted to extract common declarations into utility rulesets.
+I plan to add this back as an optional module through a higher-order function.
 
 ### Related
 
