@@ -67,7 +67,6 @@ const optimized = (style) => {
     customClassName
   ].join(' ')
 
-  console.log(classNames)
   return classNames
 }
 

@@ -124,10 +124,19 @@ const prefixed = prefixer({
 const cx = cxs(prefixed)
 ```
 
-### Common Declarations
+### Common Declaration Utilities
 
-The previous version of cxs attempted to extract common declarations into utility rulesets.
-I plan to add this back as an optional module through a higher-order function.
+Cxs comes with an alternative module that attempts to extract
+commonly used declarations, such as `margin: 0` and `display: block`, into global utility rulesets.
+
+To use the common declarations version, import the following instead of `cxs`.
+
+```js
+import cxs from 'cxs/optimized'
+```
+
+Each common utility selector follows this pattern: `.cxs-<property>-<value>`. Once a utility ruleset has been registered,
+cxs will not add that ruleset again, unless the `cxs.clear()` method has been called.
 
 ### Related
 
