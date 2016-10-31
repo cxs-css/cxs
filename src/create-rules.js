@@ -70,7 +70,7 @@ const createNestedRules = (name, style, parent) => {
     .reduce((a, b) => a.concat(b), [])
 }
 
-const createRuleset = (selector, styles, parent) => {
+export const createRuleset = (selector, styles, parent) => {
   const declarations = styles.map(s => s.prop + ':' + s.value)
   const ruleset = `${selector}{${declarations.join(';')}}`
   return parent ? `${parent} { ${ruleset} }` : ruleset
@@ -79,7 +79,7 @@ const createRuleset = (selector, styles, parent) => {
 const isObj = v => typeof v === 'object'
 const isArr = v => Array.isArray(v)
 const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
-const kebab = (str) => str.replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
+export const kebab = (str) => str.replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
 
 export default createRules
 

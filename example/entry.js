@@ -1,6 +1,6 @@
 
 import yo from 'yo-yo'
-import cxs from '../src'
+import cxs from '../src/optimized'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 import pkg from '../package.json'

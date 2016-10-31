@@ -11,7 +11,7 @@
     "size": "npm run prepublish && bundle-size ./",
     "standard": "standard",
     "test-watch": "ava -v --watch",
-    "test": "standard && ava -v"
+    "test": "ava -v"
   },
   "keywords": [],
   "author": "Brent Jackson",
