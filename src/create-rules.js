@@ -118,7 +118,7 @@ const createRuleset = (selector, styles, parent) => {
 const isObj = v => typeof v === 'object'
 const isArr = v => Array.isArray(v)
 const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
-const kebab = (str) => str.replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
+const kebab = (str) => str.replace(/([A-Z]|^ms|^webkit)/g, g => '-' + g.toLowerCase())
 
 export default createRules
 
