@@ -48,6 +48,7 @@
   "dependencies": {
     "add-px-to-style": "^1.0.0",
     "lodash.debounce": "^4.0.6",
+    "lodash.sortby": "^4.6.0",
     "murmurhash-js": "^1.0.0"
   },
   "ava": {
