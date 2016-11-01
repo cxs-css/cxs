@@ -18,6 +18,12 @@ const commonDeclarations = {
     'left',
     'right'
   ],
+  clear: [
+    'none',
+    'left',
+    'right',
+    'both'
+  ],
 
   textAlign: [
     'left',
