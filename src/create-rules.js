@@ -29,7 +29,6 @@ const createRules = (name, style, parent) => {
   if (/^@keyframes/.test(parent)) {
     return [{
       id: name + parent,
-      order: 3,
       selector,
       css: createRuleset(selector, styles)
     }]
@@ -37,7 +36,6 @@ const createRules = (name, style, parent) => {
 
   rules.unshift({
     id: name + (parent || ''),
-    order: parent ? 2 : 1,
     selector,
     css: createRuleset(selector, styles, parent)
   })
@@ -56,7 +54,6 @@ const createNestedRules = (name, style, parent) => {
         const subrules = createRules(null, style[key], key)
         return [{
           id: key,
-          order: 3,
           selector: key,
           css: `${key} { ${subrules.map(r => r.css).join('')} }`
         }]
