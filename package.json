@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "2.0.0-b0",
+  "version": "2.0.0",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
   "main": "dist/index.js",
   "scripts": {
