@@ -4,22 +4,22 @@
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-**Experimental**
-
 Functional CSS for functional UI components
 
 cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
 
 ## Features
+- 5.6KB gzipped
 - Avoids collisions with consistently hashed classnames
 - Supports pseudo-classes without JS event listeners
 - Supports media queries without using `window.matchMedia`
 - Support @keyframe rules
+- Supports nested selectors - useful for styling markdown and other user-generated content
 - Dedupes repeated styles
-- Automatically extracts common CSS declarations like `display: block` and `float: left`
 - Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
 - Scoped styles with a component-based architecture
 - No separate CSS files to process or maintain
+- Optionally extract common CSS declarations like `display: block` and `float: left`
 - **Use JavaScript to author styles**
   - Objects & Object.assign
   - Module imports
@@ -27,6 +27,7 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
   - Numbers and operators
   - Functions
   - Plus whatever you can dream up
+  - No fiddling with tagged template literals
 
 
 ```sh
@@ -87,6 +88,27 @@ const html `<!DOCTYPE html>
 `
 ```
 
+```js
+// React example
+import React from 'react'
+
+const Box = (props) => {
+  return (
+    <div {...props} className={cx} />
+  )
+}
+
+// Static styles can be outside of the component render function for better performance.
+const cx = cxs({
+  boxSizing: 'border-box',
+  padding: 32,
+  borderRadius: 3,
+  backgroundColor: '#f6f6f6'
+})
+
+export default Button
+```
+
 *Note: if you ARE NOT using babel, be sure to import with `require('cxs').default`*
 
 ## API
@@ -95,27 +117,15 @@ const html `<!DOCTYPE html>
 // Returns a hashed className string and creates CSS rules for style objects
 const className = cxs({ color: 'tomato' })
 
-// Attach a style tag and CSSStyleSheet to the document
-// This is useful for manually controlling style insertion
-// when `options.autoAttach` is set to false.
-cxs.attach()
-
-// An array of cached CSS rules
+// An array of attached CSS rules
 const rules = cxs.rules
 
-// A CSS string of cached rules. Useful for server-side rendering
+// A CSS string of attached rules. Useful for server-side rendering
 const css = cxs.css
 
-// Clears the rule cache. This can be used after building a DOM tree and attaching styles
-cxs.clearCache()
-
-// Options
-
-// Disable automatic style insertion by setting `autoAttach` to false.
-cxs.options.autoAttach = true
-
-// Change the debounce time
-cxs.options.debounce = 0
+// The threepointone/glamor StyleSheet instance
+// See https://github.com/threepointone/glamor
+cxs.sheet
 ```
 
 ### Vendor prefixes
@@ -133,8 +143,24 @@ const prefixed = prefixer({
 const cx = cxs(prefixed)
 ```
 
+### Common Declaration Utilities
+
+Cxs comes with an alternative, experimental module that attempts to extract
+commonly used declarations, such as `margin: 0` and `display: block`, into global utility rulesets.
+
+To use the common declarations version, import the following instead of `cxs`.
+
+```js
+import cxs from 'cxs/optimized'
+```
+
+Each common utility selector follows this pattern: `.cxs-<property>-<value>`.
+Once a utility ruleset has been registered,
+cxs will not add that ruleset to the stylesheet again, unless the `cxs.clear()` method has been called.
+
 ### Related
 
+- [glamor](https://github.com/threepointone/glamor)
 - [react-cxs](https://github.com/jxnblk/react-cxs)
 - [hyp](https://github.com/jxnblk/hyp)
 
@@ -143,17 +169,16 @@ const cx = cxs(prefixed)
 Compared to other, similar modules, cxs is an attempt to create a smaller and simpler API and a smaller overall module.
 For more customizable and robust solutions, see the following:
 
+- [glamor](https://github.com/threepointone/glamor)
 - [Aphrodite](https://github.com/Khan/aphrodite)
 - [jss](https://github.com/jsstyles/jss)
 
 ### Browser support
 
-- IE9 +
-  - Due to the following:
-  - `CSSStyleSheet.insertRule()`
-  - `Array.filter`
-  - `Array.map`
-  - `Array.reduce`
-  - `Array.forEach`
+IE9+, due to the following:
+- `Array.filter`
+- `Array.map`
+- `Array.reduce`
+- `Array.forEach`
 
 MIT License
