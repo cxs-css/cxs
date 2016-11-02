@@ -182,3 +182,4 @@ IE9+, due to the following:
 - `Array.forEach`
 
 MIT License
+
