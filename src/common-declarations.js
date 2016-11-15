@@ -75,8 +75,25 @@ const commonDeclarations = {
     'fixed'
   ],
 
-  borderRadius: [ 0 ]
+  borderRadius: [ 0 ],
+  
+  backgroundSize: [
+    'contain',
+    'cover'
+  ],
+  backgroundRepeat: [
+    'no-repeat',
+    'repeat',
+    'repeat-x',
+    'repeat-y'
+  ],
+  backgroundPosition: [
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'center'
+  ]
 }
 
 export default commonDeclarations
-
