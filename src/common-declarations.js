@@ -72,7 +72,7 @@ const commonDeclarations = {
   ],
 
   borderRadius: [ 0 ],
-  
+
   flex: [ 'none' ],
   flexDirection: [
     'column',
