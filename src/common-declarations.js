@@ -58,7 +58,6 @@ const commonDeclarations = {
   width: [
     'auto',
     0,
-    '50%',
     '100%'
   ],
   height: [
