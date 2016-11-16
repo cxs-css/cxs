@@ -5,10 +5,14 @@ import sheet from './sheet'
 
 export const cache = []
 
-const cxs = (style) => {
+const cxs = (...args) => {
+  const selector = typeof args[0] === 'string' ? args[0] : null
+  const style = args.reduce((a, b) => {
+    return a || typeof b === 'object' ? b : null
+  }, null)
   const classNames = []
   const hashname = 'cxs-' + hash(JSON.stringify(style), 128)
-  const rules = createRules(hashname, style)
+  const rules = createRules(selector || hashname, style)
 
   rules.filter(r => !(/:/.test(r.selector)))
     .filter(r => !(/\s/.test(r.selector)))
@@ -35,6 +39,11 @@ cxs.clear = () => {
   while (cache.length) {
     cache.pop()
   }
+}
+
+cxs.reset = () => {
+  cxs.clear()
+  cxs.sheet.flush()
 }
 
 Object.defineProperty(cxs, 'rules', {

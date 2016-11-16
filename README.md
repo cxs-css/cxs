@@ -45,14 +45,12 @@ const Button = ({ text, onclick }) => {
 
   // Pass a style object to cxs, which returns a string for
   // adding hashed classnames to HTML.
-  // Numbers are converted to px values.
-  // Pseudo classes and @media queries work as well.
-  // cxs attaches a stylesheet to the head and updates
-  // rules with each call.
   const className = cxs({
+    // Numbers are converted to px values.
     fontSize: 14,
     color: 'white',
     backgroundColor: '#07c',
+    // Pseudo classes and @media queries work as well.
     ':hover': {
       backgroundColor: '#06b'
     },
@@ -60,6 +58,9 @@ const Button = ({ text, onclick }) => {
       fontSize: 18
     }
   })
+
+  // cxs attaches a stylesheet to the head and updates
+  // rules with each call.
 
   // Apply the classname to your component
   return yo`
@@ -72,11 +73,16 @@ const Button = ({ text, onclick }) => {
 }
 ```
 
+### Server-Side Rendering
+
 ```js
 // For server-side rendering,
 // get the CSS string after rendering a component tree
 const body = view(state).toString()
 const css = cxs.css
+
+// Reset the cache for subsequent renders
+cxs.reset()
 
 const html `<!DOCTYPE html>
 <html>
@@ -88,8 +94,8 @@ const html `<!DOCTYPE html>
 `
 ```
 
+### Using with React
 ```js
-// React example
 import React from 'react'
 
 const Box = (props) => {
@@ -107,6 +113,20 @@ const cx = cxs({
 })
 
 export default Button
+```
+
+### Global Selectors
+
+Normally, you should avoid adding global selectors to the page,
+but cxs can be used to set base body styles.
+Pass a string as the first argument to create a style with a custom selector.
+
+```js
+cxs('body', {
+  fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+  lineHeight: 1.5,
+  margin: 0
+})
 ```
 
 *Note: if you ARE NOT using babel, be sure to import with `require('cxs').default`*
