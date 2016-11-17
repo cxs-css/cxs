@@ -44,6 +44,12 @@ const commonDeclarations = {
     'underline'
   ],
   whiteSpace: [ 'nowrap' ],
+  wordWrap: [ 'break-word' ],
+  wordBreak: [
+    'break-all',
+    'break-word',
+    'normal'
+  ],
   listStyle: [ 'none' ],
   overflow: [
     'hidden',
