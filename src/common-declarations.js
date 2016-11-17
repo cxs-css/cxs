@@ -10,6 +10,8 @@ const commonDeclarations = {
     'inline',
     'table',
     'table-cell',
+    'flex',
+    'inline-flex',
     'none'
   ],
 
@@ -75,7 +77,43 @@ const commonDeclarations = {
     'fixed'
   ],
 
-  borderRadius: [ 0 ]
+  borderRadius: [ 0 ],
+
+  flex: [ 'none' ],
+  flexDirection: [
+    'column',
+    'row'
+  ],
+  flexWrap: [ 'wrap' ],
+  alignItems: [
+    'flex-start',
+    'flex-end',
+    'center',
+    'baseline',
+    'stretch'
+  ],
+  alignSelf: [
+    'flex-start',
+    'flex-end',
+    'center',
+    'baseline',
+    'stretch'
+  ],
+  justifyContent: [
+    'flex-start',
+    'flex-end',
+    'center',
+    'space-around',
+    'space-between'
+  ],
+  alignContent: [
+    'flex-start',
+    'flex-end',
+    'center',
+    'space-around',
+    'space-between',
+    'stretch'
+  ]
 }
 
 export default commonDeclarations
