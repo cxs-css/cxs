@@ -129,8 +129,25 @@ const commonDeclarations = {
     'space-around',
     'space-between',
     'stretch'
+  ],
+
+  backgroundSize: [
+    'contain',
+    'cover'
+  ],
+  backgroundRepeat: [
+    'no-repeat',
+    'repeat',
+    'repeat-x',
+    'repeat-y'
+  ],
+  backgroundPosition: [
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'center'
   ]
 }
 
 export default commonDeclarations
-
