@@ -146,6 +146,14 @@ const css = cxs.css
 // The threepointone/glamor StyleSheet instance
 // See https://github.com/threepointone/glamor
 cxs.sheet
+
+// Clears the internally used cache.
+// Normally, this doesn't need to be called.
+cxs.clear()
+
+// Clear the cache and flush the glamor stylesheet.
+// This is useful for cleaning up in server-side contexts.
+cxs.reset()
 ```
 
 ### Vendor prefixes
