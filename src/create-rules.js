@@ -24,7 +24,7 @@ const createRules = (name, style, parent) => {
     , [])
 
   // Add base rule
-  const selector = /^([0-9]|from|to)/.test(name) ? name : '.' + name
+  const selector = /^cxs/.test(name) ? '.' + name : name
 
   if (/^@keyframes/.test(parent)) {
     return [{

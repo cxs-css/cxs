@@ -223,3 +223,12 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css.includes('-moz-inner-focus'), true)
 })
 
+test('supports custom global selectors', t => {
+  const cx = cxs('body', {
+    margin: 0
+  })
+  const css = cxs.css
+  t.is(cx, 'body')
+  t.truthy(css.includes('margin:0'))
+})
+

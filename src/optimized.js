@@ -80,6 +80,11 @@ optimized.clear = () => {
   cxs.clear()
 }
 
+optimized.reset = () => {
+  optimized.clear()
+  optimized.sheet.flush()
+}
+
 Object.defineProperty(optimized, 'rules', {
   get () {
     return sheet.rules()
