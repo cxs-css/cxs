@@ -67,8 +67,18 @@ const commonDeclarations = {
   paddingBottom: [ 0 ],
   paddingLeft: [ 0 ],
 
+  minWidth: [ '100%' ],
   maxWidth: [ '100%' ],
-  height: [ 'auto' ],
+  width: [
+    'auto',
+    0,
+    '100%'
+  ],
+  height: [
+    'auto',
+    0,
+    '100%'
+  ],
 
   verticalAlign: [
     'top',
