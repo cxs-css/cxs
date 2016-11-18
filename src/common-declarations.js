@@ -43,6 +43,12 @@ const commonDeclarations = {
     'none',
     'underline'
   ],
+  textTransform: [
+    'none',
+    'capitalize',
+    'uppercase',
+    'lowercase'
+  ],
   whiteSpace: [ 'nowrap' ],
   wordWrap: [ 'break-word' ],
   wordBreak: [
