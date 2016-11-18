@@ -35,6 +35,12 @@ const commonDeclarations = {
     'none',
     'underline'
   ],
+  textTransform: [
+    'none',
+    'capitalize',
+    'uppercase',
+    'lowercase'
+  ],
   whiteSpace: [ 'nowrap' ],
   listStyle: [ 'none' ],
   overflow: [
