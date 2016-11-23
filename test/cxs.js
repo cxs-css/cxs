@@ -45,7 +45,7 @@ test('Adds px unit to number values', t => {
   cxs({
     fontSize: 32
   })
-  t.regex(cxs.css, /font-size:32px}$/)
+  t.regex(cxs.css(), /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
@@ -55,7 +55,7 @@ test('creates pseudoclass rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(cxs.css, /:hover/)
+  t.regex(cxs.css(), /:hover/)
 })
 
 test('creates @media rules', t => {
@@ -65,7 +65,7 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(cxs.css, /@media/)
+  t.regex(cxs.css(), /@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -154,7 +154,7 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(cxs.css, /var/)
+  t.regex(cxs.css(), /var/)
 })
 
 /* Are these necessary?
@@ -188,7 +188,7 @@ test('ignores null values', t => {
     color: 'tomato',
     padding: null
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('null'), false)
 })
 
@@ -198,7 +198,7 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('border'), true)
 })
 
@@ -210,7 +210,7 @@ test('should handle ::-moz-inner-focus', t => {
       padding: 0
     }
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('-moz-inner-focus'), true)
 })
 

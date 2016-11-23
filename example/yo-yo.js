@@ -241,7 +241,7 @@ const Css = () => {
     }
   }
 
-  const css = cxs.css
+  const css = cxs.css()
     .replace(/;/g, ';\n  ')
     .replace(/{/g, ' {\n  ')
     .replace(/}/g, '}\n')
@@ -249,7 +249,7 @@ const Css = () => {
   return h`
     <div className=${cx.root}>
       <h4>Generated CSS for this page</h4>
-      <pre className=${cx.pre}>${css}</pre>
+      <pre className=${cx.pre}>${css.length}\n${css}</pre>
     </div>
   `
 }

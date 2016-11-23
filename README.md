@@ -16,15 +16,15 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
 - `<prop>-<value>` string is hashed to create classname
 - `<pseudo>-<prop>-<value>`
 - `<media>-<prop>-<value>`
-- should this handle nested selectors at all?
-- cache of hashed classnames
-- needs to account for ordering of shorthand vs normal properties
-- account for media query ordering - declaration order might be fine
+- X should this handle nested selectors at all?
+- X cache of hashed classnames
+- X (source order) needs to account for ordering of shorthand vs normal properties
+- ~ account for media query ordering - declaration order might be fine
 
 ---
 
 ## Features
-- 5.6KB gzipped
+- 5.6KB gzipped       (5.5KB)
 - Avoids collisions with consistently hashed classnames
 - Supports pseudo-classes without JS event listeners
 - Supports media queries without using `window.matchMedia`
