@@ -2,7 +2,7 @@
 // yo-yo example
 
 import yo from 'yo-yo'
-import cxs from '../src/optimized'
+import cxs from '../src'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 import pkg from '../package.json'

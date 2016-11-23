@@ -1,7 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import cxs from '../src/optimized'
+import cxs from '../src' // '../src/optimized'
 
 const App = () => {
   return (
