@@ -1,8 +1,15 @@
 
-import hs from 'shorthash'
-import hash from 'murmurhash-js/murmurhash3_gc'
+// import hash from 'jhash/lib/jhash.core.js'
+import sh from 'shorthash'
+import Hashids from 'hashids'
+// import hash from 'murmurhash-js/murmurhash3_gc'
+
 import addPx from 'add-px-to-style'
 import abbreviations from './abbreviations'
+
+const hashids = new Hashids()
+
+const hash = sh.unique
 
 export const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
 
@@ -23,6 +30,11 @@ export const createClassName = (prop, value, prefix) => {
   const name = prefix
     ? clean(prefix) + base
     : base
-  return '_' + hs.unique(name)
+
+  return '_' + hash(name)
 }
+
+const hash64 = str => cleanBase64(btoa(str))
+const cleanBase64 = str =>
+  str.replace(/=/g, '_')
 
