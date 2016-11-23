@@ -1,12 +1,4 @@
 
-// import hash from 'jhash/lib/jhash.core.js'
-// import sh from 'shorthash'
-// import Hashids from 'hashids'
-// import hash from 'murmurhash-js/murmurhash3_gc'
-
-// const hashids = new Hashids()
-// const hash = sh.unique
-
 import addPx from 'add-px-to-style'
 import abbreviations from './abbreviations'
 
@@ -37,6 +29,7 @@ const hash64 = str => cleanBase64(btoa(str))
 const cleanBase64 = str =>
   str.replace(/=/g, '_')
 
+// hash function from freestyle
 export const hash = (str) => {
   let val = 5381
   let i = str.length

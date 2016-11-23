@@ -6,22 +6,12 @@
 
 Functional CSS for functional UI components
 
+```js
+const className = cxs({ color: 'tomato' })
+```
+
 cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
 
----
-
-## Utility Notes
-- 100% utility style approach
-- Every declaration becomes its own rule
-- `<prop>-<value>` string is hashed to create classname
-- `<pseudo>-<prop>-<value>`
-- `<media>-<prop>-<value>`
-- X should this handle nested selectors at all?
-- X cache of hashed classnames
-- X (source order) needs to account for ordering of shorthand vs normal properties
-- ~ account for media query ordering - declaration order might be fine
-
----
 
 ## Features
 - 5.6KB gzipped       (5.5KB)

@@ -66,7 +66,8 @@ const createNestedRule = (prop, value, selector) => {
 const createRules = (style, prefix) => {
   const styles = createStylesArray(style)
 
-  const rules = styles.map(({ key, value, parent }) => {
+  // Use selector for non-hashed rules
+  const rules = styles.map(({ key, value, parent, selector }) => {
     const prop = kebab(key)
     if (parent) {
       if (/^@media/.test(parent)) {
