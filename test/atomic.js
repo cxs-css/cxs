@@ -4,7 +4,7 @@ import hash from 'murmurhash-js/murmurhash3_gc'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs from '../src'
+import cxs from '../src/atomic'
 
 jsdom('<html></html>')
 
@@ -15,8 +15,7 @@ const style = {
 }
 
 test.beforeEach(() => {
-  cxs.sheet.flush()
-  cxs.clear()
+  cxs.reset()
 })
 
 test('does not throw', t => {
@@ -31,11 +30,10 @@ test('returns a classname', t => {
 })
 
 test('returns a consistent hashed classname', t => {
-  t.plan(2)
-  const hashname = hash(JSON.stringify(style), 128)
+  // const hashname = hash(JSON.stringify(style), 128)
   const cx = cxs(style)
   const cxtwo = cxs(style)
-  t.is(cx, `cxs-${hashname}`)
+  // t.is(cx, `cxs-${hashname}`)
   t.is(cx, cxtwo) // Double-double checking
 })
 
@@ -44,40 +42,30 @@ test('has a glamor StyleSheet instance', t => {
 })
 
 test('Adds px unit to number values', t => {
-  const sx = {
+  cxs({
     fontSize: 32
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.regex(rules[0].cssText, /font-size:32px}$/)
+  })
+  t.regex(cxs.css(), /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
-  t.plan(2)
-  const sx = {
+  cxs({
     color: 'cyan',
     ':hover': {
       color: 'magenta'
     }
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.is(rules.length, 2)
-  t.regex(cxs.css, /:hover/)
+  })
+  t.regex(cxs.css(), /:hover/)
 })
 
 test('creates @media rules', t => {
-  t.plan(2)
-  const sx = {
+  const cx = cxs({
     color: 'cyan',
     '@media screen and (min-width:32em)': {
       color: 'magenta'
     }
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.is(rules.length, 2)
-  t.regex(rules[1].cssText, /^@media/)
+  })
+  t.regex(cxs.css(), /@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -95,13 +83,14 @@ test('keeps @media rules order', t => {
     }
   }
   cxs(sx)
-  const rules = cxs.rules
+  const rules = cxs.sheet.rules().map(rule => rule.cssText)
   t.is(rules.length, 4)
-  t.regex(rules[1].cssText, /32/)
-  t.regex(rules[2].cssText, /48/)
-  t.regex(rules[3].cssText, /64/)
+  t.regex(rules[1], /32/)
+  t.regex(rules[2], /48/)
+  t.regex(rules[3], /64/)
 })
 
+/*
 test('creates @keyframe rules', t => {
   t.plan(2)
   cxs({
@@ -144,6 +133,7 @@ test('creates nested selectors', t => {
   t.regex(cxs.css, /h1/)
   t.regex(cxs.css, /a:hover/)
 })
+*/
 
 test('dedupes repeated styles', t => {
   const dupe = {
@@ -151,11 +141,10 @@ test('dedupes repeated styles', t => {
     fontSize: 32
   }
 
-  cxs(style)
   cxs(dupe)
   cxs(dupe)
 
-  t.is(cxs.rules.length, 2)
+  t.is(cxs.sheet.rules().length, 2)
 })
 
 test('handles array values', t => {
@@ -165,9 +154,10 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(cxs.css, /var/)
+  t.regex(cxs.css(), /var/)
 })
 
+/* Are these necessary?
 test('handles prefixed styles with array values', t => {
   t.pass(3)
   t.notThrows(() => {
@@ -191,13 +181,14 @@ test('handles prefixed styles (including ms) in keys', t => {
   t.regex(cxs.css, /\-webkit\-align-items/)
   t.regex(cxs.css, /\-ms\-flex-align/)
 })
+*/
 
 test('ignores null values', t => {
   cxs({
     color: 'tomato',
     padding: null
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('null'), false)
 })
 
@@ -207,7 +198,7 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('border'), true)
 })
 
@@ -219,10 +210,11 @@ test('should handle ::-moz-inner-focus', t => {
       padding: 0
     }
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('-moz-inner-focus'), true)
 })
 
+/*
 test('supports custom global selectors', t => {
   const cx = cxs('body', {
     margin: 0
@@ -231,4 +223,5 @@ test('supports custom global selectors', t => {
   t.is(cx, 'body')
   t.truthy(css.includes('margin:0'))
 })
+*/
 

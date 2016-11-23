@@ -2,7 +2,7 @@
 // yo-yo example
 
 import yo from 'yo-yo'
-import cxs from '../src'
+import cxs from '../src/atomic'
 import { createElement } from 'bel'
 import hyperx from 'hyperx'
 import pkg from '../package.json'
@@ -263,7 +263,6 @@ const View = (store) => {
 
   return h`
     <div className=${cx.root}>
-      ${Header()}
       ${Readme()}
       ${Css()}
     </div>
