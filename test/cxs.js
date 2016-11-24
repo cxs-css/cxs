@@ -30,10 +30,10 @@ test('returns a classname', t => {
 })
 
 test('returns a consistent hashed classname', t => {
-  // const hashname = hash(JSON.stringify(style), 128)
-  const cx = cxs(style)
-  const cxtwo = cxs(style)
-  // t.is(cx, `cxs-${hashname}`)
+  const hashname = hash('colorblue')
+  const cx = cxs({ color: 'blue' })
+  const cxtwo = cxs({ color: 'blue' })
+  t.is(cx, '_' + hashname)
   t.is(cx, cxtwo) // Double-double checking
 })
 
@@ -51,7 +51,7 @@ test('Adds px unit to number values', t => {
 test('creates pseudoclass rules', t => {
   cxs({
     color: 'cyan',
-    ':hover': {
+    '&:hover': {
       color: 'magenta'
     }
   })
@@ -65,7 +65,6 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   })
-  console.log(cxs.css())
   t.regex(cxs.css(), /@media/)
 })
 
@@ -109,9 +108,11 @@ test('creates @keyframe rules', t => {
       }
     }
   })
-  t.regex(cxs.css, /@keyframes rainbow { from/)
+  console.log(cxs.css())
+  t.regex(cxs.css(), /@keyframes rainbow { from/)
   t.false(/@keyframes.*@keyframes/.test(cxs.css))
 })
+*/
 
 test('creates nested selectors', t => {
   t.plan(4)
@@ -119,11 +120,11 @@ test('creates nested selectors', t => {
   t.notThrows(() => {
     cx = cxs({
       color: 'blue',
-      'h1': {
+      '& h1': {
         fontSize: 32,
-        'a': {
+        '& a': {
           color: 'inherit',
-          ':hover': {
+          '&:hover': {
             textDecoration: 'underline'
           }
         }
@@ -131,10 +132,9 @@ test('creates nested selectors', t => {
     })
   })
   t.false(/h1/.test(cx))
-  t.regex(cxs.css, /h1/)
-  t.regex(cxs.css, /a:hover/)
+  t.regex(cxs.css(), /h1/)
+  t.regex(cxs.css(), /a:hover/)
 })
-*/
 
 test('dedupes repeated styles', t => {
   const dupe = {
@@ -159,6 +159,7 @@ test('handles array values', t => {
 })
 
 /* Are these necessary?
+*/
 test('handles prefixed styles with array values', t => {
   t.pass(3)
   t.notThrows(() => {
@@ -167,8 +168,8 @@ test('handles prefixed styles with array values', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css, /\-webkit\-flex/)
-  t.regex(cxs.css, /\-ms\-flexbox/)
+  t.regex(cxs.css(), /\-webkit\-flex/)
+  t.regex(cxs.css(), /\-ms\-flexbox/)
 })
 
 test('handles prefixed styles (including ms) in keys', t => {
@@ -179,10 +180,9 @@ test('handles prefixed styles (including ms) in keys', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css, /\-webkit\-align-items/)
-  t.regex(cxs.css, /\-ms\-flex-align/)
+  t.regex(cxs.css(), /\-webkit\-align-items/)
+  t.regex(cxs.css(), /\-ms\-flex-align/)
 })
-*/
 
 test('ignores null values', t => {
   cxs({
@@ -206,7 +206,7 @@ test('handles 0 values', t => {
 test('should handle ::-moz-inner-focus', t => {
   cxs({
     color: 'tomato',
-    '::-moz-inner-focus': {
+    '&::-moz-inner-focus': {
       border: 0,
       padding: 0
     }
@@ -215,14 +215,14 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css.includes('-moz-inner-focus'), true)
 })
 
-/*
 test('supports custom global selectors', t => {
   const cx = cxs('body', {
-    margin: 0
+    margin: 0,
+    lineHeight: 1.5
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(cx, 'body')
   t.truthy(css.includes('margin:0'))
+  t.truthy(css.includes('line-height:1.5'))
 })
-*/
 
