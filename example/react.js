@@ -6,8 +6,13 @@ import cxs from '../src' // '../src/optimized'
 const App = () => {
   return (
     <div className={cx.root}>
-      <h1 className={cx.heading}>Hello cxs</h1>
-      <p className={cx.text}>This section is rendered with React, using the cxs module</p>
+      <h1 className={cx.heading}>ϟ cxs</h1>
+      <p className={cx.text}>
+        Functional CSS for functional UI components
+      </p>
+      <pre>
+        {`const className = cxs({ color: 'tomato' })`}
+      </pre>
     </div>
   )
 }
@@ -25,6 +30,7 @@ const cx = {
     animationTimingFunction: 'linear',
     animationIterationCount: 'infinite',
     // To do, handle this somehow
+    /*
     '@keyframes rainbow': {
       '0%': {
         color: 'cyan',
@@ -36,6 +42,7 @@ const cx = {
         color: 'cyan',
       }
     }
+    */
   }),
   heading: cxs({
     fontSize: 48,

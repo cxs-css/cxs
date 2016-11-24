@@ -1,15 +1,22 @@
 
-import addPx from 'add-px-to-style'
 import sheet from './sheet'
-// replace with abbr
 import hash from './hash'
 import shorthands from './shorthands'
+import {
+  isArr,
+  isObj,
+  parseValue,
+  clean,
+  kebab,
+  dot,
+  flattenArray,
+  flattenArrayValues,
+} from './util'
 
 export const cache = []
 
 // Insert rule into stylesheet and cache
 const insert = rule => {
-  console.log(rule.className, rule.css)
   if (cache.indexOf(rule.className) > -1) {
     return
   }
@@ -33,31 +40,6 @@ const getStringArgs = (a = [], b) => {
   return a
 }
 
-// Utils
-const isArr = n => Array.isArray(n)
-const isObj = n => typeof n === 'object' && n !== null && !isArr(n)
-
-const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : val
-
-const clean = (str) => ('' + str)
-  .replace(/[\(\)]/g, '')
-  .replace(/[%.]/g, 'p')
-  .replace(/[&#,]/g, '')
-  .replace(/@/g, '_')
-  .replace(/[\:"\s]/g, '-')
-  .replace(/^-+/, '')
-
-const kebab = (str) => ('' + str)
-  .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
-
-const dot = str => '.' + str
-
-const createHashedClassName = (prop, value, prefix) => {
-  const base = [ prop, clean(value) ].join('')
-  const name = prefix ? clean(prefix) + base : base
-  return '_' + hash(name)
-}
-
 const abbr = (str) => str
   .split('-')
   .map(c => c.charAt(0))
@@ -74,17 +56,10 @@ const createClassName = (prop, value, prefix) => {
   ].filter(p => !!p)
   .join('-')
 
-  // return parts
   // Hash long classnames
   const className = parts.length < 16 ? parts : '_' + hash(parts)
   return className
 }
-
-const flattenArray = (a = [], b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
-
-const flattenArrayValues = (a = [], b) => isArr(b.value)
-  ? [ ...a, ...b.value.map(val => ({...b, value: val })) ]
-  : [ ...a, b ]
 
 // Creates a flat array for micro rulesets
 const createStylesArray = (style, root) => (

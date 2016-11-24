@@ -1,4 +1,6 @@
 
-import './yo-yo'
 import './react'
+
+// Get rid of this?
+import './yo-yo'
 
