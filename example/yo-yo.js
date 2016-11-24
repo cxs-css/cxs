@@ -11,6 +11,7 @@ import readme from '../README.md'
 const cxsCreateElement = (tag, props, children) => {
   if (props.css && typeof props.css === 'object') {
     props.className = cxs(props.css)
+    delete props.css
   }
   return createElement(tag, props, children)
 }
@@ -245,7 +246,7 @@ const Css = () => {
   return h`
     <div css=${cx.root}>
       <h4>Generated CSS for this page</h4>
-      <pre css=${cx.pre}>${css.length}\n${css}</pre>
+      <pre css=${cx.pre}>${css.length} bytes\n${css}</pre>
     </div>
   `
 }

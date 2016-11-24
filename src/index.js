@@ -3,11 +3,13 @@ import addPx from 'add-px-to-style'
 import sheet from './sheet'
 // replace with abbr
 import hash from './hash'
+import shorthands from './shorthands'
 
 export const cache = []
 
 // Insert rule into stylesheet and cache
 const insert = rule => {
+  console.log(rule.className, rule.css)
   if (cache.indexOf(rule.className) > -1) {
     return
   }
@@ -39,20 +41,43 @@ const parseValue = (prop, val) => typeof val === 'number' ? addPx(prop, val) : v
 
 const clean = (str) => ('' + str)
   .replace(/[\(\)]/g, '')
-  .replace(/%/g, 'p')
-  .replace(/[#\:]/g, '')
+  .replace(/[%.]/g, 'p')
+  .replace(/[&#,]/g, '')
   .replace(/@/g, '_')
-  .replace(/[.,\:"\s]/g, '-')
+  .replace(/[\:"\s]/g, '-')
+  .replace(/^-+/, '')
 
 const kebab = (str) => ('' + str)
   .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
 
 const dot = str => '.' + str
 
-const createClassName = (prop, value, prefix) => {
-  const base = [ prop, clean(value) ].join('') // + '-' + clean(kebab(value))
+const createHashedClassName = (prop, value, prefix) => {
+  const base = [ prop, clean(value) ].join('')
   const name = prefix ? clean(prefix) + base : base
   return '_' + hash(name)
+}
+
+const abbr = (str) => str
+  .split('-')
+  .map(c => c.charAt(0))
+  .join('')
+
+const createClassName = (prop, value, prefix) => {
+  const base = (shorthands.includes(prop)
+    ? abbr(prop)
+    : prop).replace(/^-/, '')
+  const parts = [
+    prefix ? clean(prefix) : null,
+    base,
+    clean(value)
+  ].filter(p => !!p)
+  .join('-')
+
+  // return parts
+  // Hash long classnames
+  const className = parts.length < 16 ? parts : '_' + hash(parts)
+  return className
 }
 
 const flattenArray = (a = [], b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
@@ -121,7 +146,6 @@ const createRule = ({ key, value, root }) => {
 // Create monolithic, global rule
 // Does not support nesting, media queries, or pseudoclass objects
 const createMonolithicRule = (selectors, styles) => {
-  console.log(selectors, styles)
   const selector = selectors.join(', ')
   const declarations = styles.map(s => {
     const prop = kebab(s.key)
@@ -130,7 +154,6 @@ const createMonolithicRule = (selectors, styles) => {
   })
   const rule = `${selector}{${declarations.join(';')}}`
 
-  console.log(selector)
   return {
     className: selector,
     css: rule

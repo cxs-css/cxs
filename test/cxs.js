@@ -29,11 +29,21 @@ test('returns a classname', t => {
   t.is(typeof cx, 'string')
 })
 
+/*
 test('returns a consistent hashed classname', t => {
   const hashname = hash('colorblue')
   const cx = cxs({ color: 'blue' })
   const cxtwo = cxs({ color: 'blue' })
   t.is(cx, '_' + hashname)
+  t.is(cx, cxtwo) // Double-double checking
+})
+*/
+
+test('returns a consistent micro classname', t => {
+  const name = 'c-blue'
+  const cx = cxs({ color: 'blue' })
+  const cxtwo = cxs({ color: 'blue' })
+  t.is(cx, name)
   t.is(cx, cxtwo) // Double-double checking
 })
 
@@ -131,7 +141,7 @@ test('creates nested selectors', t => {
       }
     })
   })
-  t.false(/h1/.test(cx))
+  t.true(/h1/.test(cx))
   t.regex(cxs.css(), /h1/)
   t.regex(cxs.css(), /a:hover/)
 })
