@@ -24,6 +24,7 @@ const cx = {
     animationDuration: '16s',
     animationTimingFunction: 'linear',
     animationIterationCount: 'infinite',
+    // To do, handle this somehow
     '@keyframes rainbow': {
       '0%': {
         color: 'cyan',
@@ -45,8 +46,7 @@ const cx = {
       fontSize: 72
     }
   }),
-  text: cxs({
-  })
+  text: cxs({})
 }
 
 ReactDOM.render(<App />, reactApp)

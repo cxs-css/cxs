@@ -9,8 +9,8 @@ import pkg from '../package.json'
 import readme from '../README.md'
 
 const cxsCreateElement = (tag, props, children) => {
-  if (props.className && typeof props.className === 'object') {
-    props.className = cxs(props.className)
+  if (props.css && typeof props.css === 'object') {
+    props.className = cxs(props.css)
   }
   return createElement(tag, props, children)
 }
@@ -38,7 +38,7 @@ const store = {
 
 const Button = ({
   text,
-  className,
+  css,
   inverse,
   ...props
 }) => {
@@ -56,21 +56,21 @@ const Button = ({
     textDecoration: 'none',
     color: inverse ? 'black' : 'white',
     backgroundColor: inverse ? 'cyan' : 'black',
-    ...className,
-    ':hover': {
+    ...css,
+    '&:hover': {
       boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .125)'
     }
   }
 
   if (props.href) {
     return h`
-      <a className=${cx} ${props}>
+      <a css=${cx} ${props}>
         ${text}
       </a>
     `
   } else {
     return h`
-      <button className=${cx} ${props}>
+      <button css=${cx} ${props}>
         ${text}
       </button>
     `
@@ -110,17 +110,17 @@ const Video = ({
     }
   }
   return h`
-    <div className=${cx.root}>
-      <div className=${cx.container}>
-        <div className=${cx.inner}>
-          <iframe className=${cx.iframe}
+    <div css=${cx.root}>
+      <div css=${cx.container}>
+        <div css=${cx.inner}>
+          <iframe css=${cx.iframe}
             width='420' height='315'
             src='http://www.youtube.com/embed/PrZZfaDp02o?rel=0&amp;controls=0&amp;showinfo=0'
             frameborder='0' allowfullscreen></iframe>
         </div>
       </div>
       ${children}
-      <div className=${cx.children}>
+      <div css=${cx.children}>
       </div>
     </div>
   `
@@ -159,13 +159,13 @@ const Header = () => {
 
   return h`
     <header>
-      <div className=${cx.inner}>
-        <h1 className=${cx.title}>cxs</h1>
+      <div css=${cx.inner}>
+        <h1 css=${cx.title}>cxs</h1>
         <br />
-        <p className=${cx.description}>${pkg.description}</p>
+        <p css=${cx.description}>${pkg.description}</p>
         <br />
         ${Button({
-          className: cx.button,
+          css: cx.button,
           inverse: 'true',
           href: 'https://github.com/jxnblk/cxs',
           text: 'GitHub'
@@ -183,26 +183,26 @@ const Readme = () => {
     padding: 32,
     maxWidth: 640,
     margin: 'auto',
-    h1: {
+    '& h1': {
       fontSize: 32,
       fontWeight: 500,
       lineHeight: 1,
       marginBottom: 32
     },
-    h2: {
+    '& h2': {
       marginTop: 48
     },
-    h3: {
+    '& h3': {
       marginTop: 32
     },
-    a: {
+    '& a': {
       color: '#07c'
     },
-    code: {
+    '& code': {
       fontFamily: mono,
       fontSize: '.875rem'
     },
-    pre: {
+    '& pre': {
       fontFamily: mono,
       fontSize: '.875rem',
       padding: 16,
@@ -212,7 +212,7 @@ const Readme = () => {
   }
 
   const root = h`
-    <div className=${cx}></div>
+    <div css=${cx}></div>
   `
 
   root.innerHTML = readme
@@ -243,9 +243,9 @@ const Css = () => {
     .replace(/}/g, '}\n')
 
   return h`
-    <div className=${cx.root}>
+    <div css=${cx.root}>
       <h4>Generated CSS for this page</h4>
-      <pre className=${cx.pre}>${css.length}\n${css}</pre>
+      <pre css=${cx.pre}>${css.length}\n${css}</pre>
     </div>
   `
 }
@@ -258,7 +258,7 @@ const View = (store) => {
   }
 
   return h`
-    <div className=${cx.root}>
+    <div css=${cx.root}>
       ${Header()}
       ${Readme()}
       ${Css()}
@@ -276,3 +276,4 @@ const tree = View(store)
 store.subscribe(update)
 
 yoApp.appendChild(tree)
+

@@ -11,15 +11,14 @@ cxs is a css-in-js solution to dynamically create stylesheets with a functional 
 ---
 
 ## Utility Notes
-- 100% utility style approach
-- Every declaration becomes its own rule
-- `<prop>-<value>` string is hashed to create classname
-- `<pseudo>-<prop>-<value>`
-- `<media>-<prop>-<value>`
-- X should this handle nested selectors at all?
-- X cache of hashed classnames
-- X (source order) needs to account for ordering of shorthand vs normal properties
-- ~ account for media query ordering - declaration order might be fine
+
+## Atomic mode
+
+```js
+import cxs from 'cxs/atomic'
+
+const className = cxs({ color: 'tomato' })
+```
 
 ---
 
@@ -66,7 +65,7 @@ const Button = ({ text, onclick }) => {
     color: 'white',
     backgroundColor: '#07c',
     // Pseudo classes and @media queries work as well.
-    ':hover': {
+    '&:hover': {
       backgroundColor: '#06b'
     },
     '@media screen and (min-width:40em)': {
@@ -152,19 +151,12 @@ cxs('body', {
 // Returns a hashed className string and creates CSS rules for style objects
 const className = cxs({ color: 'tomato' })
 
-// An array of attached CSS rules
-const rules = cxs.rules
-
 // A CSS string of attached rules. Useful for server-side rendering
-const css = cxs.css
+const css = cxs.css()
 
 // The threepointone/glamor StyleSheet instance
 // See https://github.com/threepointone/glamor
 cxs.sheet
-
-// Clears the internally used cache.
-// Normally, this doesn't need to be called.
-cxs.clear()
 
 // Clear the cache and flush the glamor stylesheet.
 // This is useful for cleaning up in server-side contexts.
@@ -205,6 +197,8 @@ cxs will not add that ruleset to the stylesheet again, unless the `cxs.clear()` 
 
 - [glamor](https://github.com/threepointone/glamor)
 - [react-cxs](https://github.com/jxnblk/react-cxs)
+- [cxs-components](https://github.com/jxnblk/cxs-components)
+- [Axs](https://github.com/jxnblk/Axs)
 - [hyp](https://github.com/jxnblk/hyp)
 
 ### Other CSS-in-JS options

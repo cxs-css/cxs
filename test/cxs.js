@@ -158,8 +158,6 @@ test('handles array values', t => {
   t.regex(cxs.css(), /var/)
 })
 
-/* Are these necessary?
-*/
 test('handles prefixed styles with array values', t => {
   t.pass(3)
   t.notThrows(() => {
