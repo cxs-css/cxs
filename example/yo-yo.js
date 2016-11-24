@@ -131,9 +131,9 @@ const Header = () => {
     inner: {
       display: 'inline-block',
       maxWidth: 384,
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
+      // position: 'absolute',
+      // top: '50%',
+      // transform: 'translateY(-50%)',
       padding: 48,
       color: 'white'
     },
@@ -159,22 +159,18 @@ const Header = () => {
 
   return h`
     <header>
-      ${Video({
-        children: h`
-          <div className=${cx.inner}>
-            <h1 className=${cx.title}>cxs</h1>
-            <br />
-            <p className=${cx.description}>${pkg.description}</p>
-            <br />
-            ${Button({
-              className: cx.button,
-              inverse: 'true',
-              href: 'https://github.com/jxnblk/cxs',
-              text: 'GitHub'
-            })}
-          </div>
-        `
-      })}
+      <div className=${cx.inner}>
+        <h1 className=${cx.title}>cxs</h1>
+        <br />
+        <p className=${cx.description}>${pkg.description}</p>
+        <br />
+        ${Button({
+          className: cx.button,
+          inverse: 'true',
+          href: 'https://github.com/jxnblk/cxs',
+          text: 'GitHub'
+        })}
+      </div>
     </header>
   `
 }

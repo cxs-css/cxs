@@ -1,10 +1,10 @@
 
 import test from 'ava'
-import hash from 'murmurhash-js/murmurhash3_gc'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs from '../src'
+import hash from '../src/hash'
 
 jsdom('<html></html>')
 
@@ -65,6 +65,7 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   })
+  console.log(cxs.css())
   t.regex(cxs.css(), /@media/)
 })
 

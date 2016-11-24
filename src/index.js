@@ -19,7 +19,6 @@ const cxs = (style) => {
     .filter(rule => !!rule)
 
   const classNames = rules
-    // .filter(rule => rule.className) // Do any rules not have a className?
     .map(rule => rule.className)
 
   inject(rules)
@@ -27,16 +26,10 @@ const cxs = (style) => {
   return classNames.join(' ')
 }
 
-cxs.sheet = sheet
-
-export const clear = () => {
+export const reset = () => {
   while (cache.length) {
     cache.pop()
   }
-}
-
-export const reset = () => {
-  cxs.clear()
   cxs.sheet.flush()
 }
 
@@ -46,7 +39,7 @@ export const css = () => {
     .join('')
 }
 
-cxs.clear = clear
+cxs.sheet = sheet
 cxs.reset = reset
 cxs.css = css
 

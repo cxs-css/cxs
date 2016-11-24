@@ -19,15 +19,11 @@ const createStylesArray = (obj, parent) => {
     }) : style)
     .map(style => (
       !isArr(style.value) && isObj(style.value)
-        ?  createStylesArray(style.value, style.key)
+        ? createStylesArray(style.value, style.key)
         : style
     ))
     .reduce(flattenArray, [])
     .reduce(flattenArrayValues, [])
-    .map(style => ({
-      ...style,
-      value: parseValue(style.key, style.value)
-    }))
 }
 
 const flattenArray = (a, b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
@@ -36,8 +32,13 @@ const flattenArrayValues = (a, b) => isArr(b.value)
   ? [ ...a, ...b.value.map(val => ({...b, value: val })) ]
   : [ ...a, b ]
 
-const createRule = (selector, prop, value, parent) => {
-  const rule = `${selector}{${prop}:${value}}`
+const createRule = (style) => {
+  const { key, value, parent } = style
+  const prop = kebab(key)
+  const className = createClassName(prop, value, parent)
+  const cssValue = parseValue(key, value)
+  const selector = dot(className)
+  const rule = `${selector}{${prop}:${cssValue}}`
   if (parent) {
     return `${parent}{${rule}}`
   }
@@ -45,9 +46,10 @@ const createRule = (selector, prop, value, parent) => {
   return rule
 }
 
-const createMediaRule = (prop, value, media) => {
-  const className = createClassName(prop, value, media)
-  const css = createRule(dot(className), prop, value, media)
+/*
+const createMediaRule = ({ prop, cssValue, value, parent }) => {
+  const className = createClassName(prop, value, parent)
+  const css = createRule(dot(className), prop, value, parent)
   return { className, css }
 }
 
@@ -62,25 +64,15 @@ const createNestedRule = (prop, value, selector) => {
   const css = createRule(dot(className) + ' ' + selector, prop, value)
   return { className, css }
 }
+*/
 
-const createRules = (style, prefix) => {
-  const styles = createStylesArray(style)
+const createRules = (originalStyle, prefix) => {
+  const styles = createStylesArray(originalStyle)
 
-  const rules = styles.map(({ key, value, parent }) => {
-    const prop = kebab(key)
-    if (parent) {
-      if (/^@media/.test(parent)) {
-        return createMediaRule(prop, value, parent)
-      }
-      if (/^:/.test(parent)) {
-        return createPseudoRule(prop, value, parent)
-      }
-      return createNestedRule(prop, value, parent)
-    }
-
-    const className = createClassName(prop, value)
-    const css = createRule(dot(className), prop, value)
-
+  const rules = styles.map((style) => {
+    const { key, value, parent } = style
+    const css = createRule(style)
+    const className = createClassName(key, value, parent)
     return { className, css }
   })
 
