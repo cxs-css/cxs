@@ -1,7 +1,6 @@
 
 import sheet from './sheet'
 import hash from './hash'
-import shorthands from './shorthands'
 import {
   isArr,
   isObj,
@@ -12,6 +11,7 @@ import {
   flattenArray,
   flattenArrayValues,
 } from './util'
+import shorthands from './shorthands'
 
 export const cache = []
 

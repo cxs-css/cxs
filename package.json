@@ -43,13 +43,7 @@
   },
   "dependencies": {
     "add-px-to-style": "^1.0.0",
-    "glamor": "^2.17.14",
-    "hash-string": "^1.0.0",
-    "hasha": "^2.2.0",
-    "hashids": "^1.1.1",
-    "jhash": "^0.1.10",
-    "murmurhash-js": "^1.0.0",
-    "shorthash": "0.0.2"
+    "glamor": "^2.17.14"
   },
   "ava": {
     "require": [

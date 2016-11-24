@@ -4,7 +4,7 @@ import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs from '../src'
-import hash from '../src/hash'
+// import hash from '../src/hash'
 
 jsdom('<html></html>')
 
@@ -28,16 +28,6 @@ test('returns a classname', t => {
   const cx = cxs(style)
   t.is(typeof cx, 'string')
 })
-
-/*
-test('returns a consistent hashed classname', t => {
-  const hashname = hash('colorblue')
-  const cx = cxs({ color: 'blue' })
-  const cxtwo = cxs({ color: 'blue' })
-  t.is(cx, '_' + hashname)
-  t.is(cx, cxtwo) // Double-double checking
-})
-*/
 
 test('returns a consistent micro classname', t => {
   const name = 'c-blue'
