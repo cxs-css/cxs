@@ -22,47 +22,29 @@ class Carbon extends React.Component {
 const cx = cxs({
   width: 320,
   height: 118,
-  // padding: 8,
-  // borderRadius: 2,
-  // border: '1px solid gray',
-  backgroundColor: '#eee',
   '& #carbonads': {
-    display: 'inline-block',
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 1.25,
     textAlign: 'left',
     maxWidth: 320,
-    // backgroundColor: 'white',
+    '& > span': {
+      display: 'block'
+    },
     '& a': {
       textDecoration: 'none',
       color: 'inherit',
       ':hover': {}
     },
-    '& > span': {
-      display: 'block',
-      '&:before': {
-        content: '""',
-        display: 'table'
-      },
-      '&:after': {
-        content: '""',
-        display: 'table',
-        clear: 'both'
-      },
+    '& .carbon-wrap': {
+      display: 'flex',
+      alignItems: 'flex-start'
     },
-    '&.carbon-img': {
-      float: 'left',
-      marginRight: 8,
-      '& > img': {
-        display: 'block'
-      }
-    },
-    '& .carbon-text': {
-      overflow: 'hidden'
+    '& .carbon-img': {
+      marginRight: 8
     },
     '& .carbon-poweredby': {
-      float: 'left',
-      marginTop: 4,
+      float: 'right',
+      textAlign: 'right',
       opacity: .5
     }
   }

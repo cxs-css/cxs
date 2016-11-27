@@ -1,6 +1,7 @@
 
 import React from 'react'
 import cxs from 'cxs'
+import classnames from './classnames'
 
 const text = encodeURI(`
 cxs: functional CSS for functional UI
@@ -8,8 +9,8 @@ cxs: functional CSS for functional UI
 
 const href = 'https://twitter.com/intent/tweet?text=' + text
 
-const Tweet = () => (
-  <div className={cx}>
+const Tweet = ({ className }) => (
+  <div className={classnames(cx, className)}>
     <a
       className='twitter-share-button'
       href={href}
@@ -21,7 +22,8 @@ const Tweet = () => (
 
 const cx = cxs({
   fontSize: 12,
-  width: 61
+  width: 61,
+  height: 20,
 })
 
 export default Tweet

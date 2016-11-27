@@ -15,10 +15,10 @@ const Header = () => {
       <Box>
         <nav className={cx.nav}>
           <h1 className={cx.title}>Cxs</h1>
-          <Travis />
-          <Standard />
-          <Star />
-          <Tweet />
+          <Travis className={cx.navLink} />
+          <Standard className={cx.navLink} />
+          <Star className={cx.navLink} />
+          <Tweet className={cx.navLink} />
         </nav>
         <Box className={cx.box}>
           <pre className={cx.pre}
@@ -42,13 +42,14 @@ const cx = {
   }),
   nav: cxs({
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    color: colors.primary,
-    paddingBottom: 8,
-    // padding: 48
+    marginLeft: -8,
+    marginRight: -8,
+    paddingBottom: 8
   }),
   title: cxs({
-    margin: 0,
+    margin: 8,
     marginRight: 'auto',
     fontSize: 20,
     textTransform: 'uppercase',
@@ -61,11 +62,11 @@ const cx = {
     display: 'flex',
     alignItems: 'center',
     minHeight: '60vh',
-    color: 'white',
     backgroundColor: colors.primary
   }),
   pre: cxs({
     fontFamily: 'Menlo, monospace',
+    overflow: 'auto'
   }),
   footer: cxs({
     display: 'flex',
@@ -76,8 +77,12 @@ const cx = {
   description: cxs({
     fontSize: 20,
     fontWeight: 'bold',
-    margin: 0,
+    marginTop: 0,
+    marginBottom: 0,
     marginRight: 'auto'
+  }),
+  navLink: cxs({
+    margin: 8
   })
 }
 

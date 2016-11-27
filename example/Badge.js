@@ -1,10 +1,11 @@
 
 import React from 'react'
 import cxs from 'cxs'
+import classnames from './classnames'
 
-const Badge = ({ href, img }) => (
+const Badge = ({ href, img, className }) => (
   <a href={href}
-    className={cx.root}>
+    className={classnames(cx.root, className)}>
     <img
       className={cx.img}
       src={img} />

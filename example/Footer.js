@@ -23,6 +23,7 @@ const cx = {
   root: cxs({
     display: 'flex',
     alignItems: 'baseline',
+    marginBottom: 48
   }),
   link: cxs({
     marginRight: 16

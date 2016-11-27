@@ -1,8 +1,9 @@
 
 import React from 'react'
 import cxs from 'cxs'
+import classnames from './classnames'
 
-export default props => (
+export default ({ className, ...props }) => (
   <iframe
     {...props}
     src='//ghbtns.com/github-btn.html?user=jxnblk&repo=cxs&type=star&count=true'
@@ -10,7 +11,7 @@ export default props => (
     scrolling='0'
     width='96px'
     height='20px'
-    className={cx}
+    className={classnames(cx, className)}
   />
 )
 
