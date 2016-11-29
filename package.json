@@ -9,6 +9,7 @@
     "gh-pages": "gh-pages -d example",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundle-size ./",
+    "bundlesize": "webpack --json | webpack-bundle-size-analyzer",
     "standard": "standard",
     "test-watch": "ava -v --watch",
     "test": "ava -v"
@@ -42,8 +43,7 @@
   },
   "dependencies": {
     "add-px-to-style": "^1.0.0",
-    "glamor": "^2.17.14",
-    "murmurhash-js": "^1.0.0"
+    "glamor": "^2.17.14"
   },
   "ava": {
     "require": [

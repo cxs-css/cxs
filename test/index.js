@@ -1,10 +1,10 @@
 
 import test from 'ava'
-import hash from 'murmurhash-js/murmurhash3_gc'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs from '../src'
+// import hash from '../src/hash'
 
 jsdom('<html></html>')
 
@@ -15,8 +15,7 @@ const style = {
 }
 
 test.beforeEach(() => {
-  cxs.sheet.flush()
-  cxs.clear()
+  cxs.reset()
 })
 
 test('does not throw', t => {
@@ -30,12 +29,11 @@ test('returns a classname', t => {
   t.is(typeof cx, 'string')
 })
 
-test('returns a consistent hashed classname', t => {
-  t.plan(2)
-  const hashname = hash(JSON.stringify(style), 128)
-  const cx = cxs(style)
-  const cxtwo = cxs(style)
-  t.is(cx, `cxs-${hashname}`)
+test('returns a consistent micro classname', t => {
+  const name = 'c-blue'
+  const cx = cxs({ color: 'blue' })
+  const cxtwo = cxs({ color: 'blue' })
+  t.is(cx, name)
   t.is(cx, cxtwo) // Double-double checking
 })
 
@@ -44,40 +42,30 @@ test('has a glamor StyleSheet instance', t => {
 })
 
 test('Adds px unit to number values', t => {
-  const sx = {
+  cxs({
     fontSize: 32
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.regex(rules[0].cssText, /font-size:32px}$/)
+  })
+  t.regex(cxs.css(), /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
-  t.plan(2)
-  const sx = {
+  cxs({
     color: 'cyan',
-    ':hover': {
+    '&:hover': {
       color: 'magenta'
     }
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.is(rules.length, 2)
-  t.regex(cxs.css, /:hover/)
+  })
+  t.regex(cxs.css(), /:hover/)
 })
 
 test('creates @media rules', t => {
-  t.plan(2)
-  const sx = {
+  const cx = cxs({
     color: 'cyan',
     '@media screen and (min-width:32em)': {
       color: 'magenta'
     }
-  }
-  cxs(sx)
-  const rules = cxs.rules
-  t.is(rules.length, 2)
-  t.regex(rules[1].cssText, /^@media/)
+  })
+  t.regex(cxs.css(), /@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -95,13 +83,14 @@ test('keeps @media rules order', t => {
     }
   }
   cxs(sx)
-  const rules = cxs.rules
+  const rules = cxs.sheet.rules().map(rule => rule.cssText)
   t.is(rules.length, 4)
-  t.regex(rules[1].cssText, /32/)
-  t.regex(rules[2].cssText, /48/)
-  t.regex(rules[3].cssText, /64/)
+  t.regex(rules[1], /32/)
+  t.regex(rules[2], /48/)
+  t.regex(rules[3], /64/)
 })
 
+/*
 test('creates @keyframe rules', t => {
   t.plan(2)
   cxs({
@@ -119,9 +108,11 @@ test('creates @keyframe rules', t => {
       }
     }
   })
-  t.regex(cxs.css, /@keyframes rainbow { from/)
+  console.log(cxs.css())
+  t.regex(cxs.css(), /@keyframes rainbow { from/)
   t.false(/@keyframes.*@keyframes/.test(cxs.css))
 })
+*/
 
 test('creates nested selectors', t => {
   t.plan(4)
@@ -129,20 +120,20 @@ test('creates nested selectors', t => {
   t.notThrows(() => {
     cx = cxs({
       color: 'blue',
-      'h1': {
+      '& h1': {
         fontSize: 32,
-        'a': {
+        '& a': {
           color: 'inherit',
-          ':hover': {
+          '&:hover': {
             textDecoration: 'underline'
           }
         }
       }
     })
   })
-  t.false(/h1/.test(cx))
-  t.regex(cxs.css, /h1/)
-  t.regex(cxs.css, /a:hover/)
+  t.true(/h1/.test(cx))
+  t.regex(cxs.css(), /h1/)
+  t.regex(cxs.css(), /a:hover/)
 })
 
 test('dedupes repeated styles', t => {
@@ -151,11 +142,10 @@ test('dedupes repeated styles', t => {
     fontSize: 32
   }
 
-  cxs(style)
   cxs(dupe)
   cxs(dupe)
 
-  t.is(cxs.rules.length, 2)
+  t.is(cxs.sheet.rules().length, 2)
 })
 
 test('handles array values', t => {
@@ -165,7 +155,7 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(cxs.css, /var/)
+  t.regex(cxs.css(), /var/)
 })
 
 test('handles prefixed styles with array values', t => {
@@ -176,8 +166,8 @@ test('handles prefixed styles with array values', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css, /\-webkit\-flex/)
-  t.regex(cxs.css, /\-ms\-flexbox/)
+  t.regex(cxs.css(), /\-webkit\-flex/)
+  t.regex(cxs.css(), /\-ms\-flexbox/)
 })
 
 test('handles prefixed styles (including ms) in keys', t => {
@@ -188,8 +178,8 @@ test('handles prefixed styles (including ms) in keys', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css, /\-webkit\-align-items/)
-  t.regex(cxs.css, /\-ms\-flex-align/)
+  t.regex(cxs.css(), /\-webkit\-align-items/)
+  t.regex(cxs.css(), /\-ms\-flex-align/)
 })
 
 test('ignores null values', t => {
@@ -197,7 +187,7 @@ test('ignores null values', t => {
     color: 'tomato',
     padding: null
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('null'), false)
 })
 
@@ -207,28 +197,30 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('border'), true)
 })
 
 test('should handle ::-moz-inner-focus', t => {
   cxs({
     color: 'tomato',
-    '::-moz-inner-focus': {
+    '&::-moz-inner-focus': {
       border: 0,
       padding: 0
     }
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(css.includes('-moz-inner-focus'), true)
 })
 
 test('supports custom global selectors', t => {
   const cx = cxs('body', {
-    margin: 0
+    margin: 0,
+    lineHeight: 1.5
   })
-  const css = cxs.css
+  const css = cxs.css()
   t.is(cx, 'body')
   t.truthy(css.includes('margin:0'))
+  t.truthy(css.includes('line-height:1.5'))
 })
 
