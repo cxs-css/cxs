@@ -44,6 +44,7 @@ const cx = {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    marginTop: -8,
     marginLeft: -8,
     marginRight: -8,
     paddingBottom: 8
