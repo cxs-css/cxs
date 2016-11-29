@@ -1,170 +1,147 @@
 
-import sheet from './sheet'
+import addPx from 'add-px-to-style'
 import hash from './hash'
-import {
-  isArr,
-  isObj,
-  parseValue,
-  clean,
-  kebab,
-  dot,
-  flattenArray,
-  flattenArrayValues,
-} from './util'
-import shorthands from './shorthands'
+import sheet from './sheet'
 
 export const cache = []
 
-// Insert rule into stylesheet and cache
-const insert = rule => {
-  if (cache.indexOf(rule.className) > -1) {
-    return
-  }
-  cache.push(rule.className)
-  sheet.insert(rule.css)
-}
+// Core function
+const createStyle = (style) => {
+  const hashname = hash(JSON.stringify(style))
+  const styles = createStylesArray(style)
+  const grouped = styles.reduce(group, {})
+  const rules = createRules(hashname, grouped)
 
-// Reducer to get style arguments
-const getObjectArgs = (a = {}, b) => {
-  if (isObj(b)) {
-    return Object.assign(a, b)
-  }
-  return a
-}
+  // console.log(JSON.stringify(grouped, null, 2))
+  // console.log(rules)
+  rules.forEach(insert)
 
-// Reducer to get selector arguments
-const getStringArgs = (a = [], b) => {
-  if (typeof b === 'string') {
-    return [ ...a, b ]
-  }
-  return a
-}
-
-const abbr = (str) => str
-  .split('-')
-  .map(c => c.charAt(0))
-  .join('')
-
-const createClassName = (prop, value, prefix) => {
-  const base = (shorthands.includes(prop)
-    ? abbr(prop)
-    : prop).replace(/^-/, '')
-  const parts = [
-    prefix ? clean(prefix) : null,
-    base,
-    clean(value)
-  ].filter(p => !!p)
-  .join('-')
-
-  // Hash long classnames
-  const className = parts.length < 16 ? parts : '_' + hash(parts)
+  const className = underscore(hashname)
   return className
 }
 
-// Creates a flat array for micro rulesets
-const createStylesArray = (style, root) => (
-  Object.keys(style)
-    .map(key => ({
-      key,
-      value: style[key]
-    }))
-    .filter(s => s.value !== null)
-    .map(s => root ? ({ ...s, root }) : s)
-    .map(s => isObj(s.value)
-      ? createStylesArray(s.value, interpolate(s.key, root))
-      : s
-    )
-    .reduce(flattenArray, [])
-    .reduce(flattenArrayValues, [])
-)
-
-const createRules = (selectors, style) => {
-  const styles = createStylesArray(style)
-  if (!selectors.length) {
-    return styles.map(createRule)
-  }
-  // Handle custom selectors
-  return [ createMonolithicRule(selectors, styles) ]
-}
-
-const interpolate = (key, parent) => {
-  if (!parent) return key
-  return key.replace(/&/, parent)
-}
-
-const createSelector = (className, root) => {
-  if (/&/.test(root)) {
-    return interpolate(root, dot(className))
-  }
-
-  return dot(className)
-}
-
-// Only handles microrules
-const createRule = ({ key, value, root }) => {
-  const prop = kebab(key)
-  const className = createClassName(prop, value, root) // prefix
-  const cssValue = parseValue(key, value)
-  const selector = createSelector(className, root)
-  const rule = `${selector}{${prop}:${cssValue}}`
-
-  if (/^@/.test(root)) {
-    return {
-      className,
-      css: `${root}{${rule}}`
+const createStylesArray = (style, keys = []) => {
+  return Object.keys(style).map(key => {
+    const value = style[key]
+    if (isObj(value)) {
+      // const roots = [ ...keys, key ]
+      return createStylesArray(value, [ ...keys, key ])
     }
-  }
 
-  return { className, css: rule }
+    const dec = {
+      key,
+      value
+    }
+
+    if (keys.length) {
+      dec.id = keys.join()
+      dec.parent = keys.reduce(getParent, null)
+      dec.selector = keys.reduce(getSelector, '')
+    }
+
+    return dec
+  }).reduce(flatten, [])
 }
 
-// Create monolithic, global rule
-// Does not support nesting, media queries, or pseudoclass objects
-const createMonolithicRule = (selectors, styles) => {
-  const selector = selectors.join(', ')
-  const declarations = styles.map(s => {
-    const prop = kebab(s.key)
-    const cssValue = parseValue(s.key, s.value)
-    return `${prop}:${cssValue}`
+// style.keys reducer
+const getParent = (a, b) => {
+  if (/^@/.test(b)) {
+    return b
+  }
+  return a
+}
+
+// style.keys reducer
+const getSelector = (a = '', b) => {
+  if (/^@/.test(b)) {
+    return a
+  } else if (/^:/.test(b)) {
+    return a + b
+    // to do: add support for & parent selector
+    // { else if (/&/.test(b)) {
+  } else {
+    return [a, b].join(' ')
+  }
+}
+
+// styles reducer
+const flatten = (a = [], b) =>
+  isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
+
+// styles reducer
+const group = (a = {}, b) => {
+  const { id, parent, selector } = b
+  if (!id) {
+    if (!a[0]) {
+      a[0] = {
+        selector: '',
+        declarations: []
+      }
+    }
+    a[0].declarations.push(b)
+  } else {
+    if (!a[id]) {
+      a[id] = {
+        selector,
+        parent,
+        declarations: []
+      }
+    }
+    a[id].declarations.push(b)
+  }
+  return a
+}
+
+// parse grouped styles
+const createRules = (hashname, styles) => {
+  const rules = Object.keys(styles).map(key => {
+    const { id, selector, declarations, parent } = styles[key]
+    const rule = createRule(dot(underscore(hashname)) + selector)(declarations)
+    const css = parent ? `${parent}{${rule}}` : rule
+
+    return {
+      id: hashname + '-' + key,
+      css
+    }
   })
-  const rule = `${selector}{${declarations.join(';')}}`
 
-  return {
-    className: selector,
-    css: rule
-  }
+  return rules
 }
 
-/*
- * Main exported function
- */
-const cxs = (...args) => {
-  const selectors = args.reduce(getStringArgs, [])
-  const style = args.reduce(getObjectArgs, {})
-  const rules = createRules(selectors, style)
+const createRule = (selector) => (declarations) => {
+  const body = declarations.map(({ key, value }) => {
+    const prop = hyphenate(key)
+    const val = addPx(key, value)
+    return `${prop}:${val}`
+  }).join(';')
+  return `${selector}{${body}}`
+}
 
-  const classNames = rules
-    .map(rule => rule.className)
+const dot = s => '.' + s
+const underscore = s => '_' + s
+const isArr = n => Array.isArray(n)
+const isObj = n => typeof n === 'object' && n !== null && !isArr(n)
 
-  rules.forEach(insert)
+const hyphenate = (str) => ('' + str)
+  .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
 
-  return classNames.join(' ')
+const insert = rule => {
+  if (cache.indexOf(rule.id) > -1) {
+    return
+  }
+  cache.push(rule.id)
+  sheet.insert(rule.css)
+  console.log(rule.css)
 }
 
 export const reset = () => {
-  while (cache.length) {
-    cache.pop()
-  }
+  while (cache.length) cache.pop()
   sheet.flush()
 }
 
 export const css = () => sheet.rules()
-  .map(rule => rule.cssText)
+  .map(r => r.cssText)
   .join('')
 
-cxs.sheet = sheet
-cxs.reset = reset
-cxs.css = css
-
-export default cxs
+export default createStyle
 

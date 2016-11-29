@@ -1,5 +1,5 @@
 
-const hash = (str) => {
+export default (str) => {
   let val = 5381
   let i = str.length
 
@@ -9,6 +9,4 @@ const hash = (str) => {
 
   return (val >>> 0).toString(36)
 }
-
-export default hash
 

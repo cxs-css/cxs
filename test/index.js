@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs from '../src'
+import cxs, { reset, css } from '../src'
 // import hash from '../src/hash'
 
 jsdom('<html></html>')
@@ -11,24 +11,42 @@ jsdom('<html></html>')
 const style = {
   color: 'tomato',
   display: 'flex',
-  fontSize: 32
+  fontSize: 32,
+  ':hover': {
+    color: 'red'
+  },
+  '@media screen and (min-width:32em)': {
+    color: 'blue',
+    ':hover': {
+      color: 'cyan'
+    }
+  },
+  'h1': {
+    textDecoration: 'underline',
+    fontSize: 48,
+    color: 'green'
+  }
 }
 
 test.beforeEach(() => {
-  cxs.reset()
+  reset()
 })
 
+/*
 test('does not throw', t => {
   t.notThrows(() => {
     cxs(style)
   })
 })
+*/
 
 test('returns a classname', t => {
   const cx = cxs(style)
   t.is(typeof cx, 'string')
+  console.log(css())
 })
 
+/*
 test('returns a consistent micro classname', t => {
   const name = 'c-blue'
   const cx = cxs({ color: 'blue' })
@@ -114,6 +132,7 @@ test('creates @keyframe rules', t => {
 })
 */
 
+/*
 test('creates nested selectors', t => {
   t.plan(4)
   let cx
@@ -224,3 +243,4 @@ test('supports custom global selectors', t => {
   t.truthy(css.includes('line-height:1.5'))
 })
 
+*/
