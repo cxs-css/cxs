@@ -7,19 +7,20 @@ import sheet from './sheet'
 export const cache = []
 
 // Core function
-const createStyle = (...args) => {
+const cxs = (...args) => {
   const selectors = args.reduce(getStringArgs, [])
+  const selector = selectors.length ? selectors.join(', ') : null
   const style = args.reduce(getObjectArgs, {})
   const hashname = hash(JSON.stringify(style))
   const styles = createStylesArray(style)
   const grouped = styles.reduce(group, {})
-  const rootSelector = selectors.length ? selectors.join(', ') : dot(underscore(hashname))
+  const rootSelector = selector || dot(underscore(hashname))
   const rules = createRules(rootSelector, grouped)
 
   rules.forEach(insert)
 
   const className = underscore(hashname)
-  return className
+  return selector || className
 }
 
 const createStylesArray = (style, keys = []) => {
@@ -41,7 +42,10 @@ const createStylesArray = (style, keys = []) => {
     }
 
     return dec
-  }).reduce(flatten, [])
+  })
+  .reduce(flatten, [])
+  .filter(style => style.value !== null)
+  .reduce(flattenArrayValues, [])
 }
 
 // style.keys reducer
@@ -68,6 +72,10 @@ const getSelector = (a = '', b) => {
 // styles reducer
 const flatten = (a = [], b) =>
   isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
+
+const flattenArrayValues = (a = [], b) => isArr(b.value)
+  ? [ ...a, ...b.value.map(val => ({...b, value: val })) ]
+  : [ ...a, b ]
 
 // styles reducer
 const group = (a = {}, b) => {
@@ -149,5 +157,10 @@ export const css = () => sheet.rules()
   .map(r => r.cssText)
   .join('')
 
-export default createStyle
+cxs.sheet = sheet
+cxs.css = css
+cxs.reset = reset
+
+export { default as sheet } from './sheet'
+export default cxs
 
