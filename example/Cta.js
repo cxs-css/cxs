@@ -41,7 +41,7 @@ const cx = {
     borderRadius: 8,
     color: '#fff',
     backgroundColor: colors.primary,
-    '&:hover': {
+    ':hover': {
       boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .25)'
     }
   }),

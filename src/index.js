@@ -1,4 +1,5 @@
 
+import assign from 'object-assign'
 import addPx from 'add-px-to-style'
 import hash from './hash'
 import sheet from './sheet'
@@ -6,14 +7,15 @@ import sheet from './sheet'
 export const cache = []
 
 // Core function
-const createStyle = (style) => {
+const createStyle = (...args) => {
+  const selectors = args.reduce(getStringArgs, [])
+  const style = args.reduce(getObjectArgs, {})
   const hashname = hash(JSON.stringify(style))
   const styles = createStylesArray(style)
   const grouped = styles.reduce(group, {})
-  const rules = createRules(hashname, grouped)
+  const rootSelector = selectors.length ? selectors.join(', ') : dot(underscore(hashname))
+  const rules = createRules(rootSelector, grouped)
 
-  // console.log(JSON.stringify(grouped, null, 2))
-  // console.log(rules)
   rules.forEach(insert)
 
   const className = underscore(hashname)
@@ -24,7 +26,6 @@ const createStylesArray = (style, keys = []) => {
   return Object.keys(style).map(key => {
     const value = style[key]
     if (isObj(value)) {
-      // const roots = [ ...keys, key ]
       return createStylesArray(value, [ ...keys, key ])
     }
 
@@ -93,14 +94,14 @@ const group = (a = {}, b) => {
 }
 
 // parse grouped styles
-const createRules = (hashname, styles) => {
+const createRules = (rootSelector, styles) => {
   const rules = Object.keys(styles).map(key => {
     const { id, selector, declarations, parent } = styles[key]
-    const rule = createRule(dot(underscore(hashname)) + selector)(declarations)
+    const rule = createRule(rootSelector + selector)(declarations)
     const css = parent ? `${parent}{${rule}}` : rule
 
     return {
-      id: hashname + '-' + key,
+      id: rootSelector + '-' + key,
       css
     }
   })
@@ -131,8 +132,13 @@ const insert = rule => {
   }
   cache.push(rule.id)
   sheet.insert(rule.css)
-  console.log(rule.css)
 }
+
+// Reducer to get style arguments
+const getObjectArgs = (a = {}, b) => isObj(b) ? assign(a, b) : a
+
+// Reducer to get selector arguments
+const getStringArgs = (a = [], b) => typeof b === 'string' ? [ ...a, b ] : a
 
 export const reset = () => {
   while (cache.length) cache.pop()

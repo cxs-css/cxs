@@ -43,7 +43,8 @@
   },
   "dependencies": {
     "add-px-to-style": "^1.0.0",
-    "glamor": "^2.17.14"
+    "glamor": "^2.17.14",
+    "object-assign": "^4.1.0"
   },
   "ava": {
     "require": [

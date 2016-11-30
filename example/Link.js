@@ -13,7 +13,7 @@ const cx = cxs({
   fontWeight: 'bold',
   color: colors.primary,
   textDecoration: 'none',
-  '&:hover': {
+  ':hover': {
     textDecoration: 'underline'
   }
 })
