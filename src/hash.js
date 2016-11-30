@@ -7,6 +7,6 @@ export default (str) => {
     val = (val * 33) ^ str.charCodeAt(--i)
   }
 
-  return (val >>> 0).toString(36)
+  return '_' + (val >>> 0).toString(36)
 }
 
