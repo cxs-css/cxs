@@ -6,7 +6,6 @@ import sheet from './sheet'
 
 export const cache = []
 
-// Core function
 const cxs = (...args) => {
   const selectors = args.reduce(getStringArgs, [])
   const selector = selectors.length ? selectors.join(', ') : null
@@ -17,46 +16,43 @@ const cxs = (...args) => {
   const rootSelector = selector || dot(underscore(hashname))
   const rules = createRules(rootSelector, grouped)
 
+  // WIP
+  // const stylesObj = createStylesObject(style)
+  // console.log(JSON.stringify(stylesObj, null, 2))
+
   rules.forEach(insert)
 
   const className = underscore(hashname)
   return selector || className
 }
 
-const createStylesArray = (style, keys = []) => {
-  return Object.keys(style).map(key => {
-    const value = style[key]
-    if (isObj(value)) {
-      return createStylesArray(value, [ ...keys, key ])
-    }
+const objToArr = obj => Object.keys(obj).map(key => ({
+  key,
+  value: obj[key]
+}))
 
-    const dec = {
-      key,
-      value
-    }
+const createStylesArray = (style, keys = []) => (
+  objToArr(style)
+    .filter(style => style.value !== null)
+    .map(parseNested(keys))
+    .map(createNestedStyle(keys))
+    .reduce(flatten, [])
+    .reduce(flattenArrayValues, [])
+)
 
-    if (keys.length) {
-      dec.id = keys.join()
-      dec.parent = keys.reduce(getParent, null)
-      dec.selector = keys.reduce(getSelector, '')
-    }
+const parseNested = (keys) => ({ key, value }) => isObj(value)
+  ? createStylesArray(value, [ ...keys, key ])
+  : ({ key, value })
 
-    return dec
-  })
-  .reduce(flatten, [])
-  .filter(style => style.value !== null)
-  .reduce(flattenArrayValues, [])
-}
+const createNestedStyle = (keys) => (style) => keys.length ?
+  assign(style, {
+    id: keys.join('-'),
+    parent: keys.reduce(getParent, null),
+    selector: keys.reduce(getSelector, '')
+  }) : style
 
-// style.keys reducer
-const getParent = (a, b) => {
-  if (/^@/.test(b)) {
-    return b
-  }
-  return a
-}
+const getParent = (a, b) => /^@/.test(b) ? b : a
 
-// style.keys reducer
 const getSelector = (a = '', b) => {
   if (/^@/.test(b)) {
     return a

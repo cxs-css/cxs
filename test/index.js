@@ -67,7 +67,7 @@ test('Adds px unit to number values', t => {
 test('creates pseudoclass rules', t => {
   cxs({
     color: 'cyan',
-    '&:hover': {
+    ':hover': {
       color: 'magenta'
     }
   })
@@ -218,7 +218,7 @@ test('handles 0 values', t => {
 test('should handle ::-moz-inner-focus', t => {
   cxs({
     color: 'tomato',
-    '&::-moz-inner-focus': {
+    '::-moz-inner-focus': {
       border: 0,
       padding: 0
     }
