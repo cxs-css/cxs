@@ -3,6 +3,11 @@ import assign from 'object-assign'
 import addPx from 'add-px-to-style'
 import hash from './hash'
 import sheet from './sheet'
+import {
+  isObj,
+  flatten,
+  flattenValues
+} from './util'
 
 export const cache = []
 
@@ -33,7 +38,7 @@ const createStylesArray = (style, keys = []) => (
     .map(parseNested(keys))
     .map(createNestedStyle(keys))
     .reduce(flatten, [])
-    .reduce(flattenArrayValues, [])
+    .reduce(flattenValues, [])
 )
 
 const getId = keys => keys.length ? keys.join('-') : 0
@@ -53,13 +58,6 @@ const getParent = (a, b) => /^@/.test(b) ? b : a
 const getSelector = (a, b) => /^@/.test(b)
   ? a : /^:/.test(b)
   ? a + b : a + ' ' + b
-
-const flatten = (a = [], b) =>
-  Array.isArray(b) ? [ ...a, ...b ] : [ ...a, b ]
-
-const flattenArrayValues = (a = [], b) => Array.isArray(b.value)
-  ? [ ...a, ...b.value.map(value => assign({}, b, { value })) ]
-  : [ ...a, b ]
 
 const group = (a = {}, b) => {
   const { id } = b
@@ -86,8 +84,6 @@ const createRule = (selector) => (declarations) => {
   )).join(';')
   return `${selector}{${body}}`
 }
-
-const isObj = n => typeof n === 'object' && n !== null && !Array.isArray(n)
 
 const hyphenate = (str) => ('' + str)
   .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
