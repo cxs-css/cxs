@@ -29,19 +29,14 @@ const objToArr = obj => Object.keys(obj).map(key => ({
 const createStylesArray = (style, keys = []) => (
   objToArr(style)
     .filter(({ value }) => value !== null)
-    /// .map(parseNested(keys))
-    .map(({ key, value }) => isObj(value)
-      ? createStylesArray(value, [ ...keys, key ])
-      : ({ key, value })
-    )
+    .map(parseNested(keys))
+    .map(createNestedStyle(keys))
     .map(style => {
-      console.log(JSON.stringify(style, null, 2))
+      console.log(JSON.stringify(style.selector, null, 2))
       return style
     })
-    .map(createNestedStyle(keys))
     .reduce(flatten, [])
     .reduce(flattenArrayValues, [])
-  // .reduce(group, {})
 )
 
 const getId = keys => keys.length ? keys.join('-') : 0
