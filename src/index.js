@@ -60,8 +60,12 @@ const getSelector = (a, b) => /^@/.test(b)
   ? a + b : a + ' ' + b
 
 const group = (a = {}, b) => {
-  const { id } = b
-  a[id] = a[id] || assign({}, b, { declarations: [] })
+  const { id, selector } = b
+  a[id] = a[id] || assign({}, b, {
+    // To do: Add selector before this step?
+    selector: selector || '',
+    declarations: []
+  })
   a[id].declarations.push(b)
   return a
 }
