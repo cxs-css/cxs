@@ -14,6 +14,7 @@ const cxs = (...args) => {
   const styles = createStylesArray(style)
   const grouped = styles.reduce(group, {})
   const rules = createRules(selector, grouped)
+  // console.log('ruled', JSON.stringify(rules, null, 2))
 
   rules.forEach(insert)
 
@@ -28,23 +29,36 @@ const objToArr = obj => Object.keys(obj).map(key => ({
 const createStylesArray = (style, keys = []) => (
   objToArr(style)
     .filter(({ value }) => value !== null)
-    .map(parseNested(keys))
+    /// .map(parseNested(keys))
+    .map(({ key, value }) => isObj(value)
+      ? createStylesArray(value, [ ...keys, key ])
+      : ({ key, value })
+    )
+    .map(style => {
+      console.log(JSON.stringify(style, null, 2))
+      return style
+    })
     .map(createNestedStyle(keys))
     .reduce(flatten, [])
     .reduce(flattenArrayValues, [])
+  // .reduce(group, {})
 )
 
 const getId = keys => keys.length ? keys.join('-') : 0
+
+const stripNull = obj => objToArr(obj)
+  .filter(({ value }) => value !== null)
+  .reduce((a, { key, value }) => ({ ...a, [key]: value }), {})
 
 const parseNested = (keys) => ({ key, value }) => isObj(value)
   ? createStylesArray(value, [ ...keys, key ])
   : ({ id: getId(keys), key, value })
 
 const createNestedStyle = (keys) => (style) => keys.length ?
-  assign(style, {
+  stripNull(assign(style, {
     parent: keys.reduce(getParent, null),
     selector: keys.reduce(getSelector, '')
-  }) : style
+  })) : style
 
 const getParent = (a, b) => /^@/.test(b) ? b : a
 
@@ -61,7 +75,7 @@ const flattenArrayValues = (a = [], b) => Array.isArray(b.value)
 
 const group = (a = {}, b) => {
   const { id, parent, selector } = b
-  a[id] = a[id] || assign(b, { declarations: [] })
+  a[id] = a[id] || { id, parent, selector, declarations: [] }
   a[id].declarations.push(b)
   return a
 }
