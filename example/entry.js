@@ -1,7 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import cxs from 'cxs/encapsulated'
+import cxs from 'cxs/monolithic'
 import { colors } from './config'
 import App from './App'
 

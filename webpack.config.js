@@ -11,7 +11,7 @@ const config = {
   },
   resolve: {
     alias: {
-      'cxs/encapsulated': path.join(__dirname, 'src/encapsulated'),
+      'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
       cxs: path.join(__dirname, 'src/atomic'),
     }
   },

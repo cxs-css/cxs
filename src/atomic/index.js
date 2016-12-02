@@ -11,14 +11,10 @@ import {
 import hash from '../hash'
 import {
   createStylesArray,
-  isArr,
   isObj,
   clean,
   hyphenate,
   dot,
-  objToArr,
-  flatten,
-  flattenValues,
 } from '../util'
 import shorthands from './shorthands'
 
