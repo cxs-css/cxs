@@ -1,18 +1,20 @@
 
 export const breakpoints = [
-  '40em',
+  '32em',
   '52em',
-  '64em',
+  '72em',
 ].map(b => `@media screen and (min-width: ${b})`)
 
 const black = '#004640'
-// const blue = '#07c'
+const blue = '#07c'
+const blue2 = '#0081dd'
 const cyan = '#0cb'
 
 export const colors = {
   black,
-  // blue,
+  blue,
+  blue2,
   cyan,
-  primary: cyan
+  primary: blue
 }
 

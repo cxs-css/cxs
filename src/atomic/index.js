@@ -29,7 +29,7 @@ const abbr = (str) => str
   .join('')
 
 const createClassName = (prop, value, prefix) => {
-  const base = (shorthands.includes(prop)
+  const base = (shorthands.indexOf(prop) > -1
     ? abbr(prop)
     : prop).replace(/^-/, '')
   const parts = combine('-')(

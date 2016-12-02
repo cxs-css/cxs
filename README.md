@@ -10,6 +10,9 @@ Functional CSS for functional UI components
 const className = cxs({ color: 'tomato' })
 ```
 
+Cxs is a functional CSS-in-JS solution that uses atomic styles
+to maximize deduplication and help with dead code elimination.
+
 ## Features
 
 - ~5KB

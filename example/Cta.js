@@ -5,7 +5,7 @@ import Box from './Box'
 import { colors } from './config'
 
 export default () => (
-  <Box>
+  <Box className={cx.root}>
     <h3 className={cx.heading}>Get Started</h3>
     <p className={cx.text}>View the documentation to read more about how to use cxs in your next project.</p>
     <a href='https://github.com/jxnblk/cxs' className={cx.button}>
@@ -16,17 +16,16 @@ export default () => (
 
 const cx = {
   root: cxs({
-    // color: '#fff',
-    backgroundColor: colors.primary,
     marginTop: 96,
     marginBottom: 96,
   }),
   heading: cxs({
     fontSize: 32,
+    fontWeight: 600,
     margin: 0
-    // color: colors.primary
   }),
   text: cxs({
+    fontSize: 20,
     margin: 0,
     marginBottom: 32
   }),

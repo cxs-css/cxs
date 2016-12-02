@@ -62,7 +62,7 @@ const cx = {
   }),
   feature: cxs({
     width: '100%',
-    [breakpoints[0]]: {
+    [breakpoints[1]]: {
       width: '50%'
     },
     [breakpoints[2]]: {
@@ -70,6 +70,9 @@ const cx = {
     }
   }),
   featureTitle: cxs({
+    fontSize: 24,
+    fontWeight: 600,
+    lineHeight: 1.25,
     margin: 0,
     marginBottom: 8,
   }),
