@@ -3,8 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { reset, css, sheet } from '../src'
-// import hash from '../src/hash'
+import cxs, { reset, css, sheet } from '../src/encapsulated'
 
 jsdom('<html></html>')
 

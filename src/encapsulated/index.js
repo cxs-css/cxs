@@ -1,15 +1,21 @@
 
 import assign from 'object-assign'
 import addPx from 'add-px-to-style'
-import hash from './hash'
-import sheet from './sheet'
+import hash from '../hash'
 import {
+  sheet,
+  cache,
+  insert,
+  reset,
+  css
+} from '../sheet'
+import {
+  createStylesArray,
   isObj,
-  flatten,
-  flattenValues
-} from './util'
+  hyphenate,
+  objToArr
+} from '../util'
 
-export const cache = []
 
 const cxs = (...args) => {
   const selectors = args.reduce(getStringArgs, [])
@@ -26,38 +32,6 @@ const cxs = (...args) => {
 
   return hashname
 }
-
-const objToArr = obj => Object.keys(obj).map(key => ({
-  key,
-  value: obj[key]
-}))
-
-const createStylesArray = (style, keys = []) => (
-  objToArr(style)
-    .filter(({ value }) => value !== null)
-    .map(parseNested(keys))
-    .map(createNestedStyle(keys))
-    .reduce(flatten, [])
-    .reduce(flattenValues, [])
-)
-
-const getId = keys => keys.length ? keys.join('-') : 0
-
-const parseNested = (keys) => ({ key, value }) => isObj(value)
-  ? createStylesArray(value, [ ...keys, key ])
-  : ({ id: getId(keys), key, value })
-
-const createNestedStyle = (keys) => (style) => keys.length ?
-  assign(style, {
-    parent: keys.reduce(getParent, null),
-    selector: keys.reduce(getSelector, '')
-  }) : style
-
-const getParent = (a, b) => /^@/.test(b) ? b : a
-
-const getSelector = (a, b) => /^@/.test(b)
-  ? a : /^:/.test(b)
-  ? a + b : a + ' ' + b
 
 const group = (a = {}, b) => {
   const { id, selector } = b
@@ -89,32 +63,19 @@ const createRule = (selector) => (declarations) => {
   return `${selector}{${body}}`
 }
 
-const hyphenate = (str) => ('' + str)
-  .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
-
-const insert = rule => {
-  if (cache.indexOf(rule.id) > -1) return
-  cache.push(rule.id)
-  sheet.insert(rule.css)
-}
-
 const getObjectArgs = (a = {}, b) => isObj(b) ? assign(a, b) : a
 
 const getStringArgs = (a = [], b) => typeof b === 'string' ? [ ...a, b ] : a
-
-export const reset = () => {
-  while (cache.length) cache.pop()
-  sheet.flush()
-}
-
-export const css = () => sheet.rules()
-  .map(r => r.cssText)
-  .join('')
 
 cxs.sheet = sheet
 cxs.css = css
 cxs.reset = reset
 
-export { default as sheet } from './sheet'
+export {
+  sheet,
+  cache,
+  reset,
+  css
+} from '../sheet'
 export default cxs
 
