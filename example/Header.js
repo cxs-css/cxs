@@ -3,6 +3,7 @@ import React from 'react'
 import cxs from 'cxs'
 import { breakpoints, colors } from './config'
 import Box from './Box'
+import Logo from './Logo'
 import Tweet from './Tweet'
 import Star from './Star'
 import Travis from './Travis'
@@ -21,16 +22,19 @@ const Header = () => {
           <Tweet className={cx.navLink} />
         </nav>
         <Box className={cx.box}>
-          <p className={cx.tagline}>Functional CSS for Functional UI</p>
-          <pre className={cx.pre}
-            children={`const className = cxs({ color: 'tomato' })`} />
+          <Logo size={256} />
         </Box>
         <div className={cx.footer}>
-          <p className={cx.description}>
-            Cxs is a functional CSS-in-JS solution that uses atomic styles to maximize deduplication and help with dead code elimination.
-          </p>
+          <div className={cx.about}>
+            <p className={cx.tagline}>Functional CSS for Functional UI</p>
+            <p className={cx.description}>
+              Cxs is a functional CSS-in-JS solution that uses atomic styles to maximize deduplication and help with dead code elimination.
+            </p>
+          </div>
           <Carbon />
         </div>
+          <pre className={cx.pre}
+            children={`const className = cxs({ color: 'tomato' })`} />
       </Box>
     </header>
   )
@@ -58,20 +62,16 @@ const cx = {
     textTransform: 'uppercase',
     letterSpacing: '.2em',
   }),
-  tagline: cxs({
-    fontSize: 20,
-    fontWeight: 600,
-    marginRight: 'auto',
-    [breakpoints[1]]: {
-      fontSize: 32
-    }
-  }),
   box: cxs({
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     minHeight: '60vh',
-    color: '#fff',
-    backgroundColor: colors.primary,
+
+    color: colors.blue2,
+    backgroundColor: colors.blue,
+    // color: '#fff',
+    // backgroundColor: colors.primary,
   }),
   pre: cxs({
     fontFamily: 'Menlo, monospace',
@@ -85,12 +85,22 @@ const cx = {
     paddingTop: 48,
     paddingBottom: 48,
   }),
+  about: cxs({
+    marginRight: 'auto'
+  }),
+  tagline: cxs({
+    fontSize: 20,
+    fontWeight: 600,
+    margin: 0,
+    marginBottom: 8,
+    [breakpoints[1]]: {
+      fontSize: 32
+    }
+  }),
   description: cxs({
     fontSize: 20,
     fontWeight: 600,
-    marginTop: 24,
-    marginBottom: 24,
-    marginRight: 'auto',
+    margin: 0,
     maxWidth: 768,
     [breakpoints[2]]: {
       fontSize: 24
