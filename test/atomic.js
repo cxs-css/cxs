@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { reset } from '../src/atomic'
+import cxs, { sheet, reset, css } from '../src/atomic'
 
 jsdom('<html></html>')
 
@@ -37,14 +37,14 @@ test('returns a consistent micro classname', t => {
 })
 
 test('has a glamor StyleSheet instance', t => {
-  t.true(cxs.sheet instanceof StyleSheet)
+  t.true(sheet instanceof StyleSheet)
 })
 
 test('Adds px unit to number values', t => {
   cxs({
     fontSize: 32
   })
-  t.regex(cxs.css(), /font-size:32px}$/)
+  t.regex(css(), /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
@@ -54,7 +54,7 @@ test('creates pseudoclass rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(cxs.css(), /:hover/)
+  t.regex(css(), /:hover/)
 })
 
 test('creates @media rules', t => {
@@ -64,7 +64,7 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(cxs.css(), /@media/)
+  t.regex(css(), /@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -82,7 +82,7 @@ test('keeps @media rules order', t => {
     }
   }
   cxs(sx)
-  const rules = cxs.sheet.rules().map(rule => rule.cssText)
+  const rules = sheet.rules().map(rule => rule.cssText)
   t.is(rules.length, 4)
   t.regex(rules[1], /32/)
   t.regex(rules[2], /48/)
@@ -107,8 +107,8 @@ test('creates nested selectors', t => {
     })
   })
   t.true(/h1/.test(cx))
-  t.regex(cxs.css(), /h1/)
-  t.regex(cxs.css(), /a:hover/)
+  t.regex(css(), /h1/)
+  t.regex(css(), /a:hover/)
 })
 
 test('dedupes repeated styles', t => {
@@ -120,7 +120,7 @@ test('dedupes repeated styles', t => {
   cxs(dupe)
   cxs(dupe)
 
-  t.is(cxs.sheet.rules().length, 2)
+  t.is(sheet.rules().length, 2)
 })
 
 test('handles array values', t => {
@@ -130,7 +130,7 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(cxs.css(), /var/)
+  t.regex(css(), /var/)
 })
 
 test('handles prefixed styles with array values', t => {
@@ -141,8 +141,8 @@ test('handles prefixed styles with array values', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css(), /\-webkit\-flex/)
-  t.regex(cxs.css(), /\-ms\-flexbox/)
+  t.regex(css(), /\-webkit\-flex/)
+  t.regex(css(), /\-ms\-flexbox/)
 })
 
 test('handles prefixed styles (including ms) in keys', t => {
@@ -153,8 +153,8 @@ test('handles prefixed styles (including ms) in keys', t => {
     })
     cxs(prefixed)
   })
-  t.regex(cxs.css(), /\-webkit\-align-items/)
-  t.regex(cxs.css(), /\-ms\-flex-align/)
+  t.regex(css(), /\-webkit\-align-items/)
+  t.regex(css(), /\-ms\-flex-align/)
 })
 
 test('ignores null values', t => {
@@ -162,8 +162,7 @@ test('ignores null values', t => {
     color: 'tomato',
     padding: null
   })
-  const css = cxs.css()
-  t.is(css.includes('null'), false)
+  t.is(css().includes('null'), false)
 })
 
 test('handles 0 values', t => {
@@ -172,8 +171,7 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  const css = cxs.css()
-  t.is(css.includes('border'), true)
+  t.is(css().includes('border'), true)
 })
 
 test('should handle ::-moz-inner-focus', t => {
@@ -184,7 +182,6 @@ test('should handle ::-moz-inner-focus', t => {
       padding: 0
     }
   })
-  const css = cxs.css()
-  t.is(css.includes('-moz-inner-focus'), true)
+  t.is(css().includes('-moz-inner-focus'), true)
 })
 

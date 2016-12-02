@@ -34,12 +34,6 @@ const Header = () => {
 }
 
 const cx = {
-  root: cxs({
-    padding: 16,
-    [breakpoints[1]]: {
-      padding: 48
-    }
-  }),
   nav: cxs({
     display: 'flex',
     flexWrap: 'wrap',

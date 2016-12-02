@@ -16,7 +16,9 @@ export const clean = (str) => ('' + str)
 export const hyphenate = (str) => ('' + str)
   .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
 
-export const dot = str => '.' + str
+export const combine = (str = '') => (...args) => args
+  .filter(a => a !== null)
+  .join(str)
 
 export const flatten = (a = [], b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
 
@@ -48,11 +50,15 @@ const createNestedStyle = (keys) => (style) => keys.length ?
   assign(style, {
     parent: keys.reduce(getParent, null),
     selector: keys.reduce(getSelector, '')
-  }) : style
+  }) : assign(style, { selector: '' })
 
 const getParent = (a, b) => /^@/.test(b) ? b : a
 
 const getSelector = (a, b) => /^@/.test(b)
   ? a : /^:/.test(b)
   ? a + b : a + ' ' + b
+
+export const getObjectArgs = (a = {}, b) => isObj(b) ? assign(a, b) : a
+
+export const getStringArgs = (a = [], b) => typeof b === 'string' ? [ ...a, b ] : a
 
