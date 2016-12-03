@@ -14,7 +14,7 @@ const Feature = ({ title, description }) => (
 const features = [
   {
     title: 'Atomic Rulesets',
-    description: 'Cxs uses atomic, utility styles and a multiclass pattern to maximize deduping.'
+    description: 'CXS uses atomic, utility styles and a multiclass pattern to maximize deduping.'
   },
   {
     title: 'Deduplication',
@@ -26,14 +26,14 @@ const features = [
   },
   {
     title: 'Framework Agnostic',
-    description: 'Cxs is written in plain es6 and works with any JavaScript library.'
+    description: 'CXS is written in plain es6 and works with any JavaScript library.'
   },
   {
     title: 'Server Side Rendering',
     description: 'The functional nature of cxs means that server side rendering just works and all classnames stay consistent across renders.'
   },
   {
-    title: 'Only 5 KB',
+    title: 'Only 6 KB',
     description: 'Built to be lean, cxs won‘t add much to your bundle size, and can lead to smaller bundle sizes than using plain CSS.'
   },
   {
@@ -42,7 +42,7 @@ const features = [
   },
   {
     title: 'Pseudoclasses, Media Queries, and More',
-    description: 'Cxs can handle the most useful parts of CSS without adding window size or mouse event listeners.'
+    description: 'CXS can handle the most useful parts of CSS without adding window size or mouse event listeners.'
   },
 ]
 

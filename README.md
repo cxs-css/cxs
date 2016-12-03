@@ -15,7 +15,7 @@ to maximize deduplication and help with dead code elimination.
 
 ## Features
 
-- ~5KB
+- ~6KB
 - Avoids collisions with atomic rulesets
 - Deduplicates repeated styles
 - Dead-code elimination

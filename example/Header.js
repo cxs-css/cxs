@@ -15,7 +15,7 @@ const Header = () => {
     <header>
       <Box className={cx.root}>
         <nav className={cx.nav}>
-          <h1 className={cx.title}>Cxs</h1>
+          <h1 className={cx.title}>CXS</h1>
           <Travis className={cx.navLink} />
           <Standard className={cx.navLink} />
           <Star className={cx.navLink} />
@@ -23,18 +23,18 @@ const Header = () => {
         </nav>
         <Box className={cx.box}>
           <Logo size={256} />
+          <pre className={cx.pre}
+            children={`const className = cxs({ color: 'tomato' })`} />
         </Box>
         <div className={cx.footer}>
           <div className={cx.about}>
             <p className={cx.tagline}>Functional CSS for Functional UI</p>
             <p className={cx.description}>
-              Cxs is a functional CSS-in-JS solution that uses atomic styles to maximize deduplication and help with dead code elimination.
+              CXS is a functional CSS-in-JS solution that uses atomic styles to maximize deduplication and help with dead code elimination.
             </p>
           </div>
           <Carbon />
         </div>
-          <pre className={cx.pre}
-            children={`const className = cxs({ color: 'tomato' })`} />
       </Box>
     </header>
   )
@@ -43,7 +43,6 @@ const Header = () => {
 const cx = {
   root: cxs({
     color: colors.primary,
-    // paddingTop: 16
   }),
   nav: cxs({
     display: 'flex',
@@ -64,19 +63,25 @@ const cx = {
   }),
   box: cxs({
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '60vh',
 
-    color: colors.blue2,
-    backgroundColor: colors.blue,
-    // color: '#fff',
-    // backgroundColor: colors.primary,
+    // color: colors.blue,
+    // backgroundColor: colors.black,
+
+    color: '#fff',
+    backgroundColor: colors.primary,
   }),
   pre: cxs({
     fontFamily: 'Menlo, monospace',
-    fontSize: 20,
-    overflow: 'auto'
+    fontSize: 14,
+    maxWidth: '100%',
+    overflow: 'auto',
+    [breakpoints[1]]: {
+      fontSize: 20
+    }
   }),
   footer: cxs({
     display: 'flex',
@@ -86,7 +91,9 @@ const cx = {
     paddingBottom: 48,
   }),
   about: cxs({
-    marginRight: 'auto'
+    marginRight: 'auto',
+    marginTop: 16,
+    marginBottom: 16,
   }),
   tagline: cxs({
     fontSize: 20,
