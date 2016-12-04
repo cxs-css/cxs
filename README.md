@@ -6,6 +6,8 @@
 
 Functional CSS for functional UI components
 
+The simplest, smallest CSS-in-JS solution.
+
 ```js
 const className = cxs({ color: 'tomato' })
 ```

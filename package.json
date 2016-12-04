@@ -2,7 +2,7 @@
   "name": "cxs",
   "version": "2.1.0",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
-  "main": "atomic.js",
+  "main": "src/index.js",
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "build": "webpack -p",

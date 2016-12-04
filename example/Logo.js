@@ -9,9 +9,11 @@ const a1 = 24
 const Lambda = ({
   size = 128,
   strokeWidth = 2,
-  color = 'currentcolor'
+  color = 'currentcolor',
+  ...props
 }) => (
   <svg
+    {...props}
     viewBox='0 0 32 32'
     width={size}
     height={size}

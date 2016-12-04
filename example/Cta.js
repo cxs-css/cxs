@@ -7,7 +7,6 @@ import { colors } from './config'
 export default () => (
   <Box className={cx.root}>
     <h3 className={cx.heading}>Get Started</h3>
-    <p className={cx.text}>View the documentation to read more about how to use cxs in your next project.</p>
     <a href='https://github.com/jxnblk/cxs' className={cx.button}>
       GitHub
     </a>
@@ -16,18 +15,15 @@ export default () => (
 
 const cx = {
   root: cxs({
+    textAlign: 'center',
     marginTop: 96,
     marginBottom: 96,
   }),
   heading: cxs({
     fontSize: 32,
     fontWeight: 600,
-    margin: 0
-  }),
-  text: cxs({
-    fontSize: 20,
     margin: 0,
-    marginBottom: 32
+    marginBottom: 32,
   }),
   button: cxs({
     fontWeight: 'bold',
@@ -38,10 +34,12 @@ const cx = {
     paddingLeft: 24,
     paddingRight: 24,
     borderRadius: 8,
-    color: '#fff',
+    color: colors.black,
     backgroundColor: colors.primary,
     ':hover': {
-      boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .25)'
+      color: '#fff',
+      backgroundColor: colors.darkblue,
+      // boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .25)'
     }
   }),
 }

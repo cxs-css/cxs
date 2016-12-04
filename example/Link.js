@@ -11,9 +11,10 @@ export default ({ className, ...props }) => (
 const cx = cxs({
   fontSize: 14,
   fontWeight: 'bold',
-  color: colors.primary,
+  color: colors.darkblue,
   textDecoration: 'none',
   ':hover': {
+    color: colors.blue,
     textDecoration: 'underline'
   }
 })

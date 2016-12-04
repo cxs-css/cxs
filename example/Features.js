@@ -14,15 +14,15 @@ const Feature = ({ title, description }) => (
 const features = [
   {
     title: 'Atomic Rulesets',
-    description: 'CXS uses atomic, utility styles and a multiclass pattern to maximize deduping.'
+    description: 'CXS uses atomic, utility styles and a multiclass pattern to maximize deduplication.'
   },
   {
     title: 'Deduplication',
-    description: 'Since rulesets are created at a per-declaration level, stylesheets remain as small as possible.'
+    description: 'Rulesets are generated at a per-declaration level so that stylesheets remain as small as possible.'
   },
   {
     title: 'Dead Code Elimination',
-    description: 'Only styles passed to cxs are rendered, which ensures styles are removed when they are no longer used.'
+    description: 'Only styles passed to CXS are rendered, which ensures styles are removed when they are no longer used.'
   },
   {
     title: 'Framework Agnostic',
@@ -30,11 +30,11 @@ const features = [
   },
   {
     title: 'Server Side Rendering',
-    description: 'The functional nature of cxs means that server side rendering just works and all classnames stay consistent across renders.'
+    description: 'The functional nature of CXS means that server side rendering just works and all classnames stay consistent across renders.'
   },
   {
     title: 'Only 6 KB',
-    description: 'Built to be lean, cxs won‘t add much to your bundle size, and can lead to smaller bundle sizes than using plain CSS.'
+    description: 'Built to be lean, CXS won‘t add much to your bundle size, and can lead to smaller bundle sizes than using plain CSS.'
   },
   {
     title: 'The Power of CSS in JS',
