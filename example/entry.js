@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import cxs from 'cxs/monolithic'
 import { colors } from './config'
 import App from './App'
+import CssOutput from './CssOutput'
 
 cxs('*', { boxSizing: 'border-box' })
 
@@ -16,3 +17,4 @@ cxs('body', {
 
 ReactDOM.render(<App />, app)
 
+ReactDOM.render(<CssOutput />, css)

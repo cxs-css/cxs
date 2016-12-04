@@ -34,6 +34,7 @@
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
     "markdown-loader": "^0.1.7",
+    "pretty-bytes": "^4.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "standard": "^8.5.0",
