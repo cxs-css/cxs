@@ -3,12 +3,12 @@ import React from 'react'
 import cxs from 'cxs'
 import { breakpoints, colors } from './config'
 import Box from './Box'
-import Logo from './Logo'
 import Tweet from './Tweet'
 import Star from './Star'
 import Travis from './Travis'
 import Standard from './Standard'
 import Carbon from './Carbon'
+import Logo from './Logo'
 
 const Header = () => {
   return (
@@ -22,16 +22,21 @@ const Header = () => {
           <Tweet className={cx.navLink} />
         </nav>
         <Box className={cx.box}>
-          <Logo size={256} />
-          <pre className={cx.pre}
-            children={`const className = cxs({ color: 'tomato' })`} />
+          <div className={cx.inner}>
+            <p className={cx.tagline}>CXS: Functional CSS for Functional UI</p>
+            <pre
+              className={cx.pre}
+              children={`const className = cxs({ color: 'cyan' })`} />
+          </div>
         </Box>
         <div className={cx.footer}>
           <div className={cx.about}>
-            <p className={cx.tagline}>Functional CSS for Functional UI</p>
             <p className={cx.description}>
               CXS is a functional CSS-in-JS solution that uses atomic styles to maximize deduplication and help with dead code elimination.
             </p>
+            <pre
+              className={cx.pre}
+              children={`npm i cxs`} />
           </div>
           <Carbon />
         </div>
@@ -42,7 +47,6 @@ const Header = () => {
 
 const cx = {
   root: cxs({
-    color: colors.primary,
   }),
   nav: cxs({
     display: 'flex',
@@ -53,34 +57,40 @@ const cx = {
     marginRight: -8,
     paddingBottom: 8
   }),
+  box: cxs({
+    display: 'flex',
+    alignItems: 'center',
+    minHeight: '60vh',
+    backgroundColor: colors.primary,
+  }),
+  inner: cxs({
+    maxWidth: '100%',
+  }),
   title: cxs({
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 600,
     margin: 8,
     marginRight: 'auto',
     textTransform: 'uppercase',
     letterSpacing: '.2em',
   }),
-  box: cxs({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '60vh',
-
-    // color: colors.blue,
-    // backgroundColor: colors.black,
-
-    color: '#fff',
-    backgroundColor: colors.primary,
+  tagline: cxs({
+    fontSize: 24,
+    fontWeight: 600,
+    margin: 0,
+    [breakpoints[2]]: {
+      fontSize: 40
+    }
   }),
   pre: cxs({
     fontFamily: 'Menlo, monospace',
-    fontSize: 16,
+    fontSize: 14,
+    whiteSpace: 'pre-wrap',
     maxWidth: '100%',
     overflow: 'auto',
+    margin: 0,
     [breakpoints[1]]: {
-      fontSize: 20
+      // fontSize: 20
     }
   }),
   footer: cxs({
@@ -95,19 +105,11 @@ const cx = {
     marginTop: 16,
     marginBottom: 16,
   }),
-  tagline: cxs({
-    fontSize: 20,
-    fontWeight: 600,
-    margin: 0,
-    marginBottom: 8,
-    [breakpoints[1]]: {
-      fontSize: 32
-    }
-  }),
   description: cxs({
     fontSize: 20,
     fontWeight: 600,
     margin: 0,
+    marginBottom: 24,
     maxWidth: 768,
     [breakpoints[2]]: {
       fontSize: 24
