@@ -2,7 +2,7 @@
 export const breakpoints = [
   '32em',
   '52em',
-  '72em',
+  '72em'
 ].map(b => `@media screen and (min-width: ${b})`)
 
 const black = '#003c4a'

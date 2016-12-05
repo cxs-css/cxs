@@ -3,7 +3,6 @@ import React from 'react'
 import cxs from 'cxs'
 import Box from './Box'
 import Link from './Link'
-import { colors } from './config'
 
 export default () => (
   <footer>

@@ -6,6 +6,9 @@ import { colors } from './config'
 import App from './App'
 import CssOutput from './CssOutput'
 
+const app = document.getElementById('app')
+const css = document.getElementById('css')
+
 cxs('*', { boxSizing: 'border-box' })
 
 cxs('body', {

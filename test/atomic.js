@@ -58,7 +58,7 @@ test('creates pseudoclass rules', t => {
 })
 
 test('creates @media rules', t => {
-  const cx = cxs({
+  cxs({
     color: 'cyan',
     '@media screen and (min-width:32em)': {
       color: 'magenta'

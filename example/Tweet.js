@@ -23,7 +23,7 @@ const Tweet = ({ className }) => (
 const cx = cxs({
   fontSize: 12,
   width: 61,
-  height: 20,
+  height: 20
 })
 
 export default Tweet

@@ -12,12 +12,21 @@ const config = {
   resolve: {
     alias: {
       'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
-      cxs: path.join(__dirname, 'src/atomic'),
+      cxs: path.join(__dirname, 'src/atomic')
     }
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.js$/,
+        include: /pretty\-bytes/,
+        loader: 'babel'
+      },
       { test: /\.json$/, loader: 'json' },
       { test: /\.md/, loader: 'html!markdown' }
     ]

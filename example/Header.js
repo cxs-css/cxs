@@ -62,10 +62,10 @@ const cx = {
     display: 'flex',
     alignItems: 'center',
     minHeight: '60vh',
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary
   }),
   inner: cxs({
-    maxWidth: '100%',
+    maxWidth: '100%'
   }),
   title: cxs({
     fontSize: 16,
@@ -73,7 +73,7 @@ const cx = {
     margin: 8,
     marginRight: 'auto',
     textTransform: 'uppercase',
-    letterSpacing: '.2em',
+    letterSpacing: '.2em'
   }),
   tagline: cxs({
     fontSize: 24,
@@ -89,22 +89,19 @@ const cx = {
     whiteSpace: 'pre-wrap',
     maxWidth: '100%',
     overflow: 'auto',
-    margin: 0,
-    [breakpoints[1]]: {
-      // fontSize: 20
-    }
+    margin: 0
   }),
   footer: cxs({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
     paddingTop: 48,
-    paddingBottom: 48,
+    paddingBottom: 48
   }),
   about: cxs({
     marginRight: 'auto',
     marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 16
   }),
   description: cxs({
     fontSize: 20,

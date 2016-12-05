@@ -45,7 +45,7 @@ const cx = cxs({
     '.carbon-poweredby': {
       float: 'right',
       textAlign: 'right',
-      opacity: .5
+      opacity: 0.5
     }
   }
 })

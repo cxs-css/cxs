@@ -5,11 +5,10 @@ import hash from '../hash'
 import { insert } from '../sheet'
 import {
   createStylesArray,
-  isObj,
   hyphenate,
   objToArr,
   getStringArgs,
-  getObjectArgs,
+  getObjectArgs
 } from '../util'
 
 const cxs = (...args) => {
@@ -29,7 +28,7 @@ const cxs = (...args) => {
 }
 
 const group = (a = {}, b) => {
-  const { id, selector } = b
+  const { id } = b
   a[id] = a[id] || assign({}, b, { declarations: [] })
   a[id].declarations.push(b)
   return a
@@ -37,7 +36,7 @@ const group = (a = {}, b) => {
 
 const createRules = (rootSelector, styles) => objToArr(styles)
   .map(({ key, value }) => {
-    const { id, selector, declarations, parent } = value
+    const { selector, declarations, parent } = value
     const rule = createRule(rootSelector + selector)(declarations)
     const css = parent ? `${parent}{${rule}}` : rule
 

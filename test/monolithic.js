@@ -73,7 +73,7 @@ test('creates pseudoclass rules', t => {
 })
 
 test('creates @media rules', t => {
-  const cx = cxs({
+  cxs({
     color: 'cyan',
     '@media screen and (min-width:32em)': {
       color: 'magenta'
@@ -106,9 +106,8 @@ test('keeps @media rules order', t => {
 
 test('creates nested selectors', t => {
   t.plan(3)
-  let cx
   t.notThrows(() => {
-    cx = cxs({
+    cxs({
       color: 'blue',
       'h1': {
         fontSize: 32,
@@ -200,7 +199,7 @@ test('should handle ::-moz-inner-focus', t => {
 })
 
 test('supports custom global selectors', t => {
-  const cx = cxs('body', {
+  cxs('body', {
     margin: 0,
     lineHeight: 1.5
   })

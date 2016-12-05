@@ -1,6 +1,5 @@
 
 import assign from 'object-assign'
-import addPx from 'add-px-to-style'
 
 export const isArr = n => Array.isArray(n)
 export const isObj = n => typeof n === 'object' && n !== null && !isArr(n)
@@ -10,7 +9,7 @@ export const clean = (str) => ('' + str)
   .replace(/[%.]/g, 'p')
   .replace(/[&#,]/g, '')
   .replace(/@/g, '_')
-  .replace(/[\:"\s]/g, '-')
+  .replace(/[:"\s]/g, '-')
   .replace(/^-+/, '')
 
 export const hyphenate = (str) => ('' + str)
@@ -23,7 +22,7 @@ export const combine = (str = '') => (...args) => args
 export const flatten = (a = [], b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
 
 export const flattenValues = (a = [], b) => isArr(b.value)
-  ? [ ...a, ...b.value.map(val => ({...b, value: val })) ]
+  ? [ ...a, ...b.value.map(val => ({ ...b, value: val })) ]
   : [ ...a, b ]
 
 export const objToArr = obj => Object.keys(obj).map(key => ({
@@ -46,11 +45,12 @@ const parseNested = (keys) => ({ key, value }) => isObj(value)
   ? createStylesArray(value, [ ...keys, key ])
   : ({ id: getId(keys), key, value })
 
-const createNestedStyle = (keys) => (style) => keys.length ?
-  assign(style, {
+const createNestedStyle = (keys) => (style) => keys.length
+  ? assign(style, {
     parent: keys.reduce(getParent, null),
     selector: keys.reduce(getSelector, '')
-  }) : assign(style, { selector: '' })
+  })
+  : assign(style, { selector: '' })
 
 const getParent = (a, b) => /^@/.test(b) ? b : a
 

@@ -43,7 +43,7 @@ const features = [
   {
     title: 'Pseudoclasses, Media Queries, and More',
     description: 'CXS can handle the most useful parts of CSS without adding window size or mouse event listeners.'
-  },
+  }
 ]
 
 export default () => (
@@ -58,7 +58,7 @@ const cx = {
   root: cxs({
     display: 'flex',
     flexWrap: 'wrap',
-    alignItems: 'baseline',
+    alignItems: 'baseline'
   }),
   feature: cxs({
     width: '100%',
@@ -74,10 +74,10 @@ const cx = {
     fontWeight: 600,
     lineHeight: 1.25,
     margin: 0,
-    marginBottom: 8,
+    marginBottom: 8
   }),
   featureDescription: cxs({
-    margin: 0,
+    margin: 0
   })
 }
 

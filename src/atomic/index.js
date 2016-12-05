@@ -1,11 +1,9 @@
 
-import assign from 'object-assign'
 import addPx from 'add-px-to-style'
 import { insert } from '../sheet'
 import hash from '../hash'
 import {
   createStylesArray,
-  isObj,
   clean,
   combine,
   hyphenate

@@ -16,13 +16,13 @@ export default () => (
 const cx = {
   root: cxs({
     marginTop: 96,
-    marginBottom: 96,
+    marginBottom: 96
   }),
   heading: cxs({
     fontSize: 32,
     fontWeight: 600,
     margin: 0,
-    marginBottom: 32,
+    marginBottom: 32
   }),
   button: cxs({
     fontWeight: 'bold',
@@ -37,8 +37,8 @@ const cx = {
     backgroundColor: colors.primary,
     ':hover': {
       color: '#fff',
-      backgroundColor: colors.darkblue,
+      backgroundColor: colors.darkblue
     }
-  }),
+  })
 }
 
