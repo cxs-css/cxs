@@ -15,7 +15,6 @@ const Badge = ({ href, img, className }) => (
 const cx = {
   root: cxs({
     display: 'inline-block',
-    // width: 90,
   }),
   img: cxs({
     display: 'block'

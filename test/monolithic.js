@@ -4,6 +4,7 @@ import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs, { reset, css, sheet } from '../src/monolithic'
+import hash from '../src/hash'
 
 jsdom('<html></html>')
 
@@ -42,15 +43,13 @@ test('returns a classname', t => {
   t.is(typeof cx, 'string')
 })
 
-/*
-test('returns a consistent micro classname', t => {
-  const name = 'c-blue'
+test('returns a consistent hashed classname', t => {
+  const name = hash(JSON.stringify({ color: 'blue' }))
   const cx = cxs({ color: 'blue' })
   const cxtwo = cxs({ color: 'blue' })
   t.is(cx, name)
   t.is(cx, cxtwo) // Double-double checking
 })
-*/
 
 test('has a glamor StyleSheet instance', t => {
   t.true(sheet instanceof StyleSheet)
@@ -105,30 +104,6 @@ test('keeps @media rules order', t => {
   t.regex(rules[3], /64/)
 })
 
-/*
-test('creates @keyframe rules', t => {
-  t.plan(2)
-  cxs({
-    animationName: 'rainbow',
-    animationTimingFunction: 'linear',
-    animationDuration: '1s',
-    animationIterationCount: 'infinite',
-    '@keyframes rainbow': {
-      from: {
-        color: 'cyan',
-        backgroundColor: 'yellow'
-      },
-      '100%': {
-        color: 'magenta'
-      }
-    }
-  })
-  console.log(cxs.css())
-  t.regex(cxs.css(), /@keyframes rainbow { from/)
-  t.false(/@keyframes.*@keyframes/.test(cxs.css))
-})
-*/
-
 test('creates nested selectors', t => {
   t.plan(3)
   let cx
@@ -146,7 +121,6 @@ test('creates nested selectors', t => {
       }
     })
   })
-  // t.true(/h1/.test(cx))
   t.regex(css(), /h1/)
   t.regex(css(), /a:hover/)
 })
@@ -230,8 +204,6 @@ test('supports custom global selectors', t => {
     margin: 0,
     lineHeight: 1.5
   })
-  // to do ??
-  // t.is(cx, 'body')
   t.truthy(css().includes('margin:0'))
   t.truthy(css().includes('line-height:1.5'))
 })

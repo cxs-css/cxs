@@ -22,9 +22,6 @@ export default () => (
 
 const cx = {
   root: cxs({
-    // textAlign: 'center',
-    // display: 'flex',
-    // alignItems: 'baseline',
     marginBottom: 48
   }),
   link: cxs({
