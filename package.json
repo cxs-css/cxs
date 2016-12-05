@@ -1,8 +1,8 @@
 {
   "name": "cxs",
-  "version": "2.1.0",
+  "version": "3.0.0-b0",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
-  "main": "dist/index.js",
+  "main": "atomic.js",
   "scripts": {
     "prepublish": "mkdir -p dist && babel src --out-dir dist",
     "build": "webpack -p",
@@ -33,6 +33,7 @@
     "jsdom-global": "^2.0.0",
     "json-loader": "^0.5.4",
     "markdown-loader": "^0.1.7",
+    "pretty-bytes": "^4.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "standard": "^8.5.0",
@@ -43,7 +44,7 @@
   "dependencies": {
     "add-px-to-style": "^1.0.0",
     "glamor": "^2.17.14",
-    "murmurhash-js": "^1.0.0"
+    "object-assign": "^4.1.0"
   },
   "ava": {
     "require": [

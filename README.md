@@ -1,164 +1,178 @@
 
-# ϟ cxs
+# ϟ CXS
 
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Functional CSS for functional UI components
 
-cxs is a css-in-js solution to dynamically create stylesheets with a functional approach
-
-## Features
-- 5.6KB gzipped
-- Avoids collisions with consistently hashed classnames
-- Supports pseudo-classes without JS event listeners
-- Supports media queries without using `window.matchMedia`
-- Support @keyframe rules
-- Supports nested selectors - useful for styling markdown and other user-generated content
-- Dedupes repeated styles
-- Avoid maintaining and using custom syntax or classname DSLs from CSS frameworks and manually written CSS
-- Scoped styles with a component-based architecture
-- No separate CSS files to process or maintain
-- Optionally extract common CSS declarations like `display: block` and `float: left`
-- **Use JavaScript to author styles**
-  - Objects & Object.assign
-  - Module imports
-  - Anything from npm
-  - Numbers and operators
-  - Functions
-  - Plus whatever you can dream up
-  - No fiddling with tagged template literals
-
-
-```sh
-npm i cxs
-```
-
-## Example Usage
+The simplest, smallest CSS-in-JS solution.
 
 ```js
-// UI component example
-import yo from 'yo-yo'
+const className = cxs({ color: 'tomato' })
+```
+
+CXS is a functional CSS-in-JS solution that uses atomic styles
+to maximize deduplication and help with dead code elimination.
+
+## Features
+
+- ~6KB
+- Avoids collisions with atomic rulesets
+- Deduplicates repeated styles
+- Dead-code elimination
+- Framework independent
+- CSS-in-JS
+  - Media queries
+  - Pseudoclasses
+  - Nested selectors
+  - Avoid maintaining separate stylesheets
+  - Use plain JS objects and types
+  - No tagged template literals
+
+## Install
+
+```sh
+npm install cxs
+```
+
+## Usage
+
+CXS works with any framework, but this example uses React for demonstration purposes.
+
+```js
+import React from 'react'
 import cxs from 'cxs'
 
-const Button = ({ text, onclick }) => {
-
-  // Pass a style object to cxs, which returns a string for
-  // adding hashed classnames to HTML.
-  const className = cxs({
-    // Numbers are converted to px values.
-    fontSize: 14,
-    color: 'white',
-    backgroundColor: '#07c',
-    // Pseudo classes and @media queries work as well.
-    ':hover': {
-      backgroundColor: '#06b'
-    },
-    '@media screen and (min-width:40em)': {
-      fontSize: 18
-    }
-  })
-
-  // cxs attaches a stylesheet to the head and updates
-  // rules with each call.
-
-  // Apply the classname to your component
-  return yo`
-    <button
-      className=${className}
-      onclick=${onclick}>
-      ${text}
-    </button>
-  `
+const Box = (props) => {
+  return (
+    <div
+      {...props}
+      className={className} />
+  )
 }
+
+const className = cxs({
+  padding: 32,
+  backgroundColor: 'tomato'
+})
+
+export default Box
+```
+
+### Pseudoclasses
+
+```js
+cxs({
+  color: 'tomato',
+  ':hover': {
+    color: 'red'
+  }
+})
+```
+
+### Media Queries
+
+```js
+cxs({
+  color: 'tomato',
+  '@media (min-width: 40em)': {
+    color: 'red'
+  }
+})
+```
+
+### Nested Selectors
+
+```js
+cxs({
+  color: 'tomato',
+  h1: {
+    color: 'red'
+  }
+})
 ```
 
 ### Server-Side Rendering
 
-```js
-// For server-side rendering,
-// get the CSS string after rendering a component tree
-const body = view(state).toString()
-const css = cxs.css
+To use CXS in server environments, use the `css()` function to get the static CSS string *after* rendering a view.
 
-// Reset the cache for subsequent renders
-cxs.reset()
-
-const html `<!DOCTYPE html>
-<html>
-  <head>
-    <style>${css}</style>
-  </head>
-  <body>${body}</body>
-</html>
-`
-```
-
-### Using with React
 ```js
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import cxs, { css, reset } from 'cxs'
+import App from './App'
 
-const Box = (props) => {
-  return (
-    <div {...props} className={cx} />
-  )
-}
+const html = ReactDOMServer.renderToString(<App />)
 
-// Static styles can be outside of the component render function for better performance.
-const cx = cxs({
-  boxSizing: 'border-box',
-  padding: 32,
-  borderRadius: 3,
-  backgroundColor: '#f6f6f6'
-})
+const doc = `<!DOCTYPE html>
+<style>${css()}</style>
+${html}
+`
 
-export default Button
+// reset the cache for the next render
+reset()
+
 ```
 
-### Global Selectors
+## Monolithic Mode
 
-Normally, you should avoid adding global selectors to the page,
-but cxs can be used to set base body styles.
-Pass a string as the first argument to create a style with a custom selector.
+To create encapsulated monolithic styles with CXS and use single hashed class names, import the monolithic module.
+
+```js
+import cxs from 'cxs/monolithic'
+```
+
+The monolithic module also accepts custom selectors for styling things like the body element.
 
 ```js
 cxs('body', {
-  fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-  lineHeight: 1.5,
-  margin: 0
+  fontFamily: '-apple-system, sans-serif',
+  margin: 0,
+  lineHeight: 1.5
 })
 ```
-
-*Note: if you ARE NOT using babel, be sure to import with `require('cxs').default`*
 
 ## API
 
 ```js
-// Returns a hashed className string and creates CSS rules for style objects
-const className = cxs({ color: 'tomato' })
+import cxs, {
+  css,
+  sheet,
+  reset
+} from 'cxs'
+// Creates styles and returns micro classnames
+cxs({ color: 'tomato' })
 
-// An array of attached CSS rules
-const rules = cxs.rules
-
-// A CSS string of attached rules. Useful for server-side rendering
-const css = cxs.css
+// Returns a CSS string of attached rules. Useful for server-side rendering
+css()
 
 // The threepointone/glamor StyleSheet instance
 // See https://github.com/threepointone/glamor
 cxs.sheet
-
-// Clears the internally used cache.
-// Normally, this doesn't need to be called.
-cxs.clear()
 
 // Clear the cache and flush the glamor stylesheet.
 // This is useful for cleaning up in server-side contexts.
 cxs.reset()
 ```
 
+## How it Works
+
+The CXS function creates a separate rule for each declaration,
+adds CSS rules to a style tag in the head of the document,
+and returns multiple classnames.
+
+The returned classname is based on the property and value of the declaration.
+Some classnames are abbreviated, and long classnames are hashed.
+
+```js
+cxs({ color: 'tomato' })
+// c-tomato
+```
+
 ### Vendor prefixes
 
-cxs **does not** handle vendor prefixing to keep the module size at a minimum.
+CXS **does not** handle vendor prefixing to keep the module size at a minimum.
 To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
 
 ```js
@@ -170,36 +184,6 @@ const prefixed = prefixer({
 })
 const cx = cxs(prefixed)
 ```
-
-### Common Declaration Utilities
-
-Cxs comes with an alternative, experimental module that attempts to extract
-commonly used declarations, such as `margin: 0` and `display: block`, into global utility rulesets.
-
-To use the common declarations version, import the following instead of `cxs`.
-
-```js
-import cxs from 'cxs/optimized'
-```
-
-Each common utility selector follows this pattern: `.cxs-<property>-<value>`.
-Once a utility ruleset has been registered,
-cxs will not add that ruleset to the stylesheet again, unless the `cxs.clear()` method has been called.
-
-### Related
-
-- [glamor](https://github.com/threepointone/glamor)
-- [react-cxs](https://github.com/jxnblk/react-cxs)
-- [hyp](https://github.com/jxnblk/hyp)
-
-### Other CSS-in-JS options
-
-Compared to other, similar modules, cxs is an attempt to create a smaller and simpler API and a smaller overall module.
-For more customizable and robust solutions, see the following:
-
-- [glamor](https://github.com/threepointone/glamor)
-- [Aphrodite](https://github.com/Khan/aphrodite)
-- [jss](https://github.com/jsstyles/jss)
 
 ### Browser support
 

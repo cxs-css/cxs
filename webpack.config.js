@@ -9,6 +9,12 @@ const config = {
     path: path.join(__dirname, '/example'),
     filename: '[name].js'
   },
+  resolve: {
+    alias: {
+      'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
+      cxs: path.join(__dirname, 'src/atomic'),
+    }
+  },
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
