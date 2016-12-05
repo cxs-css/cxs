@@ -1,12 +1,10 @@
 
-# ϟ CXS
+# CXS
 
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Functional CSS for functional UI components
-
-The simplest, smallest CSS-in-JS solution.
 
 ```js
 const className = cxs({ color: 'tomato' })
