@@ -3,6 +3,7 @@ import React from 'react'
 
 const M = 'M'
 const L = 'L'
+const A = 'A'
 const a0 = 8
 const a1 = 24
 

@@ -23,7 +23,8 @@ const Header = () => {
         </nav>
         <Box className={cx.box}>
           <div className={cx.inner}>
-            <p className={cx.tagline}>CXS: Functional CSS for Functional UI</p>
+            <Logo size={96} />
+            <p className={cx.tagline}>Functional CSS for Functional UI</p>
             <pre
               className={cx.pre}
               children={`const className = cxs({ color: 'cyan' })`} />
