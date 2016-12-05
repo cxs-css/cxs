@@ -15,7 +15,6 @@ export default () => (
 
 const cx = {
   root: cxs({
-    textAlign: 'center',
     marginTop: 96,
     marginBottom: 96,
   }),
@@ -39,7 +38,6 @@ const cx = {
     ':hover': {
       color: '#fff',
       backgroundColor: colors.darkblue,
-      // boxShadow: 'inset 0 0 0 999px rgba(0, 0, 0, .25)'
     }
   }),
 }

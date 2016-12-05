@@ -2,7 +2,6 @@
 import React from 'react'
 import cxs from 'cxs'
 import Box from './Box'
-import Logo from './Logo'
 import Link from './Link'
 import { colors } from './config'
 
@@ -17,16 +16,13 @@ export default () => (
         className={cx.link}>
         Made by Jxnblk
       </Link>
-      <div>
-        <Logo size={48} className={cx.logo} />
-      </div>
     </Box>
   </footer>
 )
 
 const cx = {
   root: cxs({
-    textAlign: 'center',
+    // textAlign: 'center',
     // display: 'flex',
     // alignItems: 'baseline',
     marginBottom: 48
@@ -36,11 +32,6 @@ const cx = {
     ':last-child': {
       marginRight: 0
     }
-  }),
-  logo: cxs({
-    display: 'inline-block',
-    marginTop: 48,
-    color: colors.blue
   })
 }
 

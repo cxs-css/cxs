@@ -1,5 +1,5 @@
 
-# ϟ cxs
+# ϟ CXS
 
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
@@ -12,7 +12,7 @@ The simplest, smallest CSS-in-JS solution.
 const className = cxs({ color: 'tomato' })
 ```
 
-Cxs is a functional CSS-in-JS solution that uses atomic styles
+CXS is a functional CSS-in-JS solution that uses atomic styles
 to maximize deduplication and help with dead code elimination.
 
 ## Features
@@ -38,7 +38,7 @@ npm install cxs
 
 ## Usage
 
-Cxs works with any framework, but this example uses React for demonstration purposes.
+CXS works with any framework, but this example uses React for demonstration purposes.
 
 ```js
 import React from 'react'
@@ -95,7 +95,7 @@ cxs({
 
 ### Server-Side Rendering
 
-To use cxs in server environments, use the `css()` function to get the static CSS string *after* rendering a view.
+To use CXS in server environments, use the `css()` function to get the static CSS string *after* rendering a view.
 
 ```js
 import React from 'react'
@@ -117,7 +117,7 @@ reset()
 
 ## Monolithic Mode
 
-To create encapsulated monolithic styles with cxs and use single hashed class names, import the monolithic module.
+To create encapsulated monolithic styles with CXS and use single hashed class names, import the monolithic module.
 
 ```js
 import cxs from 'cxs/monolithic'
@@ -158,7 +158,7 @@ cxs.reset()
 
 ## How it Works
 
-The cxs function creates a separate rule for each declaration,
+The CXS function creates a separate rule for each declaration,
 adds CSS rules to a style tag in the head of the document,
 and returns multiple classnames.
 
@@ -172,7 +172,7 @@ cxs({ color: 'tomato' })
 
 ### Vendor prefixes
 
-cxs **does not** handle vendor prefixing to keep the module size at a minimum.
+CXS **does not** handle vendor prefixing to keep the module size at a minimum.
 To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
 
 ```js
