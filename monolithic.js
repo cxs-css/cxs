@@ -1,1 +1,1 @@
-module.exports = require('./dist/encapsulated')
+module.exports = require('./dist/monolithic')
