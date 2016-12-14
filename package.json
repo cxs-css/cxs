@@ -44,7 +44,9 @@
   "dependencies": {
     "add-px-to-style": "^1.0.0",
     "glamor": "^2.17.14",
-    "object-assign": "^4.1.0"
+    "object-assign": "^4.1.0",
+    "styletron": "^2.2.0",
+    "styletron-utils": "^2.2.1"
   },
   "ava": {
     "require": [
