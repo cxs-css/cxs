@@ -137,3 +137,6 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css().includes('-moz-inner-focus'), true)
 })
 
+// Styletron doesn't seem to handle this very well
+test.todo('keeps media query order')
+
