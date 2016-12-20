@@ -1,6 +1,4 @@
 
-// Update after perf tests
-
 import { StyleSheet } from 'glamor/lib/sheet'
 
 export const sheet = new StyleSheet()
@@ -28,25 +26,33 @@ export const cxs = (obj) => {
   return classNames.join(' ')
 }
 
-const parse = (obj, media, pseudo) => {
+const parse = (obj, media, pseudo = '') => {
   const classNames = []
 
   for (let key in obj) {
     const value = obj[key]
     const type = typeof value
+
     if (type === 'string' || type === 'number') {
       classNames.push(createStyle(key, value, media, pseudo))
       continue
-    } else {
-      if (/^:/.test(key)) {
-        parse(value, media, key)
-          .forEach(s => classNames.push(s))
-        continue
-      } else if (/^@media/.test(key)) {
-        parse(value, key, pseudo)
-          .forEach(s => classNames.push(s))
-        continue
-      }
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach(val => {
+        classNames.push(createStyle(key, val, media, pseudo))
+      })
+    }
+
+    if (/^:/.test(key)) {
+      parse(value, media, pseudo + key)
+        .forEach(s => classNames.push(s))
+      continue
+    }
+    if (/^@media/.test(key)) {
+      parse(value, key, pseudo)
+        .forEach(s => classNames.push(s))
+      continue
     }
   }
 
@@ -59,7 +65,7 @@ const createStyle = (key, value, media, pseudo = '') => {
 
   if (dupe) return dupe
 
-  const className = hash(count) // '_' + count.toString(36)
+  const className = hash(count)
   count++
   const selector = '.' + className + pseudo
   const prop = hyphenate(key)
@@ -114,6 +120,11 @@ export const addPx = (prop, value) => {
   return value + 'px'
 }
 
+const isNum = (str) => {
+  const num = parseInt(str)
+  return typeof num === 'number' && !isNaN(num)
+}
+
 export const hash = (n) => {
   if (alpha[n]) return alpha[n]
 
@@ -130,7 +141,7 @@ export const hash = (n) => {
   return result
 }
 
-const alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_'.split('')
+const alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 cxs.css = css
 cxs.reset = reset

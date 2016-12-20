@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs'
+import cxs from 'cxs/lite'
 
 class Carbon extends React.Component {
   componentDidMount () {

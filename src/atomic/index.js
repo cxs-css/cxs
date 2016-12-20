@@ -1,6 +1,6 @@
 
 import addPx from 'add-px-to-style'
-import { insert } from '../sheet'
+import { insert, reset, css } from '../sheet'
 import hash from '../hash'
 import {
   createStylesArray,
@@ -54,6 +54,9 @@ const createRule = ({ id, key, value, parent = '', selector = '' }) => {
     css
   }
 }
+
+cxs.reset = reset
+cxs.css = css
 
 export { sheet, cache, reset, css } from '../sheet'
 export default cxs

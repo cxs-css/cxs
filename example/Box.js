@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs'
+import cxs from 'cxs/lite'
 import { breakpoints } from './config'
 import classnames from './classnames'
 

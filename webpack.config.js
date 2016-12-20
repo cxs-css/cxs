@@ -11,6 +11,7 @@ const config = {
   },
   resolve: {
     alias: {
+      'cxs/lite': path.join(__dirname, 'src/lite'),
       'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
       cxs: path.join(__dirname, 'src/atomic')
     }

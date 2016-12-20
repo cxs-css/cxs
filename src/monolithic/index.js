@@ -2,7 +2,7 @@
 import assign from 'object-assign'
 import addPx from 'add-px-to-style'
 import hash from '../hash'
-import { insert } from '../sheet'
+import { insert, css, reset } from '../sheet'
 import {
   createStylesArray,
   hyphenate,
@@ -52,6 +52,9 @@ const createRule = (selector) => (declarations) => {
   )).join(';')
   return `${selector}{${body}}`
 }
+
+cxs.reset = reset
+cxs.css = css
 
 export {
   sheet,

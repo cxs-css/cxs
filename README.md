@@ -15,6 +15,10 @@ to maximize deduplication and help with dead code elimination.
 
 ## Features
 
+- Three different modes of operation:
+  - Atomic
+  - Lite
+  - Monolithic
 - ~6KB
 - Avoids collisions with atomic rulesets
 - Deduplicates repeated styles
@@ -112,6 +116,21 @@ ${html}
 reset()
 
 ```
+
+## Lite Mode
+
+For super fast performance, use the `cxs/lite` module.
+
+```js
+import cxs from 'cxs/lite'
+```
+
+Since the class names in cxs/lite are *not* created in a functional manner,
+when using cxs/lite on both the server and client, the styles will need to be rehydrated.
+
+This feature is not yet implemented.
+
+Note: the lite mode does not support nested selectors.
 
 ## Monolithic Mode
 
