@@ -5,6 +5,8 @@ import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs, { sheet, reset, css } from '../src/lite'
 
+import rehydrate from '../src/lite/rehydrate'
+
 jsdom('<html></html>')
 
 const style = {
@@ -166,3 +168,21 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css().includes('-moz-inner-focus'), true)
 })
 
+test('can rehydrate cache', t => {
+  cxs({
+    color: 'tomato',
+    margin: 8,
+    ':hover': {
+      fontSize: 12
+    },
+    '@media (min-width:40em)': {
+      marginBottom: 32,
+      ':hover': {
+        color: 'green'
+      }
+    }
+  })
+  const styles = css()
+  let cache = {}
+  rehydrate(cache, styles)
+})
