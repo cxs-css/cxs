@@ -1,11 +1,15 @@
 
 import { StyleSheet } from 'glamor/lib/sheet'
 
+const PSEUDO_REGEX = /^:/
+const MEDIA_REGEX = /^@media/
+
 export const sheet = new StyleSheet()
 
 sheet.inject()
 
 let count = 0
+
 export const cache = {}
 
 export const reset = () => {
@@ -42,14 +46,20 @@ const parse = (obj, media, pseudo = '') => {
       value.forEach(val => {
         classNames.push(createStyle(key, val, media, pseudo))
       })
+      continue
     }
 
-    if (/^:/.test(key)) {
+    const firstChar = key.charAt(0)
+
+    if (firstChar === ':') {
+    // if (PSEUDO_REGEX.test(key)) {
       parse(value, media, pseudo + key)
         .forEach(s => classNames.push(s))
       continue
     }
-    if (/^@media/.test(key)) {
+
+    if (firstChar === '@') {
+    // if (MEDIA_REGEX.test(key)) {
       parse(value, key, pseudo)
         .forEach(s => classNames.push(s))
       continue
