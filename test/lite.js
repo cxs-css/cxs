@@ -3,29 +3,16 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { reset, css, sheet } from '../src/monolithic'
-import hash from '../src/hash'
+import cxs, { sheet, reset, css } from '../src/lite'
+
+// import rehydrate from '../src/lite/rehydrate'
 
 jsdom('<html></html>')
 
 const style = {
   color: 'tomato',
   display: 'flex',
-  fontSize: 32,
-  ':hover': {
-    color: 'red'
-  },
-  '@media screen and (min-width:32em)': {
-    color: 'blue',
-    ':hover': {
-      color: 'cyan'
-    }
-  },
-  'h1': {
-    textDecoration: 'underline',
-    fontSize: 48,
-    color: 'green'
-  }
+  fontSize: 32
 }
 
 test.beforeEach(() => {
@@ -43,8 +30,8 @@ test('returns a classname', t => {
   t.is(typeof cx, 'string')
 })
 
-test('returns a consistent hashed classname', t => {
-  const name = hash(JSON.stringify({ color: 'blue' }))
+test('returns a sequential micro classname', t => {
+  const name = 'a'
   const cx = cxs({ color: 'blue' })
   const cxtwo = cxs({ color: 'blue' })
   t.is(cx, name)
@@ -104,25 +91,6 @@ test('keeps @media rules order', t => {
   t.regex(rules[3], /64/)
 })
 
-test('creates nested selectors', t => {
-  t.plan(3)
-  t.notThrows(() => {
-    cxs({
-      color: 'blue',
-      'h1': {
-        fontSize: 32,
-        'a': {
-          color: 'inherit',
-          ':hover': {
-            textDecoration: 'underline'
-          }
-        }
-      }
-    })
-  })
-  t.regex(css(), /h1/)
-  t.regex(css(), /a:hover/)
-})
 
 test('dedupes repeated styles', t => {
   const dupe = {
@@ -158,6 +126,7 @@ test('handles prefixed styles with array values', t => {
   t.regex(css(), /\-ms\-flexbox/)
 })
 
+/*
 test('handles prefixed styles (including ms) in keys', t => {
   t.pass(3)
   t.notThrows(() => {
@@ -169,6 +138,7 @@ test('handles prefixed styles (including ms) in keys', t => {
   t.regex(css(), /\-webkit\-align-items/)
   t.regex(css(), /\-ms\-flex-align/)
 })
+*/
 
 test('ignores null values', t => {
   cxs({
@@ -198,12 +168,26 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css().includes('-moz-inner-focus'), true)
 })
 
-test('supports custom global selectors', t => {
-  cxs('body', {
-    margin: 0,
-    lineHeight: 1.5
+test.todo('can rehydrate cache')
+
+/*
+test('can rehydrate cache', t => {
+  cxs({
+    color: 'tomato',
+    margin: 8,
+    ':hover': {
+      fontSize: 12
+    },
+    '@media (min-width:40em)': {
+      marginBottom: 32,
+      ':hover': {
+        color: 'green'
+      }
+    }
   })
-  t.truthy(css().includes('margin:0'))
-  t.truthy(css().includes('line-height:1.5'))
+  const styles = css()
+  let cache = {}
+  rehydrate(cache, styles)
 })
+*/
 

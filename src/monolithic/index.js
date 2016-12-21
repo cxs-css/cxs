@@ -1,63 +1,78 @@
 
-import assign from 'object-assign'
-import addPx from 'add-px-to-style'
+import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
-import { insert } from '../sheet'
-import {
-  createStylesArray,
-  hyphenate,
-  objToArr,
-  getStringArgs,
-  getObjectArgs
-} from '../util'
+import { addPx, hyphenate } from '../util'
 
-const cxs = (...args) => {
-  const selectors = args.reduce(getStringArgs, [])
-  const style = args.reduce(getObjectArgs, {})
+export let cache = {}
+
+export const sheet = new StyleSheet()
+
+sheet.inject()
+
+export const css = () => sheet.rules()
+  .map(rule => rule.cssText)
+  .join('')
+
+export const reset = () => {
+  for (let key in cache) {
+    delete cache[key]
+  }
+  sheet.flush()
+}
+
+const cxs = (a, b) => {
+  let selector
+  if (typeof a === 'string') {
+    selector = a
+  }
+  const style = selector ? b : a
   const hashname = hash(JSON.stringify(style))
-  const selector = selectors.length ? selectors.join(', ') : '.' + hashname
+  selector = selector || '.' + hashname
 
-  const styles = createStylesArray(style)
-    .reduce(group, {})
-
-  const rules = createRules(selector, styles)
-
-  rules.forEach(insert)
+  parse(selector, style)
 
   return hashname
 }
 
-const group = (a = {}, b) => {
-  const { id } = b
-  a[id] = a[id] || assign({}, b, { declarations: [] })
-  a[id].declarations.push(b)
-  return a
-}
+const parse = (selector, obj, media, children = '') => {
+  for (let key in obj) {
+    const value = obj[key]
+    const type = typeof value
 
-const createRules = (rootSelector, styles) => objToArr(styles)
-  .map(({ key, value }) => {
-    const { selector, declarations, parent } = value
-    const rule = createRule(rootSelector + selector)(declarations)
-    const css = parent ? `${parent}{${rule}}` : rule
-
-    return {
-      id: rootSelector + '-' + key,
-      css
+    if (type === 'number' || type === 'string') {
+      createRule(selector + children, key, value, media)
+      continue
+    } else if (/^:/.test(key)) {
+      parse(selector, value, media, children + key)
+      continue
+    } else if (/^@media/.test(key)) {
+      parse(selector, value, key, children)
+      continue
+    } else {
+      parse(selector, value, media, children + ' ' + key)
+      continue
     }
-  })
-
-const createRule = (selector) => (declarations) => {
-  const body = declarations.map(({ key, value }) => (
-    hyphenate(key) + ':' + addPx(key, value)
-  )).join(';')
-  return `${selector}{${body}}`
+  }
 }
 
-export {
-  sheet,
-  cache,
-  reset,
-  css
-} from '../sheet'
+const createRule = (selector, key, value, media) => {
+  const id = selector + key + value + media
+
+  if (cache[id]) return
+
+  const prop = hyphenate(key)
+  const val = addPx(key, value)
+  const rule = `${selector}{${prop}:${val}}`
+  const css = media ? `${media}{${rule}}` : rule
+
+  sheet.insert(css)
+  cache[id] = true
+
+  return
+}
+
+cxs.reset = reset
+cxs.css = css
+
 export default cxs
 

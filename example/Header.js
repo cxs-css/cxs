@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs'
+import cxs from 'cxs/lite'
 import { breakpoints, colors } from './config'
 import Box from './Box'
 import Tweet from './Tweet'

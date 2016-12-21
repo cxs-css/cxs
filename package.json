@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "3.0.0-b1",
+  "version": "3.0.0-b2",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
   "main": "atomic.js",
   "scripts": {
@@ -42,9 +42,7 @@
     "yo-yo": "^1.2.1"
   },
   "dependencies": {
-    "add-px-to-style": "^1.0.0",
-    "glamor": "^2.17.14",
-    "object-assign": "^4.1.0"
+    "glamor": "^2.17.14"
   },
   "ava": {
     "require": [
