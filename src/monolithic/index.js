@@ -20,12 +20,12 @@ export const reset = () => {
   sheet.flush()
 }
 
-const cxs = (...args) => {
+const cxs = (a, b) => {
   let selector
-  if (typeof args[0] === 'string') {
-    selector = args[0]
+  if (typeof a === 'string') {
+    selector = a
   }
-  const style = selector ? args[1] : args[0]
+  const style = selector ? b : a
   const hashname = hash(JSON.stringify(style))
   selector = selector || '.' + hashname
 
@@ -35,61 +35,40 @@ const cxs = (...args) => {
 }
 
 const parse = (selector, obj, media, children = '') => {
-  const rules = []
-
   for (let key in obj) {
     const value = obj[key]
     const type = typeof value
 
     if (type === 'number' || type === 'string') {
-      rules.push(
-        createRule(selector + children, key, value, media)
-      )
+      createRule(selector + children, key, value, media)
       continue
-    }
-
-    if (/^:/.test(key)) {
+    } else if (/^:/.test(key)) {
       parse(selector, value, media, children + key)
-        .forEach(rule => {
-          rules.push(rule)
-        })
       continue
-    }
-
-    if (/^@media/.test(key)) {
+    } else if (/^@media/.test(key)) {
       parse(selector, value, key, children)
-        .forEach(rule => {
-          rules.push(rule)
-        })
+      continue
+    } else {
+      parse(selector, value, media, children + ' ' + key)
       continue
     }
-
-    parse(selector, value, media, children + ' ' + key)
-      .forEach(rule => {
-        rules.push(rule)
-      })
-    continue
   }
-
-  return rules
 }
 
 const createRule = (selector, key, value, media) => {
+  const id = selector + key + value + media
+
+  if (cache[id]) return
+
   const prop = hyphenate(key)
   const val = addPx(key, value)
   const rule = `${selector}{${prop}:${val}}`
   const css = media ? `${media}{${rule}}` : rule
-  const id = hash(css)
-
-  if (cache[id]) return
 
   sheet.insert(css)
   cache[id] = true
 
-  return {
-    id,
-    css
-  }
+  return
 }
 
 cxs.reset = reset
