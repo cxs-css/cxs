@@ -1,6 +1,13 @@
 
-import { sheet, css } from '../sheet'
-import { addPx, hyphenate } from '../util'
+import { StyleSheet } from 'glamor/lib/sheet'
+
+export const sheet = new StyleSheet()
+
+sheet.inject()
+
+export const css = () => sheet.rules()
+  .map(rule => rule.cssText)
+  .join('')
 
 const PSEUDO_REGEX = /^:/
 const MEDIA_REGEX = /^@media/
@@ -102,10 +109,50 @@ export const alphaHash = (n) => {
 
 const alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
+export const hyphenate = (str) => ('' + str)
+  .replace(/[A-Z]|^ms/g, '-$&')
+  .toLowerCase()
+
+export const addPx = (prop, value) => {
+  if (typeof value !== 'number') return value
+  if (unitlessProps.indexOf(prop) > -1) return value
+  return value + 'px'
+}
+
+const unitlessProps = [
+  'animationIterationCount',
+  'boxFlex',
+  'boxFlexGroup',
+  'boxOrdinalGroup',
+  'columnCount',
+  'flex',
+  'flexGrow',
+  'flexPositive',
+  'flexShrink',
+  'flexNegative',
+  'flexOrder',
+  'gridRow',
+  'gridColumn',
+  'fontWeight',
+  'lineClamp',
+  'lineHeight',
+  'opacity',
+  'order',
+  'orphans',
+  'tabSize',
+  'widows',
+  'zIndex',
+  'zoom',
+  'fillOpacity',
+  'stopOpacity',
+  'strokeDashoffset',
+  'strokeOpacity',
+  'strokeWidth'
+]
+
 cxs.css = css
 cxs.reset = reset
 
-export { sheet, css } from '../sheet'
 export default cxs
 
 

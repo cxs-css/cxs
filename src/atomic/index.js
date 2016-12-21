@@ -1,4 +1,5 @@
 
+import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
 import {
   addPx,
@@ -7,7 +8,14 @@ import {
   hyphenate
 } from '../util'
 import shorthands from './shorthands'
-import { sheet, css } from '../sheet'
+
+export const sheet = new StyleSheet()
+
+sheet.inject()
+
+export const css = () => sheet.rules()
+  .map(rule => rule.cssText)
+  .join('')
 
 export const cache = {}
 
@@ -112,6 +120,5 @@ const createClassName = (prop, value, prefix) => {
 cxs.reset = reset
 cxs.css = css
 
-export { sheet, css } from '../sheet'
 export default cxs
 
