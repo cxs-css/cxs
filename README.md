@@ -130,9 +130,11 @@ when using cxs/lite on both the server and client, the styles will need to be re
 
 *This feature is not yet implemented.*
 
+<!--
 ```js
 import { cxs, reset, css, hydrate } from 'cxs/lite'
 ```
+-->
 
 Note: the lite mode *does not* support nested selectors.
 
