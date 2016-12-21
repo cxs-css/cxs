@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs/lite'
+import cxs from 'cxs'
 import { colors } from './config'
 import classnames from './classnames'
 

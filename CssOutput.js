@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs, { css, cache } from 'cxs/lite'
+import cxs, { css, cache } from 'cxs'
 import Box from './Box'
 import prettyBytes from 'pretty-bytes'
 
