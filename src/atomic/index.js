@@ -7,11 +7,7 @@ import {
   hyphenate
 } from '../util'
 import shorthands from './shorthands'
-import { StyleSheet } from 'glamor/lib/sheet'
-
-export const sheet = new StyleSheet()
-
-sheet.inject()
+import { sheet, css } from '../sheet'
 
 export const cache = {}
 
@@ -21,10 +17,6 @@ export const reset = () => {
   }
   sheet.flush()
 }
-
-export const css = () => sheet.rules()
-  .map(r => r.cssText)
-  .join('')
 
 const cxs = (style) => {
   const classNames = parse(style)
@@ -120,5 +112,6 @@ const createClassName = (prop, value, prefix) => {
 cxs.reset = reset
 cxs.css = css
 
+export { sheet, css } from '../sheet'
 export default cxs
 

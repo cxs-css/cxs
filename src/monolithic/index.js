@@ -1,11 +1,7 @@
 
-import { StyleSheet } from 'glamor/lib/sheet'
+import { sheet, css } from '../sheet'
 import hash from '../hash'
 import { addPx, hyphenate } from '../util'
-
-export const sheet = new StyleSheet()
-
-sheet.inject()
 
 export let cache = {}
 
@@ -15,10 +11,6 @@ export const reset = () => {
   }
   sheet.flush()
 }
-
-export const css = () => sheet.rules()
-  .map(rule => rule.cssText)
-  .join('')
 
 const cxs = (...args) => {
   let selector
@@ -95,5 +87,6 @@ const createRule = (selector, key, value, media) => {
 cxs.reset = reset
 cxs.css = css
 
+export { sheet, css } from '../sheet'
 export default cxs
 

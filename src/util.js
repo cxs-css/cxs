@@ -1,7 +1,4 @@
 
-export const isArr = n => Array.isArray(n)
-export const isObj = n => typeof n === 'object' && n !== null && !isArr(n)
-
 const BLANK_REG = /[\(\)#]/g
 const P_REG = /%/g
 const SYMBOL_REG = /[&,:"\s]/g
