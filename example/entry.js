@@ -6,6 +6,7 @@ import { colors } from './config'
 import App from './App'
 import CssOutput from './CssOutput'
 
+
 const app = document.getElementById('app')
 const css = document.getElementById('css')
 
@@ -21,3 +22,4 @@ cxs('body', {
 ReactDOM.render(<App />, app)
 
 ReactDOM.render(<CssOutput />, css)
+
