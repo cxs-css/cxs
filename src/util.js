@@ -1,64 +1,62 @@
 
-import assign from 'object-assign'
-
 export const isArr = n => Array.isArray(n)
 export const isObj = n => typeof n === 'object' && n !== null && !isArr(n)
 
+const BLANK_REG = /[\(\)#]/g
+const P_REG = /%/g
+const SYMBOL_REG = /[&,:"\s]/g
+const AT_REG = /@/g
+const HYPHEN_REG = /^-/
+
 export const clean = (str) => ('' + str)
-  .replace(/[\(\)]/g, '')
-  .replace(/[%.]/g, 'p')
-  .replace(/[&#,]/g, '')
-  .replace(/@/g, '_')
-  .replace(/[:"\s]/g, '-')
-  .replace(/^-+/, '')
+  .replace(BLANK_REG, '')
+  .replace(P_REG, 'P')
+  .replace(SYMBOL_REG, '--')
+  .replace(AT_REG, '_')
+  .replace(HYPHEN_REG, '')
 
 export const hyphenate = (str) => ('' + str)
-  .replace(/([A-Z]|^ms)/g, g => '-' + g.toLowerCase())
+  .replace(/[A-Z]|^ms/g, '-$&')
+  .toLowerCase()
 
 export const combine = (str = '') => (...args) => args
   .filter(a => a !== null)
   .join(str)
 
-export const flatten = (a = [], b) => isArr(b) ? [ ...a, ...b ] : [ ...a, b ]
+export const addPx = (prop, value) => {
+  if (typeof value !== 'number') return value
+  if (unitlessProps.indexOf(prop) > -1) return value
+  return value + 'px'
+}
 
-export const flattenValues = (a = [], b) => isArr(b.value)
-  ? [ ...a, ...b.value.map(val => ({ ...b, value: val })) ]
-  : [ ...a, b ]
-
-export const objToArr = obj => Object.keys(obj).map(key => ({
-  key,
-  value: obj[key]
-}))
-
-export const createStylesArray = (style, keys = []) => (
-  objToArr(style)
-    .filter(({ value }) => value !== null)
-    .map(parseNested(keys))
-    .map(createNestedStyle(keys))
-    .reduce(flatten, [])
-    .reduce(flattenValues, [])
-)
-
-const getId = keys => keys.length ? keys.join('-') : 0
-
-const parseNested = (keys) => ({ key, value }) => isObj(value)
-  ? createStylesArray(value, [ ...keys, key ])
-  : ({ id: getId(keys), key, value })
-
-const createNestedStyle = (keys) => (style) => keys.length
-  ? assign(style, {
-    parent: keys.reduce(getParent, null),
-    selector: keys.reduce(getSelector, '')
-  })
-  : assign(style, { selector: '' })
-
-const getParent = (a, b) => /^@/.test(b) ? b : a
-
-const getSelector = (a, b) => /^@/.test(b)
-  ? a : /^:/.test(b)
-  ? a + b : a + ' ' + b
-
-export const getObjectArgs = (a = {}, b) => isObj(b) ? assign(a, b) : a
-
-export const getStringArgs = (a = [], b) => typeof b === 'string' ? [ ...a, b ] : a
+const unitlessProps = [
+  'animationIterationCount',
+  'boxFlex',
+  'boxFlexGroup',
+  'boxOrdinalGroup',
+  'columnCount',
+  'flex',
+  'flexGrow',
+  'flexPositive',
+  'flexShrink',
+  'flexNegative',
+  'flexOrder',
+  'gridRow',
+  'gridColumn',
+  'fontWeight',
+  'lineClamp',
+  'lineHeight',
+  'opacity',
+  'order',
+  'orphans',
+  'tabSize',
+  'widows',
+  'zIndex',
+  'zoom',
+  'fillOpacity',
+  'stopOpacity',
+  'strokeDashoffset',
+  'strokeOpacity',
+  'strokeWidth'
+]
 

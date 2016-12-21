@@ -42,9 +42,8 @@
     "yo-yo": "^1.2.1"
   },
   "dependencies": {
-    "add-px-to-style": "^1.0.0",
     "glamor": "^2.17.14",
-    "object-assign": "^4.1.0"
+    "murmurhash-js": "^1.0.0"
   },
   "ava": {
     "require": [

@@ -128,9 +128,13 @@ import cxs from 'cxs/lite'
 Since the class names in cxs/lite are *not* created in a functional manner,
 when using cxs/lite on both the server and client, the styles will need to be rehydrated.
 
-This feature is not yet implemented.
+*This feature is not yet implemented.*
 
-Note: the lite mode does not support nested selectors.
+```js
+import { cxs, reset, css, hydrate } from 'cxs/lite'
+```
+
+Note: the lite mode *does not* support nested selectors.
 
 ## Monolithic Mode
 
