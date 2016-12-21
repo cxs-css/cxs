@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs/lite'
+import cxs from 'cxs'
 import classnames from './classnames'
 
 const Badge = ({ href, img, className }) => (
