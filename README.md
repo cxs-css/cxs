@@ -15,7 +15,7 @@ to maximize deduplication and help with dead code elimination.
 
 ## Features
 
-- Three different modes of operation:
+- Three different [modes](#modes) of operation:
   - Atomic
   - Lite
   - Monolithic
@@ -117,18 +117,62 @@ reset()
 
 ```
 
-## Lite Mode
+## Modes
 
-For super fast performance, use the `cxs/lite` module.
+
+CXS offers three different modes of operation, which produce different rules and class names.
+
+```js
+import cxsAtomic from 'cxs'
+import cxsMonolithic from 'cxs/monolithic'
+import cxsLite from 'cxs/lite'
+
+const styles = {
+  margin: 0,
+  marginBottom: 32,
+  padding: 16,
+  color: 'tomato',
+  ':hover': {
+    color: 'orangered'
+  },
+  '@media (min-width: 40em)': {
+    padding: 32
+  }
+}
+
+// Each mode returns a different set of class names
+
+cxsAtomic(styles)
+// m-0 mb-32 p-16 c-tomato -hover-c-orangered _zsp35u
+
+cxsMonolithic(styles)
+// _q5nmba
+
+cxsLite(styles)
+// a b c d e f
+```
+
+### Atomic Mode (Default)
+
+```js
+import cxs from 'cxs'
+```
+
+The default mode is the atomic mode.
+This creates atomic rulesets and attempts to create human readable classnames.
+If a classname is longer than 24 characters, a hashed classname will be used instead.
+
+### Lite Mode
 
 ```js
 import cxs from 'cxs/lite'
 ```
 
-Since the class names in cxs/lite are *not* created in a functional manner,
-when using cxs/lite on both the server and client, the styles will need to be rehydrated.
+For super fast performance, use the `cxs/lite` module.
+Lite mode creates alphabetic class names in a sequential order and does not support nested selectors.
 
-*This feature is not yet implemented.*
+Since the class names in cxs/lite are *not* created in a functional manner,
+when using cxs/lite on both the server and client, the styles will need to be rehydrated. *Rehydration is not yet implemented.*
 
 <!--
 ```js
@@ -136,15 +180,13 @@ import { cxs, reset, css, hydrate } from 'cxs/lite'
 ```
 -->
 
-Note: the lite mode *does not* support nested selectors.
-
-## Monolithic Mode
-
-To create encapsulated monolithic styles with CXS and use single hashed class names, import the monolithic module.
+### Monolithic Mode
 
 ```js
 import cxs from 'cxs/monolithic'
 ```
+
+To create encapsulated monolithic styles with CXS and use single hashed class names, import the monolithic module.
 
 The monolithic module also accepts custom selectors for styling things like the body element.
 

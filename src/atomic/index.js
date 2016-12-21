@@ -85,10 +85,10 @@ const createStyle = (key, value, media, children = '') => {
 
   if (dupe) return dupe
 
-  const className = createClassName(key, value, prefix)
-  const selector = '.' + className + children
   const prop = hyphenate(key)
   const val = addPx(key, value)
+  const className = createClassName(prop, value, prefix)
+  const selector = '.' + className + children
   const rule = `${selector}{${prop}:${val}}`
   const css = media ? `${media}{${rule}}` : rule
 
@@ -113,7 +113,7 @@ const createClassName = (prop, value, prefix) => {
     clean(value)
   )
 
-  const className = parts.length < 16 ? parts : hash(parts)
+  const className = parts.length < 24 ? parts : hash(parts)
   return className
 }
 
