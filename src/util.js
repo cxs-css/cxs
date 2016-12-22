@@ -4,7 +4,6 @@ const P_REG = /%/g
 const SYMBOL_REG = /[&,:"\s]/g
 const AT_REG = /@/g
 const DOT_REG = /\./g
-const HYPHEN_REG = /^-/
 
 export const clean = (str) => ('' + str)
   .replace(BLANK_REG, '')
@@ -12,7 +11,6 @@ export const clean = (str) => ('' + str)
   .replace(SYMBOL_REG, '_')
   .replace(AT_REG, '_')
   .replace(DOT_REG, 'p')
-  .replace(HYPHEN_REG, '')
 
 export const hyphenate = (str) => ('' + str)
   .replace(/[A-Z]|^ms/g, '-$&')
