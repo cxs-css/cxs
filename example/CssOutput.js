@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs, { css, cache } from 'cxs'
+import cxs from 'cxs'
 import Box from './Box'
 import prettyBytes from 'pretty-bytes'
 
@@ -20,7 +20,7 @@ const format = str => str
   .replace(/}/g, '\n}\n')
 
 const CssOutput = () => {
-  const rendered = min(css())
+  const rendered = min(cxs.css())
 
   return (
     <Box>

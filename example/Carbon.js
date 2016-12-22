@@ -1,6 +1,6 @@
 
 import React from 'react'
-import cxs from 'cxs/monolithic'
+import cxs from 'cxs'
 
 class Carbon extends React.Component {
   componentDidMount () {

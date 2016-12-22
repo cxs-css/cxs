@@ -56,7 +56,7 @@ const parse = (selector, obj, media, children = '') => {
 }
 
 const createRule = (selector, key, value, media) => {
-  const id = selector + key + value + media
+  const id = selector + key + value + (media || '')
 
   if (cache[id]) return
 

@@ -5,8 +5,6 @@ import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
 import cxs, { cache, sheet, reset, css } from '../src/lite'
 
-import rehydrate from '../src/lite/rehydrate'
-
 jsdom('<html></html>')
 
 const style = {
@@ -197,10 +195,12 @@ test('can rehydrate cache', t => {
       }
     }
   })
+  const savedCache = Object.assign({}, cxs.cache)
   const styles = css()
-  let recache = {}
-  rehydrate(recache, styles)
-  t.is(cache === recache, false)
-  t.deepEqual(cache, recache)
+  cxs.reset()
+  t.deepEqual(cache, {})
+  cxs.rehydrate(styles)
+  t.is(cache === savedCache, false)
+  t.deepEqual(cache, savedCache)
 })
 
