@@ -83,8 +83,6 @@ const createRule = (selector, decs, media) => {
   const rule = `${selector}{${decs.join(';')}}`
   const css = media ? `${media}{${rule}}` : rule
   return css
-
-  // sheet.insert(css)
 }
 
 cxs.reset = reset
