@@ -3,9 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { sheet, reset, css } from '../src/lite'
-
-// import rehydrate from '../src/lite/rehydrate'
+import cxs, { cache, sheet, reset, css } from '../src/lite'
 
 jsdom('<html></html>')
 
@@ -168,26 +166,41 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(css().includes('-moz-inner-focus'), true)
 })
 
-test.todo('can rehydrate cache')
-
-/*
 test('can rehydrate cache', t => {
   cxs({
     color: 'tomato',
     margin: 8,
     ':hover': {
-      fontSize: 12
+      fontSize: 12,
+      color: 'red'
     },
     '@media (min-width:40em)': {
       marginBottom: 32,
       ':hover': {
         color: 'green'
       }
+    },
+    '@media screen and (max-width: 32em)': {
+      color: 'blue',
+      margin: 48,
+      ':focus': {
+        outline: '2px solid tomato',
+        fontWeight: 'bold',
+        ':hover': {
+          color: 'pink'
+        }
+      },
+      ':hover': {
+        color: 'black'
+      }
     }
   })
+  const savedCache = Object.assign({}, cxs.cache)
   const styles = css()
-  let cache = {}
-  rehydrate(cache, styles)
+  cxs.reset()
+  t.deepEqual(cache, {})
+  cxs.rehydrate(styles)
+  t.is(cache === savedCache, false)
+  t.deepEqual(cache, savedCache)
 })
-*/
 

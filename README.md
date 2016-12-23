@@ -102,18 +102,19 @@ To use CXS in server environments, use the `css()` function to get the static CS
 ```js
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import cxs, { css, reset } from 'cxs'
+import cxs from 'cxs'
 import App from './App'
 
 const html = ReactDOMServer.renderToString(<App />)
+const css = cxs.css()
 
 const doc = `<!DOCTYPE html>
-<style>${css()}</style>
+<style>${css}</style>
 ${html}
 `
 
 // reset the cache for the next render
-reset()
+cxs.reset()
 
 ```
 
@@ -172,13 +173,28 @@ For super fast performance, use the `cxs/lite` module.
 Lite mode creates alphabetic class names in a sequential order and does not support nested selectors.
 
 Since the class names in cxs/lite are *not* created in a functional manner,
-when using cxs/lite on both the server and client, the styles will need to be rehydrated. *Rehydration is not yet implemented.*
+when using cxs/lite on both the server and client, the styles will need to be rehydrated.
 
-<!--
 ```js
-import { cxs, reset, css, hydrate } from 'cxs/lite'
+// Server
+const css = cxs.css()
+cxs.reset()
+
+const html = `<!DOCTYPE html>
+<style id='cxs-style'>${css}</style>
+${body}
+`
 ```
--->
+
+```js
+// Client
+import cxs from 'cxs/lite'
+
+const styleTag = document.getElementById('cxs-style')
+const serverCss = styleTag.innerHTML
+
+cxs.rehydrate(serverCss)
+```
 
 ### Monolithic Mode
 
@@ -201,25 +217,35 @@ cxs('body', {
 ## API
 
 ```js
-import cxs, {
-  css,
-  sheet,
-  reset
-} from 'cxs'
+import cxs from 'cxs'
+
 // Creates styles and returns micro classnames
 cxs({ color: 'tomato' })
 
 // Returns a CSS string of attached rules. Useful for server-side rendering
-css()
-
-// The threepointone/glamor StyleSheet instance
-// See https://github.com/threepointone/glamor
-cxs.sheet
+cxs.css()
 
 // Clear the cache and flush the glamor stylesheet.
 // This is useful for cleaning up in server-side contexts.
 cxs.reset()
 ```
+
+Additional exports
+
+```
+import {
+  // The threepointone/glamor StyleSheet instance
+  // See https://github.com/threepointone/glamor
+  sheet,
+  // The internal cache
+  cache,
+  // Same as cxs.css
+  css,
+  // Same as cxs.reset
+  reset
+} from 'cxs'
+```
+
 
 ## How it Works
 
