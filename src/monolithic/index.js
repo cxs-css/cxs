@@ -26,49 +26,63 @@ const cxs = (a, b) => {
     selector = a
   }
   const style = selector ? b : a
-  const hashname = hash(JSON.stringify(style))
-  selector = selector || '.' + hashname
 
-  parse(selector, style)
+  const className = hash(JSON.stringify(style))
 
-  return hashname
+  selector = selector || '.' + className
+
+  if (cache[selector]) return className
+
+  const rules = parse(selector, style)
+
+  rules.forEach(rule => sheet.insert(rule))
+
+  cache[selector] = className
+
+  return className
 }
 
-const parse = (selector, obj, media, children = '') => {
-  for (let key in obj) {
-    const value = obj[key]
+const parse = (selector, styles, media) => {
+  const decs = []
+  const rules = []
+
+  for (let key in styles) {
+    const value = styles[key]
     const type = typeof value
 
     if (type === 'number' || type === 'string') {
-      createRule(selector + children, key, value, media)
+      decs.push(createDec(key, value))
       continue
     } else if (/^:/.test(key)) {
-      parse(selector, value, media, children + key)
+      parse(selector + key, value, media)
+        .forEach(r => rules.push(r))
       continue
     } else if (/^@media/.test(key)) {
-      parse(selector, value, key, children)
+      parse(selector, value, key)
+        .forEach(r => rules.push(r))
       continue
     } else {
-      parse(selector, value, media, children + ' ' + key)
+      parse(selector + ' ' + key, value, media)
+        .forEach(r => rules.push(r))
       continue
     }
   }
+
+  rules.unshift(createRule(selector, decs, media))
+
+  return rules
 }
 
-const createRule = (selector, key, value, media) => {
-  const id = selector + key + value + (media || '')
-
-  if (cache[id]) return
-
+const createDec = (key, value) => {
   const prop = hyphenate(key)
   const val = addPx(key, value)
-  const rule = `${selector}{${prop}:${val}}`
+  return prop + ':' + val
+}
+
+const createRule = (selector, decs, media) => {
+  const rule = `${selector}{${decs.join(';')}}`
   const css = media ? `${media}{${rule}}` : rule
-
-  sheet.insert(css)
-  cache[id] = true
-
-  return
+  return css
 }
 
 cxs.reset = reset
