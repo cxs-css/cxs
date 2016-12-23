@@ -133,7 +133,7 @@ test('dedupes repeated styles', t => {
   cxs(dupe)
   cxs(dupe)
 
-  t.is(sheet.rules().length, 2)
+  t.is(sheet.rules().length, 1)
 })
 
 test('handles array values', t => {
