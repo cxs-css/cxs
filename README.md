@@ -217,7 +217,7 @@ cxs('body', {
 ## API
 
 ```js
-import cxs 'cxs'
+import cxs from 'cxs'
 
 // Creates styles and returns micro classnames
 cxs({ color: 'tomato' })
