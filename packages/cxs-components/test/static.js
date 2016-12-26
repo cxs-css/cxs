@@ -18,7 +18,9 @@ test.afterEach(() => {
 
 test('does not throw', t => {
   t.notThrows(() => {
-    Box = comp()()
+    Box = comp()({
+      color: 'blue'
+    })
   })
 })
 
@@ -34,14 +36,14 @@ test('renders a div', t => {
 })
 
 test('has a className', t => {
-  t.truthy(wrapper.props().className)
-  t.regex(wrapper.props().className, /^cxs-/)
+  t.is(wrapper.props().className, 'c-blue')
+  // t.regex(wrapper.props().className, /^c-blue/)
 })
 
 test('exposes cxs instance', t => {
   t.truthy(cxs)
   t.is(typeof cxs, 'function')
-  t.is(typeof cxs.css, 'string')
+  t.is(typeof cxs.css(), 'string')
 })
 
 test('converts object to cxs CSS', t => {
@@ -49,21 +51,19 @@ test('converts object to cxs CSS', t => {
     color: 'tomato'
   })
   wrapper = shallow(<Box />)
-  t.regex(cxs.css, /color:tomato/)
+  t.regex(cxs.css(), /color:tomato/)
 })
 
-test('does not accept functions as argument', t => {
-  t.throws(() => {
-    Box = comp()(props => ({
-      color: props.foo ? 'tomato' : 'green'
-    }))
-  })
+test('does not handle functions as argument', t => {
+  Box = comp()(props => ({
+    color: props.foo ? 'tomato' : 'green'
+  }))
+  wrapper = shallow(<Box />)
+  t.is(wrapper.props().className, '')
 })
 
 test('accepts a component instead of tag string', t => {
-  cxs.clear()
-  cxs.sheet.flush()
-  cxs.sheet.inject()
+  cxs.reset()
   Box = comp('div')({
     padding: 16
   })
@@ -71,8 +71,8 @@ test('accepts a component instead of tag string', t => {
     border: '1px solid'
   })
   shallow(<BorderBox />).html()
-  t.regex(cxs.css, /padding:16px/)
-  t.regex(cxs.css, /border:1px\ solid/)
+  t.regex(cxs.css(), /padding:16px/)
+  t.regex(cxs.css(), /border:1px\ solid/)
 })
 
 

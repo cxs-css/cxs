@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "cxs": "^2.1.0",
+    "cxs": "^3.0.0-b5",
     "merge": "^1.2.0"
   },
   "devDependencies": {
