@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { cache, sheet, reset, css } from '../src/lite'
+import cxs, { cache, sheet, reset, css, setOptions } from '../src/lite'
 
 jsdom('<html></html>')
 
@@ -202,5 +202,11 @@ test('can rehydrate cache', t => {
   cxs.rehydrate(styles)
   t.is(cache === savedCache, false)
   t.deepEqual(cache, savedCache)
+})
+
+test('can set prefix option', t => {
+  setOptions({ prefix: 'foo-' })
+  const cx = cxs({ color: 'tomato' })
+  t.is(cx, 'foo-a')
 })
 
