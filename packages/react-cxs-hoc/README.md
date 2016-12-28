@@ -12,11 +12,11 @@ npm i react-cxs-hoc
 ```jsx
 // Example HOC usage
 import React from 'react'
-import Cxs from 'react-cxs-hoc'
+import withCxs from 'react-cxs-hoc'
 
 const Box = props => <div {...props} />
 
-export default Cxs(Box)
+export default withCxs(Box)
 ```
 
 ```jsx
