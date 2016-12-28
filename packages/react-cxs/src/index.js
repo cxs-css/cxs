@@ -1,14 +1,19 @@
 
 const React = require('react')
+const classnames = require('classnames')
 const cxs = require('cxs').default
 
-const transformProps = (originalProps) => {
-  const props = { ...originalProps }
-  if (props.className && typeof props.className === 'object') {
-    props.className = cxs(props.className)
-  }
+const transformProps = ({
+  css = {},
+  className,
+  ...rest
+} = {}) => {
+  const cx = classnames(className, cxs(css))
 
-  return props
+  return {
+    ...rest,
+    className: cx
+  }
 }
 
 const createElement = (tag, originalProps, ...children) => {

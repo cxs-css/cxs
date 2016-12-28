@@ -22,6 +22,7 @@
     "react": "^0.14.0 || ^15.0.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "cxs": "^3.0.0-b5"
   },
   "devDependencies": {

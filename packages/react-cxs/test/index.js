@@ -1,5 +1,6 @@
 
 import test from 'ava'
+import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 import jsdom from 'jsdom-global'
 import { StyleSheet } from 'glamor/lib/sheet'
@@ -24,19 +25,13 @@ test('renders a div', t => {
   t.is(tree.type, 'div')
 })
 
-test('accepts object classNames', t => {
+test('accepts css prop', t => {
   const cx = {
     color: 'tomato'
   }
-  r.render(reactCxs(Root, { className: cx }))
+  r.render(reactCxs(Root, { css: cx }))
   const tree = r.getRenderOutput()
   t.regex(tree.props.className, /^c\-tomato/)
-})
-
-test('accepts string classNames', t => {
-  r.render(reactCxs(Root, { className: 'hello' }))
-  const tree = r.getRenderOutput()
-  t.is(tree.props.className, 'hello')
 })
 
 test('add rules to cxs', t => {

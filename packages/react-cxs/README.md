@@ -5,7 +5,7 @@
 
 **Experimental**
 
-ϟ Alternative `React.createElement` function which allows style objects to be passed to the className prop to generate CSS using [cxs](https://github.com/jxnblk/cxs)
+ϟ Alternative `React.createElement` function which allows style objects to be passed to the `css` prop to generate CSS using [cxs](https://github.com/jxnblk/cxs)
 
 ```sh
 npm i react-cxs
@@ -46,13 +46,13 @@ plugins: [
 *Note: the webpack ProvidePlugin exposes the `reactCxs` function globally.
 Alternatively, `reactCxs` can be imported at the top of each component.*
 
-Once these are configured, you can pass style objects to the className prop in any component to have CSS automatically generated with the cxs module.
+Once these are configured, you can pass style objects to the `css` prop in any component to have CSS automatically generated with the cxs module.
 
-```js
+```jsx
 // Example Button.js component
 
 const Button = (props) => {
-  const className = {
+  const styles = {
     fontFamily: 'inherit',
     fontSize: 'inherit',
     textDecoration: 'none',
@@ -70,19 +70,11 @@ const Button = (props) => {
     }
   }
 
-  return <button {...props} className={className} />
+  return <button {...props} css={styles} />
 }
 
 export default Button
 ```
-
-To use external CSS, pass a string to the className prop instead:
-
-```js
-<button className='btn btn-primary'>Button</button>
-```
-
-See the `/demo` folder for a rough example.
 
 ## Advantages
 
@@ -93,14 +85,16 @@ See the `/demo` folder for a rough example.
 
 ## Usage with other CSS-in-JS solutions
 
-This approach can also be used with other libraries such as [Aphrodite](https://github.com/Khan/aphrodite) or [JSS](https://github.com/jsstyles/jss).
+This approach can also be used with other libraries such as
+[Glamor](https://github.com/threepointone/glamor) or
+[Aphrodite](https://github.com/Khan/aphrodite).
 Create your own `createElement` function like the one found in `/src/index.js` and replace the calls to `cxs` with another library.
 
 ## Related
 
 - [cxs](https://github.com/jxnblk/cxs)
+- [Glamor](https://github.com/threepointone/glamor)
 - [Aphrodite](https://github.com/Khan/aphrodite)
-- [JSS](https://github.com/jssstyles/jss)
 - [hyp](https://github.com/jxnblk/hyp)
 
 MIT License
