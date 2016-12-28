@@ -8,7 +8,7 @@
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "test": "ava",
-    "size": "npm run prepublish && bundle-size ./static"
+    "size": "npm run prepublish && bundle-size ."
   },
   "keywords": [
     "react",

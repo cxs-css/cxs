@@ -11,11 +11,10 @@ npm install cxs-components
 
 ## Features
 
-- 7 KB
+- ~6 KB
 - Simple API to quickly create UI components
 - Performant, functional CSS-in-JS
 - Uses native JavaScript objects
-- Avoids style collisions with hashed class selectors
 - Supports pseudoclasses, media queries, and keyframes
 
 cxs-components' API is inspired by
@@ -35,13 +34,13 @@ cxs-components helps enforce separation of style and business logic by promoting
 
 ```js
 import React from 'react'
-import comp from 'cxs-components'
+import createComponent from 'cxs-components'
 
-const Box = comp('div')({
+const Box = createComponent('div')({
   padding: 32
 })
 
-const TomatoBox = comp(Box)({
+const TomatoBox = createComponent(Box)({
   backgroundColor: 'tomato'
 })
 
@@ -60,10 +59,10 @@ const App = () => (
 ### API
 
 ```js
-import comp from 'cxs-component'
+import createComponent from 'cxs-component'
 // create component function
 
-comp(tagName)(style, options)
+createComponent(tagName)(style, options)
 // Returns a functional React component
 ```
 
@@ -77,7 +76,7 @@ comp(tagName)(style, options)
 A function can be passed as the style argument to use props to control styling.
 
 ```js
-const Box = comp('div')(props => ({
+const Box = createComponent('div')(props => ({
   padding: props.big ? 64 : 32
 }))
 
@@ -91,7 +90,7 @@ To ensure non-standard DOM attributes are not passed on,
 specify a `removeProps` array in the options object.
 
 ```js
-const Box = comp('div')(props => ({
+const Box = createComponent('div')(props => ({
   padding: props.big ? 64 : 32
 }), {
   // Clean up after yourself 🛁
@@ -106,7 +105,7 @@ const Box = comp('div')(props => ({
 cxs supports pseudoclasses.
 
 ```js
-const Link = comp('a')({
+const Link = createComponent('a')({
   color: blue,
   ':hover': {
     color: darkblue
@@ -117,7 +116,7 @@ const Link = comp('a')({
 ### Media queries
 
 ```js
-const Heading = comp('h2')({
+const Heading = createComponent('h2')({
   fontSize: 32,
   margin: 0,
   '@media screen and (min-width: 52em)': {
@@ -140,7 +139,7 @@ const render = (req, res) => {
   const html = renderToString(
     createElement(App)
   )
-  const css = cxs.css
+  const css = cxs.css()
 
   return (`<!DOCTYPE html>
     <style>${css}</style>
@@ -155,15 +154,15 @@ The static create component function works the same as the defualt,
 but does *NOT* support functions as an argument for styles.
 
 ```js
-import comp from 'cxs-components/static'
+import createComponent from 'cxs-components/static'
 
 // This works the same
-const Box = comp('div')({
+const Box = createComponent('div')({
   padding: 32
 })
 
 // This WILL NOT work with the static create component function
-const Card = comp('div')(props => ({
+const Card = createComponent('div')(props => ({
   color: props.color
 }))
 ```
