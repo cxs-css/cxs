@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Cxs from '.'
+import withCxs from '.'
 
 class Base extends React.Component {
   render () {
@@ -17,5 +17,5 @@ class Base extends React.Component {
   }
 }
 
-export default Cxs(Base)
+export default withCxs(Base)
 
