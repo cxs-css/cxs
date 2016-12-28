@@ -37,7 +37,7 @@ width = 1 / 2,
     width: `${width * 100}%`
   }
 
-  return <Box {...props} className={cx} />
+  return <Box {...props} css={cx} />
 }
 
 export default Grid
@@ -45,11 +45,11 @@ export default Grid
 
 ## Base component
 
-```js
+```jsx
 import React from 'react'
 import { Base } from 'cxs'
 
-const Button = ({ className = {}, ...props }) => {
+const Button = ({ css = {}, ...props }) => {
   const cx = {
     fontFamily: 'inherit',
     fontSize: 'inherit',
@@ -64,10 +64,10 @@ const Button = ({ className = {}, ...props }) => {
     ':hover': {
       backgroundColor: '#06b'
     },
-    ...className
+    ...css
   }
 
-  return <Base {...props} tag='button' className={cx} />
+  return <Base {...props} tag='button' css={cx} />
 }
 ```
 

@@ -18,7 +18,8 @@
   "author": "Brent Jackson",
   "license": "MIT",
   "dependencies": {
-    "cxs": "^1.0.0"
+    "classnames": "^2.2.5",
+    "cxs": "^3.0.0-b5"
   },
   "devDependencies": {
     "ava": "^0.15.2",
