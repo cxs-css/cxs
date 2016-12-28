@@ -74,7 +74,7 @@ const Button = ({ className = {}, ...props }) => {
 ### Related:
 
 - [cxs](https://github.com/jxnblk/cxs)
-- [react-cxs](https://github.com/jxnblk/react-cxs)
+- [react-cxs](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs)
 - [Aphrodite](https://github.com/Khan/aphrodite)
 - [JSS](https://github.com/cssinjs/jss)
 
