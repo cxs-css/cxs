@@ -1,6 +1,6 @@
 {
   "name": "react-cxs",
-  "version": "1.0.0",
+  "version": "3.0.0-b5",
   "description": "Alternative React.createElement function which allows style objects to be passed to the className prop to generate CSS using cxs",
   "main": "dist/index.js",
   "scripts": {

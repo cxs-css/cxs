@@ -1,6 +1,6 @@
 {
   "name": "cxs-components",
-  "version": "1.0.0-b1",
+  "version": "3.0.0-b5",
   "description": "Styled UI component primitives for React - built with cxs",
   "main": "dist/index.js",
   "scripts": {
