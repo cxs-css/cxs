@@ -28,7 +28,7 @@ const Grid = ({
 width = 1 / 2,
 ...props
 }) => {
-  const cx = {
+  const css = {
     boxSizing: 'border-box',
     display: 'inline-block',
     verticalAlign: 'top',
@@ -37,7 +37,7 @@ width = 1 / 2,
     width: `${width * 100}%`
   }
 
-  return <Box {...props} css={cx} />
+  return <Box {...props} css={css} />
 }
 
 export default Grid
@@ -50,7 +50,7 @@ import React from 'react'
 import { Base } from 'cxs'
 
 const Button = ({ css = {}, ...props }) => {
-  const cx = {
+  const css = {
     fontFamily: 'inherit',
     fontSize: 'inherit',
     display: 'inline-block',
@@ -67,7 +67,7 @@ const Button = ({ css = {}, ...props }) => {
     ...css
   }
 
-  return <Base {...props} tag='button' css={cx} />
+  return <Base {...props} tag='button' css={css} />
 }
 ```
 

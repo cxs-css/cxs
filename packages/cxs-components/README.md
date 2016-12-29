@@ -139,7 +139,7 @@ const render = (req, res) => {
   const html = renderToString(
     createElement(App)
   )
-  const css = cxs.css()
+  const css = cxs.getCss()
 
   return (`<!DOCTYPE html>
     <style>${css}</style>
