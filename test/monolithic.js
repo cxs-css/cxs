@@ -207,3 +207,9 @@ test('supports custom global selectors', t => {
   t.truthy(getCss().includes('line-height:1.5'))
 })
 
+test('can set prefix option', t => {
+  cxs.setOptions({ prefix: 'foo-' })
+  const className = cxs({ color: 'tomato' })
+  t.regex(className, /^foo\-/)
+})
+

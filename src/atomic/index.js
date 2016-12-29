@@ -17,6 +17,16 @@ export const getCss = () => sheet.rules()
   .map(rule => rule.cssText)
   .join('')
 
+const options = {
+  prefix: ''
+}
+
+export const setOptions = (opts) => {
+  for (let key in opts) {
+    options[key] = opts[key]
+  }
+}
+
 export const cache = {}
 
 export const reset = () => {
@@ -108,6 +118,7 @@ const createClassName = (prop, value, prefix) => {
     ? abbr(prop)
     : prop).replace(/^-/, '')
   const parts = combine('-')(
+    options.prefix ? options.prefix : null,
     prefix ? clean(prefix) : null,
     base,
     clean(value)
@@ -119,6 +130,7 @@ const createClassName = (prop, value, prefix) => {
 
 cxs.reset = reset
 cxs.getCss = getCss
+cxs.setOptions = setOptions
 
 export default cxs
 

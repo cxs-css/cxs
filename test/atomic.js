@@ -185,3 +185,9 @@ test('should handle ::-moz-inner-focus', t => {
   t.is(getCss().includes('-moz-inner-focus'), true)
 })
 
+test('can set prefix option', t => {
+  cxs.setOptions({ prefix: 'foo-' })
+  const className = cxs({ color: 'tomato' })
+  t.regex(className, /^foo\-/)
+})
+

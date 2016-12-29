@@ -3,6 +3,15 @@ import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
 import { addPx, hyphenate } from '../util'
 
+const options = {
+}
+
+export const setOptions = (opts) => {
+  for (let key in opts) {
+    options[key] = opts[key]
+  }
+}
+
 export let cache = {}
 
 export const sheet = new StyleSheet()
@@ -27,7 +36,7 @@ const cxs = (a, b) => {
   }
   const style = selector ? b : a
 
-  const className = hash(JSON.stringify(style))
+  const className = hash(JSON.stringify(style), options.prefix)
 
   selector = selector || '.' + className
 
@@ -87,6 +96,7 @@ const createRule = (selector, decs, media) => {
 
 cxs.reset = reset
 cxs.getCss = getCss
+cxs.setOptions = setOptions
 
 export default cxs
 
