@@ -97,5 +97,5 @@ Create your own `createElement` function like the one found in `/src/index.js` a
 - [Aphrodite](https://github.com/Khan/aphrodite)
 - [hyp](https://github.com/jxnblk/hyp)
 
-MIT License
+[MIT License](LICENSE.md)
 

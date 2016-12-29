@@ -283,4 +283,5 @@ IE9+, due to the following:
 - `Array.reduce`
 - `Array.forEach`
 
-MIT License
+[MIT License](LICENSE.md)
+

@@ -78,4 +78,5 @@ const Button = ({ css = {}, ...props }) => {
 - [Aphrodite](https://github.com/Khan/aphrodite)
 - [JSS](https://github.com/cssinjs/jss)
 
-MIT License
+[MIT License](LICENSE.md)
+
