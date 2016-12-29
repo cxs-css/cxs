@@ -97,7 +97,7 @@ cxs({
 
 ### Server-Side Rendering
 
-To use CXS in server environments, use the `css()` function to get the static CSS string *after* rendering a view.
+To use CXS in server environments, use the `getCss()` function to get the static CSS string *after* rendering a view.
 
 ```js
 import React from 'react'
@@ -106,7 +106,7 @@ import cxs from 'cxs'
 import App from './App'
 
 const html = ReactDOMServer.renderToString(<App />)
-const css = cxs.css()
+const css = cxs.getCss()
 
 const doc = `<!DOCTYPE html>
 <style>${css}</style>
@@ -176,7 +176,7 @@ when using cxs/lite on both the server and client, the styles will need to be re
 
 ```js
 // Server
-const css = cxs.css()
+const css = cxs.getCss()
 cxs.reset()
 
 const html = `<!DOCTYPE html>
@@ -222,7 +222,7 @@ import cxs from 'cxs'
 cxs({ color: 'tomato' })
 
 // Returns a CSS string of attached rules. Useful for server-side rendering
-cxs.css()
+cxs.getCss()
 
 // Clear the cache and flush the glamor stylesheet.
 // This is useful for cleaning up in server-side contexts.
@@ -238,8 +238,8 @@ import {
   sheet,
   // The internal cache
   cache,
-  // Same as cxs.css
-  css,
+  // Same as cxs.getCss
+  getCss,
   // Same as cxs.reset
   reset
 } from 'cxs'

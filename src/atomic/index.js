@@ -13,7 +13,7 @@ export const sheet = new StyleSheet()
 
 sheet.inject()
 
-export const css = () => sheet.rules()
+export const getCss = () => sheet.rules()
   .map(rule => rule.cssText)
   .join('')
 
@@ -118,7 +118,7 @@ const createClassName = (prop, value, prefix) => {
 }
 
 cxs.reset = reset
-cxs.css = css
+cxs.getCss = getCss
 
 export default cxs
 
