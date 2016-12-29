@@ -275,6 +275,12 @@ const prefixed = prefixer({
 const cx = cxs(prefixed)
 ```
 
+## Related Modules
+
+- [cxs-components](packages/cxs-components)
+- [react-cxs](packages/react-cxs)
+- [react-cxs-hoc](packages/react-cxs-hoc)
+
 ### Browser support
 
 IE9+, due to the following:
