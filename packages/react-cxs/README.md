@@ -1,11 +1,11 @@
 
-# react-cxs
+# ϟ react-cxs
 
 [![Build Status](https://travis-ci.org/jxnblk/react-cxs.svg?branch=master)](https://travis-ci.org/jxnblk/react-cxs)
 
 **Experimental**
 
-ϟ Alternative `React.createElement` function which allows style objects to be passed to the `css` prop to generate CSS using [cxs](https://github.com/jxnblk/cxs)
+Alternative `React.createElement` function which allows style objects to be passed to the `css` prop to generate CSS using [cxs](https://github.com/jxnblk/cxs)
 
 ```sh
 npm i react-cxs
@@ -93,9 +93,8 @@ Create your own `createElement` function like the one found in `/src/index.js` a
 ## Related
 
 - [cxs](https://github.com/jxnblk/cxs)
-- [Glamor](https://github.com/threepointone/glamor)
-- [Aphrodite](https://github.com/Khan/aphrodite)
-- [hyp](https://github.com/jxnblk/hyp)
+- [cxs-components](https://github.com/jxnblk/cxs/tree/master/packages/cxs-components)
+- [react-cxs-hoc](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs-hoc)
 
 [MIT License](LICENSE.md)
 

@@ -1,4 +1,5 @@
-# CXS
+
+# ϟ CXS
 
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
@@ -118,7 +119,6 @@ cxs.reset()
 ```
 
 ## Modes
-
 
 CXS offers three different modes of operation, which produce different rules and class names.
 
@@ -282,6 +282,12 @@ IE9+, due to the following:
 - `Array.map`
 - `Array.reduce`
 - `Array.forEach`
+
+## Related
+
+- [cxs-components](https://github.com/jxnblk/cxs/tree/master/packages/cxs-components)
+- [react-cxs](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs)
+- [react-cxs-hoc](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs-hoc)
 
 [MIT License](LICENSE.md)
 

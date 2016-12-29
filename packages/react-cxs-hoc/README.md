@@ -1,5 +1,5 @@
 
-# react-cxs-hoc
+# ϟ react-cxs-hoc
 
 React higher order component for applying CSS style objects to components with [cxs](https://github.com/jxnblk/cxs)
 
@@ -74,9 +74,8 @@ const Button = ({ css = {}, ...props }) => {
 ### Related:
 
 - [cxs](https://github.com/jxnblk/cxs)
+- [cxs-components](https://github.com/jxnblk/cxs/tree/master/packages/cxs-components)
 - [react-cxs](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs)
-- [Aphrodite](https://github.com/Khan/aphrodite)
-- [JSS](https://github.com/cssinjs/jss)
 
 [MIT License](LICENSE.md)
 

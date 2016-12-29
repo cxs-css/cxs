@@ -171,8 +171,8 @@ const Card = createComponent('div')(props => ({
 
 - [cxs](https://github.com/jxnblk/cxs)
 - [react-cxs](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs)
+- [react-cxs-hoc](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs-hoc)
 - [styled-components](https://github.com/styled-components/styled-components)
-- [glamor](https://github.com/threepointone/glamor)
 
 [MIT License](LICENSE.md)
 
