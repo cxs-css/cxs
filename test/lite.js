@@ -124,7 +124,6 @@ test('handles prefixed styles with array values', t => {
   t.regex(getCss(), /\-ms\-flexbox/)
 })
 
-/*
 test('handles prefixed styles (including ms) in keys', t => {
   t.pass(3)
   t.notThrows(() => {
@@ -136,7 +135,6 @@ test('handles prefixed styles (including ms) in keys', t => {
   t.regex(getCss(), /\-webkit\-align-items/)
   t.regex(getCss(), /\-ms\-flex-align/)
 })
-*/
 
 test('ignores null values', t => {
   cxs({
