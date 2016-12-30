@@ -1,5 +1,5 @@
 
-export default (str) => {
+export default (str, prefix = '_') => {
   let val = 5381
   let i = str.length
 
@@ -7,6 +7,6 @@ export default (str) => {
     val = (val * 33) ^ str.charCodeAt(--i)
   }
 
-  return '_' + (val >>> 0).toString(36)
+  return prefix + (val >>> 0).toString(36)
 }
 

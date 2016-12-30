@@ -204,3 +204,9 @@ test('can rehydrate cache', t => {
   t.deepEqual(cache, savedCache)
 })
 
+test('can set prefix option', t => {
+  cxs.setOptions({ prefix: 'foo-' })
+  const className = cxs({ color: 'tomato' })
+  t.regex(className, /^foo\-/)
+})
+
