@@ -59,7 +59,7 @@ const App = () => (
 ### API
 
 ```js
-import createComponent from 'cxs-component'
+import createComponent from 'cxs-components'
 // create component function
 
 createComponent(tagName)(style, options)

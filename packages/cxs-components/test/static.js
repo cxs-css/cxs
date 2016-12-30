@@ -37,7 +37,6 @@ test('renders a div', t => {
 
 test('has a className', t => {
   t.is(wrapper.props().className, 'c-blue')
-  // t.regex(wrapper.props().className, /^c-blue/)
 })
 
 test('exposes cxs instance', t => {

@@ -47,7 +47,7 @@ export default Grid
 
 ```jsx
 import React from 'react'
-import { Base } from 'cxs'
+import { Base } from 'react-cxs-hoc'
 
 const Button = ({ css = {}, ...props }) => {
   const css = {
