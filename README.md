@@ -280,7 +280,6 @@ const cx = cxs(prefixed)
 IE9+, due to the following:
 - `Array.filter`
 - `Array.map`
-- `Array.reduce`
 - `Array.forEach`
 
 ## Related
