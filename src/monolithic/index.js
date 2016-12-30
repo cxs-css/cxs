@@ -27,9 +27,7 @@ export const getCss = () => {
 }
 
 export const reset = () => {
-  for (let key in cache) {
-    delete cache[key]
-  }
+  cache = {}
   sheet.flush()
 }
 

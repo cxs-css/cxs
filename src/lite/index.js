@@ -26,12 +26,10 @@ export const setOptions = (opts) => {
   }
 }
 
-export const cache = {}
+export let cache = {}
 
 export const reset = () => {
-  for (let key in cache) {
-    delete cache[key]
-  }
+  cache = {}
   sheet.flush()
   count = 0
 }
