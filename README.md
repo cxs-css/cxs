@@ -15,22 +15,19 @@ to maximize deduplication and help with dead code elimination.
 
 ## Features
 
-- Three different [modes](#modes) of operation:
-  - Atomic
-  - Lite
-  - Monolithic
-- ~6KB
+- Three different [modes](#modes) of operation: Atomic, Lite, & Monolithic
+- < 5KB
 - Avoids collisions with atomic rulesets
 - Deduplicates repeated styles
 - Dead-code elimination
 - Framework independent
 - CSS-in-JS
-  - Media queries
-  - Pseudoclasses
-  - Nested selectors
-  - Avoid maintaining separate stylesheets
-  - Use plain JS objects and types
-  - No tagged template literals
+- Media queries
+- Pseudoclasses
+- Nested selectors
+- Avoid maintaining separate stylesheets
+- Use plain JS objects and types
+- No tagged template literals
 
 ## Install
 
@@ -48,9 +45,7 @@ import cxs from 'cxs'
 
 const Box = (props) => {
   return (
-    <div
-      {...props}
-      className={className} />
+    <div {...props} className={className} />
   )
 }
 
@@ -113,7 +108,7 @@ const doc = `<!DOCTYPE html>
 ${html}
 `
 
-// reset the cache for the next render
+// Optionally reset the cache for the next render
 cxs.reset()
 
 ```
@@ -243,21 +238,6 @@ import {
   // Same as cxs.reset
   reset
 } from 'cxs'
-```
-
-
-## How it Works
-
-The CXS function creates a separate rule for each declaration,
-adds CSS rules to a style tag in the head of the document,
-and returns multiple classnames.
-
-The returned classname is based on the property and value of the declaration.
-Some classnames are abbreviated, and long classnames are hashed.
-
-```js
-cxs({ color: 'tomato' })
-// c-tomato
 ```
 
 ### Vendor prefixes

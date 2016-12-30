@@ -9,6 +9,8 @@
     "gh-pages": "gh-pages -d example",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundle-size ./",
+    "size-lite": "npm run prepublish && bundle-size ./lite",
+    "size-monolithic": "npm run prepublish && bundle-size ./monolithic",
     "standard": "standard",
     "test-watch": "ava -v --watch",
     "test": "ava -v"
