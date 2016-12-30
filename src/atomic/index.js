@@ -6,9 +6,14 @@ export const sheet = new StyleSheet()
 
 sheet.inject()
 
-export const getCss = () => sheet.rules()
-  .map(rule => rule.cssText)
-  .join('')
+export const getCss = () => {
+  let css = ''
+  const rules = sheet.rules()
+  for (let i = 0; i < rules.length; i++) {
+    css += rules[i].cssText
+  }
+  return css
+}
 
 const options = {
   prefix: ''
