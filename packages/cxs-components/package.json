@@ -1,0 +1,53 @@
+{
+  "name": "cxs-components",
+  "version": "3.0.0-b5",
+  "description": "Styled UI component primitives for React - built with cxs",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublish": "babel src --out-dir dist",
+    "start": "webpack-dev-server",
+    "build": "webpack -p",
+    "test": "ava",
+    "size": "npm run prepublish && bundle-size ."
+  },
+  "keywords": [
+    "react",
+    "style",
+    "css-in-js",
+    "cxs"
+  ],
+  "author": "Brent Jackson",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "cxs": "^3.0.0-b5",
+    "merge": "^1.2.0"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "bundle-size": "^1.1.4",
+    "chroma-js": "^1.2.1",
+    "enzyme": "^2.5.1",
+    "react": "^15.3.2",
+    "react-addons-test-utils": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "recompose": "^0.20.2",
+    "static-site-generator-webpack-plugin": "^3.1.0",
+    "understyle": "^1.3.0",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  }
+}

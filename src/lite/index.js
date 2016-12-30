@@ -5,7 +5,7 @@ export const sheet = new StyleSheet()
 
 sheet.inject()
 
-export const css = () => sheet.rules()
+export const getCss = () => sheet.rules()
   .map(rule => rule.cssText)
   .join('')
 
@@ -13,6 +13,16 @@ const PSEUDO_REGEX = /^:/
 const MEDIA_REGEX = /^@media/
 
 let count = 0
+
+const options = {
+  prefix: ''
+}
+
+export const setOptions = (opts) => {
+  for (let key in opts) {
+    options[key] = opts[key]
+  }
+}
 
 export const cache = {}
 
@@ -71,7 +81,7 @@ const createStyle = (key, value, media, pseudo = '') => {
 
   if (dupe) return dupe
 
-  const className = alphaHash(count)
+  const className = options.prefix + alphaHash(count)
   count++
   const selector = '.' + className + pseudo
   const prop = hyphenate(key)
@@ -171,10 +181,11 @@ const unitlessProps = [
   'strokeWidth'
 ]
 
-cxs.css = css
+cxs.getCss = getCss
 cxs.reset = reset
 cxs.cache = cache
 cxs.rehydrate = rehydrate
+cxs.setOptions = setOptions
 
 export default cxs
 

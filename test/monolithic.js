@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { reset, css, sheet } from '../src/monolithic'
+import cxs, { reset, getCss, sheet } from '../src/monolithic'
 import hash from '../src/hash'
 
 jsdom('<html></html>')
@@ -59,7 +59,7 @@ test('Adds px unit to number values', t => {
   cxs({
     fontSize: 32
   })
-  t.regex(css(), /font-size:32px}$/)
+  t.regex(getCss(), /font-size:32px}$/)
 })
 
 test('creates pseudoclass rules', t => {
@@ -69,7 +69,7 @@ test('creates pseudoclass rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(css(), /:hover/)
+  t.regex(getCss(), /:hover/)
 })
 
 test('creates @media rules', t => {
@@ -79,7 +79,7 @@ test('creates @media rules', t => {
       color: 'magenta'
     }
   })
-  t.regex(css(), /@media/)
+  t.regex(getCss(), /@media/)
 })
 
 test('keeps @media rules order', t => {
@@ -120,8 +120,8 @@ test('creates nested selectors', t => {
       }
     })
   })
-  t.regex(css(), /h1/)
-  t.regex(css(), /a:hover/)
+  t.regex(getCss(), /h1/)
+  t.regex(getCss(), /a:hover/)
 })
 
 test('dedupes repeated styles', t => {
@@ -143,7 +143,7 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(css(), /var/)
+  t.regex(getCss(), /var/)
 })
 
 test('handles prefixed styles with array values', t => {
@@ -154,8 +154,8 @@ test('handles prefixed styles with array values', t => {
     })
     cxs(prefixed)
   })
-  t.regex(css(), /\-webkit\-flex/)
-  t.regex(css(), /\-ms\-flexbox/)
+  t.regex(getCss(), /\-webkit\-flex/)
+  t.regex(getCss(), /\-ms\-flexbox/)
 })
 
 test('handles prefixed styles (including ms) in keys', t => {
@@ -166,8 +166,8 @@ test('handles prefixed styles (including ms) in keys', t => {
     })
     cxs(prefixed)
   })
-  t.regex(css(), /\-webkit\-align-items/)
-  t.regex(css(), /\-ms\-flex-align/)
+  t.regex(getCss(), /\-webkit\-align-items/)
+  t.regex(getCss(), /\-ms\-flex-align/)
 })
 
 test('ignores null values', t => {
@@ -175,7 +175,7 @@ test('ignores null values', t => {
     color: 'tomato',
     padding: null
   })
-  t.is(css().includes('null'), false)
+  t.is(getCss().includes('null'), false)
 })
 
 test('handles 0 values', t => {
@@ -184,7 +184,7 @@ test('handles 0 values', t => {
     fontFamily: 0,
     border: 0
   })
-  t.is(css().includes('border'), true)
+  t.is(getCss().includes('border'), true)
 })
 
 test('should handle ::-moz-inner-focus', t => {
@@ -195,7 +195,7 @@ test('should handle ::-moz-inner-focus', t => {
       padding: 0
     }
   })
-  t.is(css().includes('-moz-inner-focus'), true)
+  t.is(getCss().includes('-moz-inner-focus'), true)
 })
 
 test('supports custom global selectors', t => {
@@ -203,7 +203,13 @@ test('supports custom global selectors', t => {
     margin: 0,
     lineHeight: 1.5
   })
-  t.truthy(css().includes('margin:0'))
-  t.truthy(css().includes('line-height:1.5'))
+  t.truthy(getCss().includes('margin:0'))
+  t.truthy(getCss().includes('line-height:1.5'))
+})
+
+test('can set prefix option', t => {
+  cxs.setOptions({ prefix: 'foo-' })
+  const className = cxs({ color: 'tomato' })
+  t.regex(className, /^foo\-/)
 })
 

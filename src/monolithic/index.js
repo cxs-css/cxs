@@ -1,7 +1,15 @@
 
 import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
-import { addPx, hyphenate } from '../util'
+
+const options = {
+}
+
+export const setOptions = (opts) => {
+  for (let key in opts) {
+    options[key] = opts[key]
+  }
+}
 
 export let cache = {}
 
@@ -9,7 +17,7 @@ export const sheet = new StyleSheet()
 
 sheet.inject()
 
-export const css = () => sheet.rules()
+export const getCss = () => sheet.rules()
   .map(rule => rule.cssText)
   .join('')
 
@@ -27,7 +35,7 @@ const cxs = (a, b) => {
   }
   const style = selector ? b : a
 
-  const className = hash(JSON.stringify(style))
+  const className = hash(JSON.stringify(style), options.prefix)
 
   selector = selector || '.' + className
 
@@ -85,8 +93,50 @@ const createRule = (selector, decs, media) => {
   return css
 }
 
+export const hyphenate = (str) => ('' + str)
+  .replace(/[A-Z]|^ms/g, '-$&')
+  .toLowerCase()
+
+export const addPx = (prop, value) => {
+  if (typeof value !== 'number') return value
+  if (unitlessProps.indexOf(prop) > -1) return value
+  return value + 'px'
+}
+
+const unitlessProps = [
+  'animationIterationCount',
+  'boxFlex',
+  'boxFlexGroup',
+  'boxOrdinalGroup',
+  'columnCount',
+  'flex',
+  'flexGrow',
+  'flexPositive',
+  'flexShrink',
+  'flexNegative',
+  'flexOrder',
+  'gridRow',
+  'gridColumn',
+  'fontWeight',
+  'lineClamp',
+  'lineHeight',
+  'opacity',
+  'order',
+  'orphans',
+  'tabSize',
+  'widows',
+  'zIndex',
+  'zoom',
+  'fillOpacity',
+  'stopOpacity',
+  'strokeDashoffset',
+  'strokeOpacity',
+  'strokeWidth'
+]
+
 cxs.reset = reset
-cxs.css = css
+cxs.getCss = getCss
+cxs.setOptions = setOptions
 
 export default cxs
 

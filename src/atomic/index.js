@@ -1,21 +1,24 @@
 
 import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
-import {
-  addPx,
-  clean,
-  combine,
-  hyphenate
-} from '../util'
-import shorthands from './shorthands'
 
 export const sheet = new StyleSheet()
 
 sheet.inject()
 
-export const css = () => sheet.rules()
+export const getCss = () => sheet.rules()
   .map(rule => rule.cssText)
   .join('')
+
+const options = {
+  prefix: ''
+}
+
+export const setOptions = (opts) => {
+  for (let key in opts) {
+    options[key] = opts[key]
+  }
+}
 
 export const cache = {}
 
@@ -108,6 +111,7 @@ const createClassName = (prop, value, prefix) => {
     ? abbr(prop)
     : prop).replace(/^-/, '')
   const parts = combine('-')(
+    options.prefix ? options.prefix : null,
     prefix ? clean(prefix) : null,
     base,
     clean(value)
@@ -117,8 +121,92 @@ const createClassName = (prop, value, prefix) => {
   return className
 }
 
+const BLANK_REG = /[\(\)#]/g
+const P_REG = /%/g
+const SYMBOL_REG = /[&,:"\s]/g
+const AT_REG = /@/g
+const DOT_REG = /\./g
+
+export const clean = (str) => ('' + str)
+  .replace(BLANK_REG, '')
+  .replace(P_REG, 'P')
+  .replace(SYMBOL_REG, '_')
+  .replace(AT_REG, '_')
+  .replace(DOT_REG, 'p')
+
+export const combine = (str = '') => (...args) => args
+  .filter(a => a !== null)
+  .join(str)
+
+export const hyphenate = (str) => ('' + str)
+  .replace(/[A-Z]|^ms/g, '-$&')
+  .toLowerCase()
+
+export const addPx = (prop, value) => {
+  if (typeof value !== 'number') return value
+  if (unitlessProps.indexOf(prop) > -1) return value
+  return value + 'px'
+}
+
+const shorthands = [
+  'margin',
+  'margin-top',
+  'margin-right',
+  'margin-bottom',
+  'margin-left',
+  'padding',
+  'padding-top',
+  'padding-right',
+  'padding-bottom',
+  'padding-left',
+  'display',
+  'float',
+  'font-family',
+  'font-weight',
+  'font-size',
+  'line-height',
+  'width',
+  'height',
+  'color',
+  'background',
+  'background-color',
+  'background-image'
+]
+
+const unitlessProps = [
+  'animationIterationCount',
+  'boxFlex',
+  'boxFlexGroup',
+  'boxOrdinalGroup',
+  'columnCount',
+  'flex',
+  'flexGrow',
+  'flexPositive',
+  'flexShrink',
+  'flexNegative',
+  'flexOrder',
+  'gridRow',
+  'gridColumn',
+  'fontWeight',
+  'lineClamp',
+  'lineHeight',
+  'opacity',
+  'order',
+  'orphans',
+  'tabSize',
+  'widows',
+  'zIndex',
+  'zoom',
+  'fillOpacity',
+  'stopOpacity',
+  'strokeDashoffset',
+  'strokeOpacity',
+  'strokeWidth'
+]
+
 cxs.reset = reset
-cxs.css = css
+cxs.getCss = getCss
+cxs.setOptions = setOptions
 
 export default cxs
 
