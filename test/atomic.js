@@ -191,3 +191,10 @@ test('can set prefix option', t => {
   t.regex(className, /^foo\-/)
 })
 
+test('className replaces !', t => {
+  const className = cxs({
+    color: 'red!important',
+  });
+  console.log(className);
+  t.is(className.includes('!'), false);
+})
