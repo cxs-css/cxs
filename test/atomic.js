@@ -195,6 +195,5 @@ test('className replaces !', t => {
   const className = cxs({
     color: 'red!important',
   });
-  console.log(className);
   t.is(className.includes('!'), false);
 })
