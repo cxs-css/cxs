@@ -25,10 +25,8 @@ export const setOptions = (opts) => {
   }
 }
 
-export let cache = {}
-
 export const reset = () => {
-  cache = {}
+  cxs.cache = {}
   sheet.flush()
 }
 
@@ -87,7 +85,7 @@ const parse = (obj, media, children = '') => {
 const createStyle = (key, value, media, children = '') => {
   const prefix = (media || '') + children
   const id = key + value + prefix
-  const dupe = cache[id]
+  const dupe = cxs.cache[id]
 
   if (dupe) return dupe
 
@@ -99,7 +97,7 @@ const createStyle = (key, value, media, children = '') => {
   const css = media ? `${media}{${rule}}` : rule
 
   sheet.insert(css)
-  cache[id] = className
+  cxs.cache[id] = className
 
   return className
 }
@@ -207,6 +205,7 @@ const unitlessProps = [
   'strokeWidth'
 ]
 
+cxs.cache = {}
 cxs.reset = reset
 cxs.getCss = getCss
 cxs.setOptions = setOptions

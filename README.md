@@ -231,8 +231,6 @@ import {
   // The threepointone/glamor StyleSheet instance
   // See https://github.com/threepointone/glamor
   sheet,
-  // The internal cache
-  cache,
   // Same as cxs.getCss
   getCss,
   // Same as cxs.reset

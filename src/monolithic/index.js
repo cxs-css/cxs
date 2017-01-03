@@ -11,8 +11,6 @@ export const setOptions = (opts) => {
   }
 }
 
-export let cache = {}
-
 export const sheet = new StyleSheet()
 
 sheet.inject()
@@ -27,7 +25,7 @@ export const getCss = () => {
 }
 
 export const reset = () => {
-  cache = {}
+  cxs.cache = {}
   sheet.flush()
 }
 
@@ -42,13 +40,13 @@ const cxs = (a, b) => {
 
   selector = selector || '.' + className
 
-  if (cache[selector]) return className
+  if (cxs.cache[selector]) return className
 
   const rules = parse(selector, style)
 
   rules.forEach(rule => sheet.insert(rule))
 
-  cache[selector] = className
+  cxs.cache[selector] = className
 
   return className
 }
@@ -137,6 +135,7 @@ const unitlessProps = [
   'strokeWidth'
 ]
 
+cxs.cache = {}
 cxs.reset = reset
 cxs.getCss = getCss
 cxs.setOptions = setOptions

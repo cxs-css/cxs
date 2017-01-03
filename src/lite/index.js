@@ -26,15 +26,16 @@ export const setOptions = (opts) => {
   }
 }
 
-export let cache = {}
 
 export const reset = () => {
-  cache = {}
+  cxs.cache = {}
   sheet.flush()
   count = 0
 }
 
 export const cxs = (obj) => parse(obj)
+
+cxs.cache = {}
 
 const parse = (obj, media, pseudo = '') => {
   let className = ''
@@ -71,7 +72,7 @@ const parse = (obj, media, pseudo = '') => {
 
 const createStyle = (key, value, media, pseudo = '') => {
   const id = key + value + (media || '') + pseudo
-  const dupe = cache[id]
+  const dupe = cxs.cache[id]
 
   if (dupe) return dupe
 
@@ -85,7 +86,7 @@ const createStyle = (key, value, media, pseudo = '') => {
   const css = media ? media + '{' + rule + '}' : rule
 
   sheet.insert(css)
-  cache[id] = className
+  cxs.cache[id] = className
 
   return className
 }
@@ -128,7 +129,7 @@ export const rehydrate = (css) => {
     const val = removePx(dec[6])
     const id = key + val + media + pseudo
 
-    cache[id] = className
+    cxs.cache[id] = className
   }
 }
 
@@ -171,7 +172,6 @@ const unitlessProps = {
 
 cxs.getCss = getCss
 cxs.reset = reset
-cxs.cache = cache
 cxs.rehydrate = rehydrate
 cxs.setOptions = setOptions
 
