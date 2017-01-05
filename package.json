@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A CSS-in-JS solution for functional CSS in functional UI components",
   "main": "atomic.js",
   "scripts": {
