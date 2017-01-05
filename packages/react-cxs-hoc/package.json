@@ -1,6 +1,6 @@
 {
   "name": "react-cxs-hoc",
-  "version": "3.0.0-b5",
+  "version": "3.0.2",
   "description": "React higher order component for cxs",
   "main": "index.js",
   "scripts": {
