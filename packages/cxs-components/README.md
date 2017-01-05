@@ -3,7 +3,7 @@
 
 Styled UI component primitives for React - built with cxs
 
-[![Build Status](https://travis-ci.org/jxnblk/cxs-components.svg?branch=master)](https://travis-ci.org/jxnblk/cxs-components)
+[![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 
 ```sh
 npm install cxs-components

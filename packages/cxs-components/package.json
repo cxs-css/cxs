@@ -20,11 +20,11 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "cxs": "^3.0.0-b5",
+    "cxs": "^3.0.1",
     "merge": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",

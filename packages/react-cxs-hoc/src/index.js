@@ -28,7 +28,7 @@ const withCxs = (Comp) => {
   return CxsComponent
 }
 
-export cxs from 'cxs'
+export { default as cxs } from 'cxs'
 
 export default withCxs
 

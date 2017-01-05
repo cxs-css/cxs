@@ -35,6 +35,6 @@ test('accepts css prop', t => {
 })
 
 test('add rules to cxs', t => {
-  t.regex(cxs.css(), /tomato/)
+  t.regex(cxs.getCss(), /tomato/)
 })
 

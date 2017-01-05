@@ -19,10 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "cxs": "^3.0.0-b5"
+    "cxs": "^3.0.1"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
+    "ava": "^0.17.0",
     "babel-cli": "^6.11.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",

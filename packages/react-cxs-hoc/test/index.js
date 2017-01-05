@@ -39,12 +39,12 @@ test('adds micro classNames', t => {
 
 test('exports cxs instance', t => {
   t.is(typeof cxs, 'function')
-  t.is(typeof cxs.css, 'function')
-  t.is(typeof cxs.css(), 'string')
+  t.is(typeof cxs.getCss, 'function')
+  t.is(typeof cxs.getCss(), 'string')
 })
 
 test('adds styles', t => {
-  t.regex(cxs.css(), /display:inline-block/)
-  t.regex(cxs.css(), /background-color/)
+  t.regex(cxs.getCss(), /display:inline-block/)
+  t.regex(cxs.getCss(), /background-color/)
 })
 

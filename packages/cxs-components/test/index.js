@@ -1,6 +1,6 @@
 
-import React from 'react'
 import test from 'ava'
+import React from 'react'
 import { shallow } from 'enzyme'
 import {
   isElement,
@@ -36,7 +36,7 @@ test('has a className', t => {
 test('exposes cxs instance', t => {
   t.truthy(cxs)
   t.is(typeof cxs, 'function')
-  t.is(typeof cxs.css(), 'string')
+  t.is(typeof cxs.getCss(), 'string')
 })
 
 test('converts object to cxs CSS', t => {
@@ -45,7 +45,7 @@ test('converts object to cxs CSS', t => {
     color: 'tomato'
   })
   wrapper = shallow(<Box />)
-  t.regex(cxs.css(), /color:tomato/)
+  t.regex(cxs.getCss(), /color:tomato/)
 })
 
 test('accepts functions as argument', t => {
@@ -54,15 +54,15 @@ test('accepts functions as argument', t => {
     color: props.foo ? 'tomato' : 'green'
   }), { removeProps: [ 'foo' ] })
   wrapper = shallow(<Box />)
-  t.regex(cxs.css(), /color:green/)
-  t.notRegex(cxs.css(), /color:tomato/)
+  t.regex(cxs.getCss(), /color:green/)
+  t.notRegex(cxs.getCss(), /color:tomato/)
 })
 
 test('props are passed to component style function', t => {
   cxs.reset()
   wrapper = shallow(<Box foo />)
-  t.regex(cxs.css(), /color:tomato/)
-  t.notRegex(cxs.css(), /color:green/)
+  t.regex(cxs.getCss(), /color:tomato/)
+  t.notRegex(cxs.getCss(), /color:green/)
 })
 
 test('removes style props from DOM element', t => {
@@ -84,8 +84,8 @@ test('accepts a component instead of tag string', t => {
     border: '1px solid'
   })
   shallow(<BorderBox />).html()
-  t.regex(cxs.css(), /padding:16px/)
-  t.regex(cxs.css(), /border:1px\ solid/)
+  t.regex(cxs.getCss(), /padding:16px/)
+  t.regex(cxs.getCss(), /border:1px\ solid/)
 })
 
 

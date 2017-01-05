@@ -13,13 +13,13 @@
     "size-monolithic": "npm run prepublish && bundle-size ./monolithic",
     "standard": "standard",
     "test-watch": "ava -v --watch",
-    "test": "ava -v"
+    "test": "ava -v && ava -v packages/cxs-components/test && ava -v packages/react-cxs/test && ava -v packages/react-cxs-hoc/test"
   },
   "keywords": [],
   "author": "Brent Jackson",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "babel-cli": "^6.10.1",
     "babel-eslint": "^7.1.0",
     "babel-loader": "^6.2.4",
@@ -49,7 +49,8 @@
   "ava": {
     "require": [
       "babel-register"
-    ]
+    ],
+    "babel": "inherit"
   },
   "standard": {
     "parser": "babel-eslint"

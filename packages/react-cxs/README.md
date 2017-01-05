@@ -1,7 +1,7 @@
 
 # ϟ react-cxs
 
-[![Build Status](https://travis-ci.org/jxnblk/react-cxs.svg?branch=master)](https://travis-ci.org/jxnblk/react-cxs)
+[![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 
 **Experimental**
 
