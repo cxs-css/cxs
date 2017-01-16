@@ -50,7 +50,7 @@ const parse = (obj, media, children = '') => {
     if (Array.isArray(value)) {
       value.forEach(val => {
         classNames.push(
-          createStyle(key, value, media, children)
+          createStyle(key, val, media, children)
         )
       })
       continue

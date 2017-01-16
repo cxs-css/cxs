@@ -143,7 +143,8 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
-  t.regex(getCss(), /var/)
+  const css = getCss()
+  t.regex(css, /color:blue;color:var\(--blue\)}$/)
 })
 
 test('handles prefixed styles with array values', t => {

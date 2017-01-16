@@ -109,6 +109,7 @@ test('handles array values', t => {
       color: [ 'blue', 'var(--blue)' ]
     })
   })
+  const css = getCss()
   t.regex(getCss(), /var/)
 })
 

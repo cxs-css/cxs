@@ -62,6 +62,11 @@ const parse = (selector, styles, media) => {
     if (type === 'number' || type === 'string') {
       decs.push(createDec(key, value))
       continue
+    } else if (Array.isArray(value)) {
+      value.forEach(val => {
+        decs.push(createDec(key, val))
+      })
+      continue
     } else if (/^:/.test(key)) {
       parse(selector + key, value, media)
         .forEach(r => rules.push(r))

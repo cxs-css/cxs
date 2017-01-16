@@ -13,7 +13,8 @@
     "size-monolithic": "npm run prepublish && bundle-size ./monolithic",
     "standard": "standard",
     "test-watch": "ava -v --watch",
-    "test": "ava -v && ava -v packages/cxs-components/test && ava -v packages/react-cxs/test && ava -v packages/react-cxs-hoc/test"
+    "test": "ava -v",
+    "test-all": "ava -v && ava -v packages/cxs-components/test && ava -v packages/react-cxs/test && ava -v packages/react-cxs-hoc/test"
   },
   "keywords": [],
   "author": "Brent Jackson",
