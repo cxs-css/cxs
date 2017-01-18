@@ -72,6 +72,34 @@ test('creates pseudoclass rules', t => {
   t.regex(getCss(), /:hover/)
 })
 
+test('creates @keyframes rules', t => {
+  cxs({
+    '@keyframes test': {
+      '0%': {
+        background: 'red',
+      },
+      '100%': {
+        background: 'blue',
+      }
+    },
+  })
+  t.regex(getCss(), /@keyframes/)
+})
+
+test('creates @keyframes rules from animationName', t => {
+  cxs({
+    animationName: {
+      '0%': {
+        background: 'red',
+      },
+      '100%': {
+        background: 'blue',
+      }
+    },
+  });
+  t.regex(getCss(), /@keyframes/)
+})
+
 test('creates @media rules', t => {
   cxs({
     color: 'cyan',
