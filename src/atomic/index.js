@@ -127,6 +127,7 @@ const P_REG = /%/g
 const SYMBOL_REG = /[&,:"\s]/g
 const AT_REG = /@/g
 const DOT_REG = /\./g
+const EXCL_REG = /!/g
 
 export const clean = (str) => ('' + str)
   .replace(BLANK_REG, '')
@@ -134,6 +135,7 @@ export const clean = (str) => ('' + str)
   .replace(SYMBOL_REG, '_')
   .replace(AT_REG, '_')
   .replace(DOT_REG, 'p')
+  .replace(EXCL_REG, '_')
 
 export const combine = (str = '') => (...args) => args
   .filter(a => a !== null)
@@ -211,4 +213,3 @@ cxs.getCss = getCss
 cxs.setOptions = setOptions
 
 export default cxs
-
