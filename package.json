@@ -47,7 +47,7 @@
     "yo-yo": "^1.2.1"
   },
   "dependencies": {
-    "glamor": "^2.17.14"
+    "glamor": "^2.20.22"
   },
   "ava": {
     "require": [

@@ -174,6 +174,10 @@ cxs.getCss = getCss
 cxs.reset = reset
 cxs.rehydrate = rehydrate
 cxs.setOptions = setOptions
-
+cxs.setSpeedy = (param) => {
+  if (!Object.keys(cxs.cache).length){
+    sheet.speedy(param)
+  }
+}
 export default cxs
 
