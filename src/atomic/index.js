@@ -3,12 +3,14 @@ import { StyleSheet } from 'glamor/lib/sheet'
 import hash from '../hash'
 
 export const sheet = new StyleSheet()
+export const mediaSheet = new StyleSheet()
 
 sheet.inject()
+mediaSheet.inject()
 
 export const getCss = () => {
   let css = ''
-  const rules = sheet.rules()
+  const rules = sheet.rules().concat(mediaSheet.rules())
   for (let i = 0; i < rules.length; i++) {
     css += rules[i].cssText
   }
@@ -28,6 +30,7 @@ export const setOptions = (opts) => {
 export const reset = () => {
   cxs.cache = {}
   sheet.flush()
+  mediaSheet.flush()
 }
 
 const cxs = (style) => {
@@ -94,9 +97,12 @@ const createStyle = (key, value, media, children = '') => {
   const className = createClassName(prop, value, prefix)
   const selector = '.' + className + children
   const rule = `${selector}{${prop}:${val}}`
-  const css = media ? `${media}{${rule}}` : rule
 
-  sheet.insert(css)
+  if (media) {
+    mediaSheet.insert(`${media}{${rule}}`)
+  } else {
+    sheet.insert(rule)
+  }
   cxs.cache[id] = className
 
   return className
