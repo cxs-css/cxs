@@ -71,6 +71,18 @@ const parse = (selector, styles, media) => {
       parse(selector + key, value, media)
         .forEach(r => rules.push(r))
       continue
+    } else if (/^animationName/.test(key)) {
+      const animationHash = hash(JSON.stringify(value));
+      rules.push(
+          parseAnimation(`@keyframes ${animationHash}`, value)
+      );
+      decs.push(createDec(key, animationHash));
+      continue;
+    } else if (/^@keyframes/.test(key)) {
+      rules.push(
+        parseAnimation(key, value)
+      );
+      continue
     } else if (/^@media/.test(key)) {
       parse(selector, value, key)
         .forEach(r => rules.push(r))
@@ -82,9 +94,24 @@ const parse = (selector, styles, media) => {
     }
   }
 
-  rules.unshift(createRule(selector, decs, media))
+  if (selector){
+    rules.unshift(createRule(selector, decs, media))
+  }
 
   return rules
+}
+
+const parseAnimation = (selector, animation) => {
+  const animationStyles =
+    Object.keys(animation).map(stageKey =>
+      createAnimationRule(
+        stageKey,
+        Object.keys(animation[stageKey]).map(styleKey =>
+          createDec(styleKey, animation[stageKey][styleKey])
+        )
+      )
+    );
+  return createAnimationRule(selector, animationStyles);
 }
 
 const createDec = (key, value) => {
@@ -98,6 +125,9 @@ const createRule = (selector, decs, media) => {
   const css = media ? `${media}{${rule}}` : rule
   return css
 }
+
+const createAnimationRule = (selector, decs) =>
+  `${selector}{${decs.join(' ')}}`;
 
 export const hyphenate = (str) => ('' + str)
   .replace(/[A-Z]|^ms/g, '-$&')
