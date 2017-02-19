@@ -64,7 +64,7 @@ const parse = (obj, media, children = '') => {
       continue
     }
 
-    if (/^@media/.test(key)) {
+    if (/^@media/.test(key) || /^@supports/.test(key)) {
       parse(value, key, children)
         .forEach(className => {
           classNames.push(className)
