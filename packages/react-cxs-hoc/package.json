@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
-    "cxs": "^3.0.1"
+    "cxs": "latest"
   },
   "devDependencies": {
     "ava": "^0.17.0",
