@@ -6,7 +6,7 @@ import cxs, {
   createCSS
 } from '../src'
 
-test.afterEach(() => {
+test.afterEach.always(() => {
   cxs.reset()
 })
 
@@ -35,7 +35,7 @@ test('cxs.css is a string', t => {
   t.is(typeof css, 'string')
 })
 
-test('cxs returns a rule object', t => {
+test('returns a rule object', t => {
   const a = cxs('color: tomato')
   t.is(typeof a, 'object')
   t.is(typeof a.toString(), 'string')
@@ -57,26 +57,31 @@ test('creates pseudoclass rules', t => {
   t.is(cxs.css, '.' + a.toString() + ':hover{color: tomato;}')
 })
 
-test('cxs creates media at rules', t => {
+test('creates media at rules', t => {
   const a = cxs('color: tomato;', { media: '@media print' })
   t.is(cxs.css, '@media print{' + '.' + a.toString() + '{color: tomato;}}')
 })
 
-test('cxs creates media at rules with pseudoclasses', t => {
+test('creates media at rules with pseudoclasses', t => {
   const a = cxs('color: tomato;', { descendant: ':focus', media: '@media print' })
   t.is(cxs.css, '@media print{' + '.' + a.toString() + ':focus{color: tomato;}}')
 })
 
-test('cxs creates rules with custom classnames', t => {
+test('creates rules with custom classnames', t => {
   const a = cxs('color: tomato;', { className: 'hello' })
   t.is(cxs.css, '.hello{color: tomato;}')
 })
 
-test('cxs dedupes repeated rules', t => {
+test('dedupes repeated rules', t => {
   const a = cxs('color: tomato')
   const b = cxs('color: tomato')
   t.is(a.toString(), b.toString())
   t.is(cxs.css, '.' + a.toString() + '{color: tomato}')
+})
+
+test('accepts a selector option', t => {
+  const a = cxs('color: tomato', { selector: 'body' })
+  t.is(cxs.css, 'body{color: tomato}')
 })
 
 test('rule.hover returns a rule object', t => {
@@ -137,7 +142,7 @@ test('rule.push returns a rule object', t => {
 test('cache key is concatenated arguments', t => {
   const a = cxs('color: tomato', { descendant: 'foo', media: 'bar' })
   const [ key ] = Object.keys(cache)
-  t.is(key, 'color: tomato_foo_bar_')
+  t.is(key, 'color: tomato_foo_bar__')
 })
 
 test('cache returns a rule object', t => {

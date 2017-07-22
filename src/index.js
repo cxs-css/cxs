@@ -48,13 +48,25 @@ export let cache = {}
 export const sheet = Sheet()
 
 export const cxs = (rule, opts = {}) => {
-  const { descendant, media, className } = opts
-  const key = [ rule, descendant, media, className ].join('_')
+  const {
+    descendant,
+    media,
+    className
+  } = opts
+  const key = [
+    rule,
+    descendant,
+    media,
+    className,
+    opts.selector
+  ].join('_')
+
   if (cache[key]) return cache[key]
 
   const cn = className || createClassName()
+  const selector = opts.selector || '.' + cn
 
-  const css = createCSS(cn, rule, descendant, media)
+  const css = createCSS(selector, rule, descendant, media)
   sheet.insert(css)
 
   const style = {
@@ -72,10 +84,9 @@ export const cxs = (rule, opts = {}) => {
   return style
 }
 
-export const createCSS = (className, declarations, descendant = '', media) => {
+export const createCSS = (selector, declarations, descendant = '', media) => {
   const rule = [
-    '.',
-    className,
+    selector,
     descendant,
     '{',
     declarations,

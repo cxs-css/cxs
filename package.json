@@ -1,7 +1,7 @@
 {
   "name": "cxs",
   "version": "4.0.0-0",
-  "description": "High performance, lightweight functional CSS-in-JS",
+  "description": "Lightning fast CSS-in-JS in 1.5 KB",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
@@ -9,7 +9,7 @@
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundle-size .",
     "standard": "standard",
-    "cover": "nyc report --reporter=html --reporter-lcov",
+    "cover": "npm test && nyc report --reporter=html --reporter-lcov",
     "test": "nyc ava"
   },
   "keywords": [],
