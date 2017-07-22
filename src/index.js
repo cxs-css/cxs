@@ -47,9 +47,9 @@ export const Sheet = () => {
 export let cache = {}
 export const sheet = Sheet()
 
-export const cxs = (...args) => {
-  const [ rule, descendant, media, className ] = args
-  const key = args.join('_')
+export const cxs = (rule, opts = {}) => {
+  const { descendant, media, className } = opts
+  const key = [ rule, descendant, media, className ].join('_')
   if (cache[key]) return cache[key]
 
   const cn = className || createClassName()
@@ -59,12 +59,12 @@ export const cxs = (...args) => {
 
   const style = {
     toString: () => '' + cn,
-    push: (...args) => cxs(args[0], args[1], args[2], cn),
-    hover: (rule) => cxs(rule, ':hover', null, cn),
-    focus: (rule) => cxs(rule, ':focus', null, cn),
-    active: (rule) => cxs(rule, ':active', null, cn),
-    disabled: (rule) => cxs(rule, ':disabled', null, cn),
-    media: (media, rule) => cxs(rule, null, media, cn),
+    push: (rule, opts) => cxs(rule, Object.assign(opts, { className: cn })),
+    hover: (rule) => cxs(rule, { descendant: ':hover', className: cn }),
+    focus: (rule) => cxs(rule, { descendant: ':focus', className: cn }),
+    active: (rule) => cxs(rule, { descendant: ':active', className: cn }),
+    disabled: (rule) => cxs(rule, { descendant: ':disabled', className: cn }),
+    media: (media, rule) => cxs(rule, { media, className: cn }),
   }
 
   cache[key] = Object.assign({}, style)

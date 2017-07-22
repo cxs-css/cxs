@@ -47,28 +47,28 @@ test('cxs returns a rule object', t => {
   t.is(typeof a.push, 'function')
 })
 
-test('cxs creates CSS rules', t => {
+test('creates CSS rules', t => {
   const a = cxs('color: tomato;')
   t.is(cxs.css, '.' + a.toString() + '{color: tomato;}')
 })
 
-test('cxs creates pseudoclass rules', t => {
-  const a = cxs('color: tomato;', ':hover')
+test('creates pseudoclass rules', t => {
+  const a = cxs('color: tomato;', { descendant: ':hover' })
   t.is(cxs.css, '.' + a.toString() + ':hover{color: tomato;}')
 })
 
 test('cxs creates media at rules', t => {
-  const a = cxs('color: tomato;', null, '@media print')
+  const a = cxs('color: tomato;', { media: '@media print' })
   t.is(cxs.css, '@media print{' + '.' + a.toString() + '{color: tomato;}}')
 })
 
 test('cxs creates media at rules with pseudoclasses', t => {
-  const a = cxs('color: tomato;', ':focus', '@media print')
+  const a = cxs('color: tomato;', { descendant: ':focus', media: '@media print' })
   t.is(cxs.css, '@media print{' + '.' + a.toString() + ':focus{color: tomato;}}')
 })
 
 test('cxs creates rules with custom classnames', t => {
-  const a = cxs('color: tomato;', null, null, 'hello')
+  const a = cxs('color: tomato;', { className: 'hello' })
   t.is(cxs.css, '.hello{color: tomato;}')
 })
 
@@ -126,7 +126,7 @@ test('rule.media returns a rule object', t => {
 
 test('rule.push returns a rule object', t => {
   const a = cxs('color: tomato')
-    .push('color: green', ':visited')
+    .push('color: green', { descendant: ':visited' })
   const cn = a.toString()
   t.is(typeof a, 'object')
   t.is(typeof a.toString(), 'string')
@@ -135,9 +135,9 @@ test('rule.push returns a rule object', t => {
 
 
 test('cache key is concatenated arguments', t => {
-  const a = cxs('color: tomato', 'foo', 'bar')
+  const a = cxs('color: tomato', { descendant: 'foo', media: 'bar' })
   const [ key ] = Object.keys(cache)
-  t.is(key, 'color: tomato_foo_bar')
+  t.is(key, 'color: tomato_foo_bar_')
 })
 
 test('cache returns a rule object', t => {
