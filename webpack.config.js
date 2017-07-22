@@ -1,9 +1,8 @@
-
 const path = require('path')
 
 const config = {
   entry: {
-    bundle: './example/entry.js'
+    bundle: './docs/entry.js'
   },
   output: {
     path: path.join(__dirname, '/example'),
@@ -11,31 +10,22 @@ const config = {
   },
   resolve: {
     alias: {
-      'cxs/lite': path.join(__dirname, 'src/lite'),
-      'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
-      cxs: path.join(__dirname, 'src/atomic')
+      'cxs': path.join(__dirname, 'src')
     }
   },
+
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel'
-      },
-      {
-        test: /\.js$/,
-        include: /pretty\-bytes/,
-        loader: 'babel'
-      },
-      { test: /\.json$/, loader: 'json' },
-      { test: /\.md/, loader: 'html!markdown' }
+        loader: 'babel-loader'
+      }
     ]
   },
   devServer: {
-    contentBase: 'example'
+    contentBase: 'docs'
   }
 }
 
 module.exports = config
-
