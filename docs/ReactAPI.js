@@ -6,16 +6,12 @@ import Text from './Text'
 
 const ReactAPI = () => (
   <section id='react-api'>
-    <Box
-      pt={5}
-      pb={5}
-      pl={3}
-      pr={3}>
+    <Box pt={5} pb={5}>
       <Text f={5} mb={3} bold>React API</Text>
       <Text mb={3}>
         CXS also includes a React higher order component API similar to <a href='https://styled-components.com'>styled-components</a>.
       </Text>
-      <Box p={2} bg='blue1' color='white'>
+      <Box p={3} mb={3} bg='dark' color='blue'>
         <Pre children={code.component} />
       </Box>
     </Box>

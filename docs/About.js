@@ -6,17 +6,12 @@ import Column from './Column'
 
 const About = () => (
   <section id='about'>
-    <Box
-      pl={3}
-      pr={3}
-      pt={5}
-      pb={5}
-      color='blue1'>
+    <Box pt={5} pb={5}>
       <Text f={4} bold>
-        CXS is a minimal CSS-in-JS solution that uses an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
+        CXS is a minimal CSS-in-JS solution with an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
       </Text>
     </Box>
-    <Flex wrap color='blue1'>
+    <Flex wrap ml={-3} mr={-3}>
       {features.map(feat => (
         <Column key={feat} p={3}>
           <Text bold>

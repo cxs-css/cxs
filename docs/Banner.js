@@ -22,7 +22,7 @@ const Banner = cxs('header')`
   justify-content: center;
   flex-direction: column;
   min-height: 100vh;
-  color: ${color};
+  color: white;
   background-color: ${bg};
 `
 // background-blend-mode: screen;

@@ -9,12 +9,13 @@ import Logo from './Logo'
 import Text from './Text'
 import Pre from './Pre'
 import HideMobile from './HideMobile'
-// import { blue0, blue1, blue } from './colors'
+import { blue0, blue1, blue } from './colors'
 import { version } from '../package.json'
 
 const Header = props => (
   <Banner>
-    <Flex w={1} p={3}>
+    <Flex align='center' w={1} p={3}>
+      <Logo size={32} color={blue} />
       <Flex ml='auto'>
         <Tweet />
         <Box mx={1} />
@@ -47,29 +48,23 @@ const Header = props => (
     </Flex>
     <Flex
       column
-      align='center'
       mt='auto'
       mb='auto'>
-      <Logo size={64} />
       <Title>
         CXS
       </Title>
+      <Text>Fast af css-in-js in 1kb</Text>
       <Box mb={5} />
     </Flex>
     <Flex
       wrap
       align='baseline'
       w={1}
-      mb={3}
       p={3}>
-      <Text bold>
-        Fast af css-in-js in 1kb
-      </Text>
-      <Box ml='auto' />
       <Pre>
         v{version}
       </Pre>
-      <Box mx={2} />
+      <Box ml='auto' />
       <Pre>
         npm i cxs
       </Pre>

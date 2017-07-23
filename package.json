@@ -27,6 +27,7 @@
     "nyc": "^11.0.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-live": "^1.7.0",
     "react-test-renderer": "^15.6.1",
     "standard": "^10.0.2",
     "webpack": "^3.3.0",
@@ -51,11 +52,21 @@
     ]
   },
   "bundlesize": [
-    { "path": "./dist/index.js", "maxSize": "1.1 kb" },
-    { "path": "./dist/component.js", "maxSize": "1.1 kb" },
-    { "path": "./dist/object.js", "maxSize": "2 kb" }
+    {
+      "path": "./dist/index.js",
+      "maxSize": "1.1 kb"
+    },
+    {
+      "path": "./dist/component.js",
+      "maxSize": "1.1 kb"
+    },
+    {
+      "path": "./dist/object.js",
+      "maxSize": "2 kb"
+    }
   ],
   "dependencies": {
-    "objss": "^1.0.3"
+    "objss": "^1.0.3",
+    "tag-hoc": "^1.0.0-0"
   }
 }

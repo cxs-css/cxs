@@ -13,6 +13,13 @@ const scale = [
   128
 ]
 
+const scaleVal = n => {
+  if (typeof n !== 'number') return n
+  const neg = n < 0 ? -1 : 1
+  const i = Math.abs(n)
+  return neg * (scale[i] || i)
+}
+
 const space = props => {
   const decs = []
 
@@ -22,8 +29,8 @@ const space = props => {
     const prop = [ properties[a], directions[b] ]
       .filter(n => !!n)
       .join('')
-    const val = props[key]
-    decs.push({ [prop]: scale[val] || val })
+    const val = scaleVal(props[key])
+    decs.push({ [prop]: val })
   }
 
   return decs.reduce((a, b) => Object.assign(a, b), {})

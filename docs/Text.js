@@ -19,7 +19,7 @@ const size = props => props.f
 const bold = props => props.bold ? { fontWeight: 'bold' } : null
 
 const Text = cxs(Box)`
-  max-width: 40em;
+  max-width: 52em;
   ${size}
   ${bold}
 `
