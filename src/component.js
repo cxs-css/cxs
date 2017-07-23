@@ -4,6 +4,9 @@ import { cxs } from './index'
 const component = (Comp, opts = {}) => (strings, ...args) => {
   const Component = props => {
     const decs = createDeclarations(strings, args)(props)
+
+    if (typeof Comp === 'function') Comp(props)
+
     const rule = cxs(decs, opts)
     const className = [
       rule.toString(),
