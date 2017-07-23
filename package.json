@@ -1,7 +1,7 @@
 {
   "name": "cxs",
   "version": "4.0.0-0",
-  "description": "Lightning fast CSS-in-JS in 1 KB",
+  "description": "Fast af css-in-js in 1 kb",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",

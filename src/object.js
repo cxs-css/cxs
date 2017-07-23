@@ -4,7 +4,7 @@ export const kebab = (str) => str.replace(/([A-Z])/g, g => '-' + g.toLowerCase()
 export const px = prop => val => typeof val === 'number' ? addPx(prop, val) : val
 export const addPx = (prop, val) => unitless[prop] ? val : val + 'px'
 
-export const objectToRules = (style, descendant = '', media) => {
+export const objectToRules = (style, child = '', media) => {
   const rules = []
   const declarations = []
 
@@ -14,8 +14,8 @@ export const objectToRules = (style, descendant = '', media) => {
     if (val !== null && typeof val === 'object') {
       const isAtRule = /^@/.test(key)
       const media2 = isAtRule ? key : media
-      const descendant2 = isAtRule ? descendant : descendant + key
-      const nested = objectToRules(val, descendant2, media2)
+      const child2 = isAtRule ? child : child + key
+      const nested = objectToRules(val, child2, media2)
       nested.forEach(rule => rules.push(rule))
       continue
     }
@@ -25,7 +25,7 @@ export const objectToRules = (style, descendant = '', media) => {
 
   rules.unshift({
     media,
-    descendant,
+    child,
     declarations: declarations.join(';')
   })
 
@@ -39,8 +39,8 @@ const obj = (style = {}, opts) => {
     Object.assign({}, opts, first)
   )
 
-  rest.forEach(({ declarations, media, descendant }) => {
-    base.push(declarations, { media, descendant })
+  rest.forEach(({ declarations, media, child }) => {
+    base.push(declarations, { media, child })
   })
 
   return base
