@@ -47,41 +47,40 @@ export const Sheet = () => {
 export let cache = {}
 export const sheet = Sheet()
 
-export const cxs = (rule, opts = {}) => {
+export const cxs = (style, opts = {}) => {
   const {
     descendant,
     media,
-    className
   } = opts
   const key = [
-    rule,
+    style,
     descendant,
     media,
-    className,
+    opts.className,
     opts.selector
   ].join('_')
 
   if (cache[key]) return cache[key]
 
-  const cn = className || createClassName()
-  const selector = opts.selector || '.' + cn
+  const className = opts.className || createClassName()
+  const selector = opts.selector || '.' + className
 
-  const css = createCSS(selector, rule, descendant, media)
+  const css = createCSS(selector, style, descendant, media)
   sheet.insert(css)
 
-  const style = {
-    toString: () => '' + cn,
-    push: (rule, opts) => cxs(rule, Object.assign(opts, { className: cn })),
-    hover: (rule) => cxs(rule, { descendant: ':hover', className: cn }),
-    focus: (rule) => cxs(rule, { descendant: ':focus', className: cn }),
-    active: (rule) => cxs(rule, { descendant: ':active', className: cn }),
-    disabled: (rule) => cxs(rule, { descendant: ':disabled', className: cn }),
-    media: (media, rule) => cxs(rule, { media, className: cn }),
+  const rule = {
+    toString: () => '' + className,
+    push: (style, opts) => cxs(style, Object.assign(opts, { className })),
+    hover: (style) => cxs(style, { descendant: ':hover', className }),
+    focus: (style) => cxs(style, { descendant: ':focus', className }),
+    active: (style) => cxs(style, { descendant: ':active', className }),
+    disabled: (style) => cxs(style, { descendant: ':disabled', className }),
+    media: (media, style) => cxs(style, { media, className }),
   }
 
-  cache[key] = Object.assign({}, style)
+  cache[key] = Object.assign({}, rule)
 
-  return style
+  return rule
 }
 
 export const createCSS = (selector, declarations, descendant = '', media) => {
