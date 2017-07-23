@@ -16,7 +16,8 @@ export const getCss = () => {
 }
 
 const options = {
-  prefix: ''
+  prefix: '',
+  customRuleParser: false
 }
 
 export const setOptions = (opts) => {
@@ -93,7 +94,9 @@ const createStyle = (key, value, media, children = '') => {
   const val = addPx(key, value)
   const className = createClassName(prop, value, prefix)
   const selector = '.' + className + children
-  const rule = `${selector}{${prop}:${val}}`
+  const rule = options.customRuleParser
+    ? options.customRuleParser({selector, prop, val, key})
+    : `${selector}{${prop}:${val}}`
   const css = media ? `${media}{${rule}}` : rule
 
   sheet.insert(css)

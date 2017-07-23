@@ -17,7 +17,8 @@ export const getCss = () => {
 let count = 0
 
 const options = {
-  prefix: ''
+  prefix: '',
+  customRuleParser: false
 }
 
 export const setOptions = (opts) => {
@@ -82,7 +83,9 @@ const createStyle = (key, value, media, pseudo = '') => {
   const prop = hyphenate(key)
   const val = addPx(key, value)
 
-  const rule = selector + '{' + prop + ':' + val + '}'
+  const rule = options.customRuleParser
+    ? options.customRuleParser({selector, prop, val, key})
+    : `${selector}{${prop}:${val}}`
   const css = media ? media + '{' + rule + '}' : rule
 
   sheet.insert(css)

@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { sheet, reset, getCss } from '../src/atomic'
+import cxs, { sheet, reset, getCss, hyphenate } from '../src/atomic'
 
 jsdom('<html></html>')
 
@@ -11,6 +11,22 @@ const style = {
   color: 'tomato',
   display: 'flex',
   fontSize: 32
+}
+
+const prefixRules = ({ selector, key, val }) => {
+  const declarations = prefixer({ [key]: val })
+  const createRule = (rules, key, value, i) =>
+    `${rules}${i > 0 ? ';' : ''}${hyphenate(key)}:${value}`
+  const declarationsStr = Object.keys(declarations).reduce((rules, key, i) => {
+    const value = declarations[key]
+    if (Array.isArray(value)) {
+      return value.reduce((acc, val, i) => (
+        createRule(acc, key, val, i)
+      ), '')
+    }
+    return createRule(rules, key, val, i)
+  }, '')
+  return `${selector}{${declarationsStr}}`
 }
 
 test.beforeEach(() => {
@@ -136,26 +152,26 @@ test('handles array values', t => {
 
 test('handles prefixed styles with array values', t => {
   t.pass(3)
+  cxs.setOptions({ customRuleParser: prefixRules })
   t.notThrows(() => {
-    const prefixed = prefixer({
+    cxs({
       display: 'flex'
     })
-    cxs(prefixed)
   })
-  t.regex(getCss(), /\-webkit\-flex/)
-  t.regex(getCss(), /\-ms\-flexbox/)
+  t.regex(getCss(), /display:-webkit-flex/)
+  t.regex(getCss(), /display:-ms-flexbox/)
 })
 
 test('handles prefixed styles (including ms) in keys', t => {
   t.pass(3)
+  cxs.setOptions({ customRuleParser: prefixRules })
   t.notThrows(() => {
-    const prefixed = prefixer({
+    cxs({
       alignItems: 'center'
     })
-    cxs(prefixed)
   })
-  t.regex(getCss(), /\-webkit\-align-items/)
-  t.regex(getCss(), /\-ms\-flex-align/)
+  t.regex(getCss(), /-webkit-align-items:/)
+  t.regex(getCss(), /-ms-flex-align:/)
 })
 
 test('ignores null values', t => {
