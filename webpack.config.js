@@ -11,6 +11,7 @@ const config = {
   resolve: {
     alias: {
       'cxs': path.join(__dirname, 'src')
+      // 'cxs/component': path.join(__dirname, 'src')
     }
   },
 

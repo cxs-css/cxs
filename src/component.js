@@ -1,4 +1,5 @@
 import React from 'react'
+import objss from 'objss'
 import { cxs } from './index'
 
 const component = (Comp, opts = {}) => (strings, ...args) => {
@@ -35,7 +36,10 @@ export const createDeclarations = (strings, args) => props => {
   return strings.map((string, i) => {
     const val = args[i] || ''
     const token = typeof val === 'function' ? val(props) : val
-    return string + token
+    const parsed = typeof token === 'object'
+      ? objss(token)
+      : token
+    return string + parsed
   }).join('')
 }
 

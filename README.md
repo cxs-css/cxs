@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-High performance, lightweight CSS-in-JS
+Lightning fast CSS-in-JS in 1 KB
 
 ```js
 const style = cxs(`color: tomato`)
@@ -16,16 +16,19 @@ to maximize performance and reduce bloat.
 
 ## Features
 
-- < 1.5KB
+- 1 KB
+- Zero dependencies
+- Style encapsulation
 - Deduplicates repeated styles
 - Dead-code elimination
 - Framework independent
-- CSS-in-JS
 - Media queries
 - Pseudoclasses
 - Nested selectors
 - Avoid maintaining separate stylesheets
 - Use plain CSS strings
+- Optional React component module
+
 
 ## Install
 
@@ -73,7 +76,7 @@ cxs('color: tomato')
 ### Descendant Selectors
 
 ```js
-cxs('color: tomato', ' > h1')
+cxs('color: tomato', { descendant: ' > h1' })
 ```
 
 ### Server-Side Rendering

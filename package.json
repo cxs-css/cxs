@@ -1,13 +1,13 @@
 {
   "name": "cxs",
   "version": "4.0.0-0",
-  "description": "Lightning fast CSS-in-JS in 1.5 KB",
+  "description": "Lightning fast CSS-in-JS in 1 KB",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
     "build": "webpack -p",
     "start": "webpack-dev-server",
-    "size": "npm run prepublish && bundle-size .",
+    "size": "npm run prepublish && bundlesize",
     "standard": "standard",
     "cover": "npm test && nyc report --reporter=html --reporter-lcov",
     "test": "nyc ava"
@@ -22,7 +22,8 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "browser-env": "^3.1.0",
-    "bundle-size": "^1.1.5",
+    "bundlesize": "^0.12.1",
+    "loglevel": "^1.4.1",
     "nyc": "^11.0.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -31,7 +32,6 @@
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.0"
   },
-  "dependencies": {},
   "ava": {
     "require": [
       "babel-register"
@@ -44,5 +44,16 @@
       "dist",
       "docs"
     ]
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/index.js"
+    },
+    {
+      "path": "./dist/component.js"
+    }
+  ],
+  "dependencies": {
+    "objss": "^1.0.3"
   }
 }
