@@ -6,9 +6,9 @@ const Title = cxs('h1')`
   line-height: 1;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .75em;
+  letter-spacing: .5em;
   margin: 0;
-  margin-right: -.75em;
+  margin-right: -.5em;
 `.media(media[0])`
   font-size: 64px;
 `.media(media[1])`

@@ -1,5 +1,6 @@
 import cxs from 'cxs/component'
 import Box from './Box'
+import { blue } from './colors'
 
 const scale = n => [
   12,
@@ -12,7 +13,7 @@ const scale = n => [
   64
 ][n] || n
 
-const size = props => props.f
+const size = props => props.f !== null || props.f !== undefined
   ? { fontSize: scale(props.f) }
   : null
 
@@ -22,6 +23,8 @@ const Text = cxs(Box)`
   max-width: 52em;
   ${size}
   ${bold}
+`.push({ child: ' a' })`
+  color: ${blue};
 `
 
 export default Text

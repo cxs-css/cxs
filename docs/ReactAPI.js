@@ -2,12 +2,13 @@ import React from 'react'
 import Flex from './Flex'
 import Box from './Box'
 import Pre from './Pre'
+import Heading from './Heading'
 import Text from './Text'
 
 const ReactAPI = () => (
   <section id='react-api'>
     <Box pt={5} pb={5}>
-      <Text f={5} mb={3} bold>React API</Text>
+      <Heading mb={3}>React API</Heading>
       <Text mb={3}>
         CXS also includes a React higher order component API similar to <a href='https://styled-components.com'>styled-components</a>.
       </Text>

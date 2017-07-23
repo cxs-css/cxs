@@ -28,14 +28,13 @@ const features = [
   'Zero dependencies',
   'High performance',
   'Style encapsulation',
-  'Deduplicates repeated styles',
+  'Deduplication',
   'Dead-code elimination',
   'Framework independent',
   'Media queries',
   'Pseudoclasses',
   'Nested selectors',
-  'Avoid maintaining separate stylesheets',
-  // 'Use plain CSS strings',
+  'No CSS files',
   'React component API',
 ]
 

@@ -27,7 +27,7 @@ to maximize performance and reduce bloat.
 - Media queries
 - Pseudoclasses
 - Nested selectors
-- Avoid maintaining separate stylesheets
+- No CSS files
 - Use plain CSS strings
 - Optional [React component](#react-components) API
 - Optional [Atomic mode](#atomic-mode)
@@ -235,9 +235,14 @@ const Heading = cxs('h1')`
 ```
 
 CXS components can also handle dynamic styling based on props by passing a function in to the tagged template literal.
+To remove non-HTML attribute props used for styling a component, pass an array of keys as the `removeProps` option.
 
 ```js
-const Heading = cxs('h1')`
+const removeProps = [
+  'color'
+]
+
+const Heading = cxs('h1', { removeProps })`
   color: ${props => props.color};
 `
 ```

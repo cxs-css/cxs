@@ -2,18 +2,19 @@ import React from 'react'
 import Flex from './Flex'
 import Box from './Box'
 import Pre from './Pre'
+import Heading from './Heading'
 import Text from './Text'
 
 const Usage = () => (
   <section id='usage'>
     <Box pt={5} pb={5}>
-      <Text f={5} mb={3} bold>Getting Started</Text>
+      <Heading mb={3}>Getting Started</Heading>
       <Box p={3} mb={4} bg='dark' color='blue'>
         <Pre>npm i cxs</Pre>
       </Box>
-      <Text f={3} bold>
+      <Heading>
         Usage
-      </Text>
+      </Heading>
       <Text mb={3}>
         CXS works equally well in plain JavaScript or any UI framework where you can apply a className to an element.
       </Text>

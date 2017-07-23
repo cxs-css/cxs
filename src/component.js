@@ -1,12 +1,18 @@
 import React from 'react'
 import objss from 'objss'
+import tag from 'tag-hoc'
 import { cxs } from './index'
 
 const component = (Comp, opts = {}) => (strings, ...args) => {
+  const { removeProps = [] } = opts
+  const isTag = typeof Comp === 'string'
+  const Tag = tag(removeProps)
+  const Base = isTag ? Tag(Comp) : Comp
+
   const Component = props => {
     const decs = createDeclarations(strings, args)(props)
 
-    if (typeof Comp === 'function') Comp(props)
+    if (!isTag) Base(props)
 
     const rule = cxs(decs, opts)
     const className = [
@@ -15,7 +21,7 @@ const component = (Comp, opts = {}) => (strings, ...args) => {
     ].join(' ').trim()
 
     return (
-      <Comp
+      <Base
         {...props}
         className={className}
       />

@@ -18,28 +18,28 @@ const Header = props => (
       <Logo size={32} color={blue} />
       <Flex ml='auto'>
         <Tweet />
-        <Box mx={1} />
+        <Box ml={2} />
         <HideMobile>
           <Badge
             href='https://travis-ci.org/jxnblk/cxs'
             image='https://img.shields.io/travis/jxnblk/cxs/master.svg'
           />
         </HideMobile>
-        <Box mx={1} />
+        <Box ml={2} />
         <HideMobile>
           <Badge
             href='https://github.com/siddharthkp/bundlesize'
             image='https://img.shields.io/badge/gzip-1%20kb-brightgreen.svg'
           />
         </HideMobile>
-        <Box mx={1} />
+        <Box ml={2} />
         <HideMobile>
           <Badge
             href='https://standardjs.com'
             image='https://img.shields.io/badge/code_style-standard-brightgreen.svg'
           />
         </HideMobile>
-        <Box mx={1} />
+        <Box ml={2} />
         <Badge
           href='https://github.com/jxnblk/cxs'
           image='https://img.shields.io/github/stars/jxnblk/cxs.svg?style=social&label=Star'
@@ -53,7 +53,7 @@ const Header = props => (
       <Title>
         CXS
       </Title>
-      <Text>Fast af css-in-js in 1kb</Text>
+      <Text>fast af css-in-js in 1kb</Text>
       <Box mb={5} />
     </Flex>
     <Flex

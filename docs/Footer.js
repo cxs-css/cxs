@@ -3,13 +3,13 @@ import Flex from './Flex'
 import Box from './Box'
 import Logo from './Logo'
 import Link from './Link'
+import Stats from './Stats'
 
 const Footer = () => (
   <footer>
-    <Flex p={4} mt={5} align='center' justify='center'>
-      <Logo size={64} />
-    </Flex>
-    <Flex align='center'
+    <Flex
+      align='center'
+      wrap
       mt={4}
       pt={4}
       pb={4}>
@@ -21,6 +21,11 @@ const Footer = () => (
         href='http://jxnblk.com'
         children='Made by Jxnblk'
       />
+      <Box ml='auto' />
+      <Stats />
+    </Flex>
+    <Flex p={4} mt={5} mb={5} align='center' justify='center'>
+      <Logo size={32} />
     </Flex>
   </footer>
 )

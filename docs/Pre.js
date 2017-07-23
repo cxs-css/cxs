@@ -1,10 +1,14 @@
 import cxs from 'cxs/component'
+import Text from './Text'
 
-const Pre = cxs('pre')`
+const Pre = cxs(Text)`
   font-family: 'Roboto Mono', 'SF Mono', Menlo, monospace;
-  font-size: 16px;
   margin: 0;
   overflow: auto;
 `
+
+Pre.defaultProps = {
+  is: 'pre'
+}
 
 export default Pre

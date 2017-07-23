@@ -63,7 +63,31 @@ const bg = props => props.bg
   ? { backgroundColor: colors[props.bg] || props.bg }
   : null
 
-const Box = cxs('div')`
+const opts = {
+  removeProps: [
+    'w',
+    'color',
+    'bg',
+    'm',
+    'mt',
+    'mr',
+    'mb',
+    'ml',
+    'p',
+    'pt',
+    'pr',
+    'pb',
+    'pl',
+    'f',
+    'bold',
+    'wrap',
+    'column',
+    'justify',
+    'align',
+  ]
+}
+
+const Box = cxs('div', opts)`
   ${space}
   ${width}
   ${color}
