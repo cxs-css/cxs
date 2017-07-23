@@ -93,13 +93,11 @@ test('keeps @media rules order', t => {
 test('creates @supports rules correctly', t => {
   cxs({
     '@supports (--bg: tomato)': {
-      background: 'tomato'
+      backgroundColor: 'tomato'
     }
   })
-  const rules = sheet.rules().map(rule => rule.cssText)
-  t.true(rules.some(rule => {
-    return /^@supports \(--bg: tomato\)\{\..+\{background/.test(rule)
-  }))
+  const css = cxs.getCss()
+  t.regex(css, /^@supports \(--bg: tomato\)\{\..+\{background/)
 })
 
 test('dedupes repeated styles', t => {
@@ -137,7 +135,7 @@ test('handles prefixed styles with array values', t => {
   t.regex(getCss(), /\-ms\-flexbox/)
 })
 
-test('handles prefixed styles (including ms) in keys', t => {
+test('handles prefixed styles in keys', t => {
   t.pass(3)
   t.notThrows(() => {
     const prefixed = prefixer({
@@ -146,7 +144,6 @@ test('handles prefixed styles (including ms) in keys', t => {
     cxs(prefixed)
   })
   t.regex(getCss(), /\-webkit\-align-items/)
-  t.regex(getCss(), /\-ms\-flex-align/)
 })
 
 test('ignores null values', t => {

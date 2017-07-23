@@ -171,7 +171,7 @@ test('handles prefixed styles with array values', t => {
   t.regex(getCss(), /\-ms\-flexbox/)
 })
 
-test('handles prefixed styles (including ms) in keys', t => {
+test('handles prefixed styles in keys', t => {
   t.pass(3)
   t.notThrows(() => {
     const prefixed = prefixer({
@@ -180,7 +180,6 @@ test('handles prefixed styles (including ms) in keys', t => {
     cxs(prefixed)
   })
   t.regex(getCss(), /\-webkit\-align-items/)
-  t.regex(getCss(), /\-ms\-flex-align/)
 })
 
 test('ignores null values', t => {
