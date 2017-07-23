@@ -1,17 +1,15 @@
 const path = require('path')
+const webpack = require('webpack')
 
 const config = {
-  entry: {
-    bundle: './docs/entry.js'
-  },
+  entry: './docs/entry.js',
   output: {
-    path: path.join(__dirname, '/example'),
-    filename: '[name].js'
+    path: path.join(__dirname, '/docs'),
+    filename: 'bundle.js'
   },
   resolve: {
     alias: {
       'cxs': path.join(__dirname, 'src')
-      // 'cxs/component': path.join(__dirname, 'src')
     }
   },
 
@@ -21,9 +19,19 @@ const config = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.js$/,
+        include: /objss/,
+        loader: 'babel-loader'
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    })
+  ],
   devServer: {
     contentBase: 'docs'
   }

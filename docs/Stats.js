@@ -13,6 +13,7 @@ class Stats extends React.Component {
   }
 
   componentDidMount () {
+    console.timeEnd('mount')
     const css = cxs.css
     this.setState({
       css,
@@ -25,6 +26,7 @@ class Stats extends React.Component {
 
     return (
       <Pre f={0}
+        wrap
         title={css}
         onClick={e => alert(css) }>
         CXS generated {format(bytes)} bytes of CSS to render this page.

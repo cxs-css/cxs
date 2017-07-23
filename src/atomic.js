@@ -1,6 +1,7 @@
 import cxs from './index'
 
-const atomic = (styles, { media, child = '' } = {}) => {
+const atomic = (styles, opts = {}) => {
+  const { media, child = '' } = opts
   const classNames = []
 
   for (let key in styles) {
@@ -51,7 +52,7 @@ export const combine = (s = '') => (...args) => args
   .trim()
 
 const RE = /[^a-zA-Z0-9-_]/g
-export const clean = str => str.replace(RE, '-')
+export const clean = str => ('' + str).replace(RE, '-')
 
 export const abbrMedia = media => {
   if (!media) return ''

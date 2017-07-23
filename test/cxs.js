@@ -163,3 +163,18 @@ test('cache returns a rule object', t => {
   t.is(typeof cached, 'object')
   t.is(cached.toString(), a.toString())
 })
+
+test('keyframes', t => {
+  const rule = cxs('transform:scale(.75);opacity:.5', {
+    selector: 'from',
+    media: '@keyframes glow'
+  }).push('transform: scale(1);opacity:1', {
+    selector: 'to',
+    media: '@keyframes glow'
+  })
+  const css = cxs.css
+  t.is(typeof css, 'string')
+  t.regex(css, /@keyframes glow/)
+  t.regex(css, /glow{from{/)
+  t.regex(css, /glow{to{/)
+})

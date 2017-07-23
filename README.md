@@ -15,7 +15,7 @@ fast af css-in-js in 1kb
 const rule = cxs(`color: tomato`)
 ```
 
-CXS is a minimal CSS-in-JS solution that uses
+CXS is a minimal CSS-in-JS solution with
 an API that closely follows the native CSSStyleSheet API
 to maximize performance and reduce bloat.
 

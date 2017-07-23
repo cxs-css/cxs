@@ -7,7 +7,7 @@ import Column from './Column'
 const About = () => (
   <section id='about'>
     <Box pt={5} pb={5}>
-      <Text f={4} bold>
+      <Text f={4}>
         CXS is a minimal CSS-in-JS solution with an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
       </Text>
     </Box>
