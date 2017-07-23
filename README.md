@@ -30,6 +30,7 @@ to maximize performance and reduce bloat.
 - Avoid maintaining separate stylesheets
 - Use plain CSS strings
 - Optional [React component](#react-components) API
+- Optional [Atomic mode](#atomic-mode)
 
 
 ## Install
@@ -241,6 +242,31 @@ const Heading = cxs('h1')`
 `
 ```
 
+## Atomic Mode
+
+For an alternative JavaScript object-based API that creates atomic CSS rules – similar to those found in [Basscss][2] or [Tachyons][3] , import the atomic module.
+
+```js
+import cxs from 'cxs/atomic'
+
+const className = cxs({
+  fontSize: 16,
+  color: 'tomato',
+  ':hover': {
+    color: 'black'
+  },
+  '@media screen and (min-width: 32em)': {
+    fontSize: 20
+  }
+})
+```
+
+## Limitations
+
+### Nesting
+
+For performance reasons, and since nesting is not part of native CSS, the default mode in CXS **does not** support nesting like some preprocessors do.
+
 ### Vendor prefixes
 
 CXS **does not** handle vendor prefixing to keep the module size at a minimum.
@@ -253,5 +279,7 @@ For the previous version of CXS, see the [v3 branch][1]
 
 [0]: https://www.styled-components.com (styled-components)
 [1]: https://github.com/jxnblk/cxs/tree/v3
+[2]: http://basscss.com
+[3]: http://tachyons.io
 
 [MIT License](LICENSE.md)
