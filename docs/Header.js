@@ -12,10 +12,16 @@ import HideMobile from './HideMobile'
 import { blue0, blue1, blue } from './colors'
 import { version } from '../package.json'
 
+import cxs from 'cxs/component'
+
 const Header = props => (
   <Banner>
     <Flex align='center' w={1} p={3}>
-      <Logo size={32} color={blue} />
+      <Logo
+        size={32}
+        color={blue}
+        strokeWidth={1}
+      />
       <Flex ml='auto'>
         <Tweet />
         <Box ml={2} />
@@ -61,11 +67,11 @@ const Header = props => (
       align='baseline'
       w={1}
       p={3}>
-      <Pre>
+      <Pre f={0}>
         v{version}
       </Pre>
       <Box ml='auto' />
-      <Pre>
+      <Pre f={0}>
         npm i cxs
       </Pre>
     </Flex>

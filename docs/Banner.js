@@ -1,33 +1,43 @@
+import React from 'react'
 import cxs from 'cxs/component'
 import {
+  dark,
   blue,
   blue0,
   blue1
 } from './colors'
+import Graphic from './Graphic'
 
-// yellow
-// const color = '#fa2'
-// const bg = '#100'
+const Gfx = cxs(Graphic)`
+  position: absolute;
+  top: 62.5%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+`
 
-// blue
-const color = '#08f'
 const bg = '#011'
-// const alt = '#3af'
-const hi = '#012'
-const shadow = '#000'
 
-const Banner = cxs('header')`
+const Root = cxs('header')`
+  position: relative;
+  color: white;
+  background-color: ${dark};
+  overflow: hidden;
+`
+
+const Inner = cxs('div')`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   min-height: 100vh;
-  color: white;
-  background-color: ${bg};
 `
-// background-blend-mode: screen;
-// background-image: linear-gradient(-30deg, transparent 25%, ${hi});
 
-// background-image: linear-gradient(-60deg, ${blue1}, ${blue});
+const Banner = props => (
+  <Root>
+    <Gfx />
+    <Inner {...props} />
+  </Root>
+)
 
 export default Banner

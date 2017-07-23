@@ -8,9 +8,11 @@ const a1 = 24
 const Lambda = ({
   size = 128,
   strokeWidth = 2,
-  color = 'currentcolor'
+  color = 'currentcolor',
+  className
 }) => (
   <svg
+    className={className}
     viewBox='0 0 32 32'
     width={size}
     height={size}
@@ -19,8 +21,10 @@ const Lambda = ({
     strokeWidth={strokeWidth}
   >
     <circle
+      vectorEffect='non-scaling-stroke'
       cx={16} cy={16} r={14} />
     <path
+      vectorEffect='non-scaling-stroke'
       d={[
         M, a0, a0,
         L, a1, a1,

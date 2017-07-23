@@ -9,8 +9,6 @@ import Footer from './Footer'
 import Container from './Container'
 import { dark } from './colors'
 
-import Title from './Title'
-
 cxs(`box-sizing:border-box`, { selector: '*' })
 cxs(`
   font-family: 'Roboto Mono', 'SF Mono', Menlo, monospace;

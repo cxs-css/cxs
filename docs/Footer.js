@@ -25,7 +25,10 @@ const Footer = () => (
       <Stats />
     </Flex>
     <Flex p={4} mt={5} mb={5} align='center' justify='center'>
-      <Logo size={32} />
+      <Logo
+        size={32}
+        strokeWidth={1}
+      />
     </Flex>
   </footer>
 )
