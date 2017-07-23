@@ -6,15 +6,14 @@ import { cxs } from './index'
 const component = (Comp, opts = {}) => (strings, ...args) => {
   const { removeProps = [] } = opts
   const isTag = typeof Comp === 'string'
+  const isClassComponent = Comp.prototype && Comp.prototype.render
   const Tag = tag(removeProps)
   const Base = isTag ? Tag(Comp) : Comp
 
   const Component = props => {
-    const decs = createDeclarations(strings, args)(props)
+    if (typeof Base.createCXSRule === 'function') Base(props)
 
-    if (!isTag) Base(props)
-
-    const rule = cxs(decs, opts)
+    const rule = Component.createCXSRule(props)
     const className = [
       rule.toString(),
       props.className || ''
@@ -26,6 +25,11 @@ const component = (Comp, opts = {}) => (strings, ...args) => {
         className={className}
       />
     )
+  }
+
+  Component.createCXSRule = props => {
+    const decs = createDeclarations(strings, args)(props)
+    return cxs(decs, opts)
   }
 
   Component.push = opts => component(Component, opts)

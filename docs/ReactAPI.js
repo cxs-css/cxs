@@ -4,23 +4,27 @@ import Box from './Box'
 import Pre from './Pre'
 import Heading from './Heading'
 import Text from './Text'
+import Live from './Live'
 
 const ReactAPI = () => (
   <section id='react-api'>
     <Box pt={5} pb={5}>
       <Heading mb={3}>React API</Heading>
-      <Text mb={3}>
+      <Text mb={4}>
         CXS also includes a React higher order component API similar to <a href='https://styled-components.com'>styled-components</a>.
       </Text>
-      <Box p={3} mb={3} bg='dark' color='blue'>
-        <Pre children={code.component} />
+      <Box mb={3}>
+        <Live
+          noInline
+          code={code.component}
+        />
       </Box>
     </Box>
   </section>
 )
 
 const code = {
-  component: `import cxs from 'cxs/component'
+  component: `// import cxs from 'cxs/component'
 
 // create a React component
 const Button = cxs('button')\`
@@ -35,6 +39,8 @@ const Button = cxs('button')\`
   color: white;
   background-color: #07c;
 \`
+
+render(<Button>Hello</Button>)
 `,
 
 }

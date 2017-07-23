@@ -6,12 +6,12 @@ import Text from './Text'
 import Button from './Button'
 
 const CTA = () => (
-  <section id='cta'>
+  <section id='cta' style={{ textAlign: 'center' }}>
     <Box mt={6} mb={6}>
       <Heading>
         Documentation
       </Heading>
-      <Text mb={3}>
+      <Text mb={4}>
         Read the documentation on GitHub to learn more about using CXS.
       </Text>
       <Button

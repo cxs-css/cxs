@@ -1,11 +1,16 @@
 
 # ϟ CXS
 
-[![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-
 Fast af css-in-js in 1kb
 
+[![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
+[![js-standard-style][std]](http://standardjs.com/)
+
+[![1kb gzip][kb]](https://github.com/siddharthkp/bundlesize)
+
+[b]: https://travis-ci.org/jxnblk/cxs.svg?branch=master
+[std]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
+[kb]: https://img.shields.io/badge/gzip-1%20kb-brightgreen.svg
 
 ```js
 const rule = cxs(`color: tomato`)

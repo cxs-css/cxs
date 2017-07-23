@@ -20,7 +20,6 @@ const size = props => props.f !== null || props.f !== undefined
 const bold = props => props.bold ? { fontWeight: 'bold' } : null
 
 const Text = cxs(Box)`
-  max-width: 52em;
   ${size}
   ${bold}
 `.push({ child: ' a' })`
