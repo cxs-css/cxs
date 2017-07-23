@@ -71,7 +71,7 @@ const parse = (selector, styles, media) => {
       parse(selector + key, value, media)
         .forEach(r => rules.push(r))
       continue
-    } else if (/^@media/.test(key)) {
+    } else if (/^@media/.test(key) || /^@supports/.test(key)) {
       parse(selector, value, key)
         .forEach(r => rules.push(r))
       continue

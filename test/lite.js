@@ -89,6 +89,17 @@ test('keeps @media rules order', t => {
   t.regex(rules[3], /64/)
 })
 
+test('creates @supports rules correctly', t => {
+  cxs({
+    '@supports (--bg: tomato)': {
+      background: 'tomato'
+    }
+  })
+  const rules = sheet.rules().map(rule => rule.cssText)
+  t.true(rules.some(rule => {
+    return /^@supports \(--bg: tomato\)\{\..+\{background/.test(rule)
+  }))
+})
 
 test('dedupes repeated styles', t => {
   const dupe = {
