@@ -3,7 +3,7 @@ import test from 'ava'
 import { StyleSheet } from 'glamor/lib/sheet'
 import prefixer from 'inline-style-prefixer/static'
 import jsdom from 'jsdom-global'
-import cxs, { sheet, reset, getCss } from '../src/lite'
+import cxs, { sheet, mediaSheet, reset, getCss } from '../src/lite'
 
 jsdom('<html></html>')
 
@@ -36,8 +36,9 @@ test('returns a sequential micro classname', t => {
   t.is(cx, cxtwo) // Double-double checking
 })
 
-test('has a glamor StyleSheet instance', t => {
+test('has glamor StyleSheet instances', t => {
   t.true(sheet instanceof StyleSheet)
+  t.true(mediaSheet instanceof StyleSheet)
 })
 
 test('Adds px unit to number values', t => {
@@ -82,11 +83,11 @@ test('keeps @media rules order', t => {
     }
   }
   cxs(sx)
-  const rules = sheet.rules().map(rule => rule.cssText)
-  t.is(rules.length, 4)
-  t.regex(rules[1], /32/)
-  t.regex(rules[2], /48/)
-  t.regex(rules[3], /64/)
+  const rules = mediaSheet.rules().map(rule => rule.cssText)
+  t.is(rules.length, 3)
+  t.regex(rules[0], /32/)
+  t.regex(rules[1], /48/)
+  t.regex(rules[2], /64/)
 })
 
 test('creates @supports rules correctly', t => {
@@ -219,4 +220,3 @@ test('can set prefix option', t => {
   const className = cxs({ color: 'tomato' })
   t.regex(className, /^foo\-/)
 })
-

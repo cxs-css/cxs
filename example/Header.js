@@ -62,7 +62,10 @@ const cx = {
     display: 'flex',
     alignItems: 'center',
     minHeight: '60vh',
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
+    [breakpoints[2]]: {
+      fontSize: 40
+    }
   }),
   inner: cxs({
     maxWidth: '100%'
@@ -119,4 +122,3 @@ const cx = {
 }
 
 export default Header
-

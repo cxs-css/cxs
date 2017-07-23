@@ -2,12 +2,14 @@
 import { StyleSheet } from 'glamor/lib/sheet'
 
 export const sheet = new StyleSheet()
+export const mediaSheet = new StyleSheet()
 
 sheet.inject()
+mediaSheet.inject()
 
 export const getCss = () => {
   let css = ''
-  const rules = sheet.rules()
+  const rules = sheet.rules().concat(mediaSheet.rules())
   for (let i = 0; i < rules.length; i++) {
     css += rules[i].cssText
   }
@@ -30,6 +32,7 @@ export const setOptions = (opts) => {
 export const reset = () => {
   cxs.cache = {}
   sheet.flush()
+  mediaSheet.flush()
   count = 0
 }
 
@@ -83,9 +86,12 @@ const createStyle = (key, value, media, pseudo = '') => {
   const val = addPx(key, value)
 
   const rule = selector + '{' + prop + ':' + val + '}'
-  const css = media ? media + '{' + rule + '}' : rule
 
-  sheet.insert(css)
+  if (media) {
+    mediaSheet.insert(media + '{' + rule + '}')
+  } else {
+    sheet.insert(rule)
+  }
   cxs.cache[id] = className
 
   return className
@@ -176,4 +182,3 @@ cxs.rehydrate = rehydrate
 cxs.setOptions = setOptions
 
 export default cxs
-

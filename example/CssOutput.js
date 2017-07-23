@@ -20,7 +20,7 @@ const format = str => str
   .replace(/}/g, '\n}\n')
 
 const CssOutput = () => {
-  const rendered = min(cxs.css())
+  const rendered = min(cxs.getCss())
 
   return (
     <Box>
@@ -50,4 +50,3 @@ const cx = {
 }
 
 export default CssOutput
-
