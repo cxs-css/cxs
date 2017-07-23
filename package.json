@@ -45,6 +45,11 @@
       "docs"
     ]
   },
+  "standard": {
+    "ignore": [
+      "/docs/"
+    ]
+  },
   "bundlesize": [
     { "path": "./dist/index.js" },
     { "path": "./dist/component.js" },

@@ -27,6 +27,7 @@ test('converts objects to css', t => {
     fontSize: 32
   })
   const css = cxs.css
+  t.is(typeof a.toString(), 'string')
   t.is(typeof css, 'string')
   t.regex(css, /color:tomato;font-size:32px/)
 })
@@ -47,7 +48,7 @@ test('converts nested objects to css', t => {
   })
   const css = cxs.css
   t.is(typeof css, 'string')
-  const first = new RegExp('^\.' + a.toString() + '{color:tomato')
+  const first = new RegExp('^.' + a.toString() + '{color:tomato')
   t.regex(css, first)
   t.regex(css, /color:tomato;font-size:32px/)
   t.regex(css, /:hover{color:blue}/)

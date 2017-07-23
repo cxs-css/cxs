@@ -1,6 +1,5 @@
 import test from 'ava'
 import cxs, {
-  Sheet,
   sheet,
   cache,
   createCSS
@@ -68,7 +67,7 @@ test('creates media at rules with pseudoclasses', t => {
 })
 
 test('creates rules with custom classnames', t => {
-  const a = cxs('color: tomato;', { className: 'hello' })
+  cxs('color: tomato;', { className: 'hello' })
   t.is(cxs.css, '.hello{color: tomato;}')
 })
 
@@ -80,7 +79,7 @@ test('dedupes repeated rules', t => {
 })
 
 test('accepts a selector option', t => {
-  const a = cxs('color: tomato', { selector: 'body' })
+  cxs('color: tomato', { selector: 'body' })
   t.is(cxs.css, 'body{color: tomato}')
 })
 
@@ -138,9 +137,8 @@ test('rule.push returns a rule object', t => {
   t.is(cxs.css, '.' + cn + '{color: tomato}' + '.' + cn + ':visited{color: green}')
 })
 
-
 test('cache key is concatenated arguments', t => {
-  const a = cxs('color: tomato', { child: 'foo', media: 'bar' })
+  cxs('color: tomato', { child: 'foo', media: 'bar' })
   const [ key ] = Object.keys(cache)
   t.is(key, 'color: tomato_foo_bar__')
 })
@@ -152,4 +150,3 @@ test('cache returns a rule object', t => {
   t.is(typeof cached, 'object')
   t.is(cached.toString(), a.toString())
 })
-

@@ -1,7 +1,7 @@
 import test from 'ava'
 import browser from 'browser-env'
-browser()
 import { Sheet } from '../src'
+browser()
 
 test.afterEach(() => {
   const tag = document.head.querySelector('#__cxs__')
@@ -40,7 +40,7 @@ test('sheet.reset removes all rules', t => {
 })
 
 test('Sheet injects a style tag', t => {
-  const sheet = Sheet()
+  Sheet()
   const el = document.head.querySelector('style')
   t.true(el instanceof window.HTMLStyleElement)
 })

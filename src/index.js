@@ -9,7 +9,7 @@ export const Sheet = () => {
     const serverSheet = {
       rules: [],
       insert: rule => serverSheet.rules.push(rule),
-      reset: () => serverSheet.rules = [],
+      reset: () => { serverSheet.rules = [] },
       get css () {
         return serverSheet.rules.join('')
       }
@@ -50,7 +50,7 @@ export const sheet = Sheet()
 export const cxs = (style, opts = {}) => {
   const {
     child,
-    media,
+    media
   } = opts
   const key = [
     style,
@@ -75,7 +75,7 @@ export const cxs = (style, opts = {}) => {
     focus: (style) => cxs(style, { child: ':focus', className }),
     active: (style) => cxs(style, { child: ':active', className }),
     disabled: (style) => cxs(style, { child: ':disabled', className }),
-    media: (media, style) => cxs(style, { media, className }),
+    media: (media, style) => cxs(style, { media, className })
   }
 
   cache[key] = Object.assign({}, rule)
