@@ -200,35 +200,12 @@ export default enhance(Box)
 ```
 
 
-## JS Objects
-
-Coming soon
-
-```js
-import cxs from 'cxs/object'
-
-const style = cxs({
-  color: 'tomato'
-})
-```
-
 
 ### Vendor prefixes
 
 CXS **does not** handle vendor prefixing to keep the module size at a minimum.
 To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
 
-<!--
-  ```js
-  import cxs from 'cxs'
-  import prefixer from 'inline-style-prefixer/static'
-
-  const prefixed = prefixer({
-    display: 'flex'
-  })
-  const cx = cxs(prefixed)
-  ```
--->
 
 ## Related
 

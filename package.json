@@ -46,12 +46,9 @@
     ]
   },
   "bundlesize": [
-    {
-      "path": "./dist/index.js"
-    },
-    {
-      "path": "./dist/component.js"
-    }
+    { "path": "./dist/index.js" },
+    { "path": "./dist/component.js" },
+    { "path": "./dist/object.js" }
   ],
   "dependencies": {
     "objss": "^1.0.3"
