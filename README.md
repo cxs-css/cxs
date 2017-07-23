@@ -79,13 +79,14 @@ rule.toString()
 
 ### Pseudoclasses
 
-Just as native CSS does *not* have any notion of nesting, to add a rule with a pseudoclass, pass an options object to `cxs`.
+To add a pseudoclass to the generated CXS classname, pass a string to `options.child`.
 
 ```js
 const rule = cxs('color: lime', { child: ':hover' })
 ```
 
 Commonly used pseudoclasses include chainable methods to hook multiple rules to the same classname.
+Just as native CSS does *not* have any notion of nesting, each chained method call creates a CSS ruleset.
 
 ```js
 const rule = cxs('color: tomato')
@@ -119,9 +120,17 @@ Any valid CSS child selector syntax can be passed to `options.child`, which will
 cxs('color: tomato', { child: ' > h1' })
 ```
 
+The chainable `.child()` method can also be used to reuse a classname.
+
+```js
+const rule = cxs('color: tomato')
+  .child(' > h1', 'color: black')
+  .child(' > h1:hover', 'color: blue')
+```
+
 ### Push Method
 
-The `.push()` method can be used like the other chainable methods for other pseudoclasses and child selectors
+The `.push()` method can be used like the other chainable methods with the same options argument as the core `cxs` function.
 
 ```js
 const rule = cxs('color: tomato')
@@ -139,7 +148,7 @@ cxs('font-family: sans-serif; margin: 0', { selector: 'body' })
 ```
 
 
-### Server-Side Rendering
+### Static/Server-Side Rendering
 
 For Node.js environments, use the `css` getter to return the static CSS string *after* rendering a view.
 
@@ -160,6 +169,8 @@ ${html}
 // Reset the cache for the next render
 cxs.reset()
 ```
+
+Note: CXS does not currently have a mechanism for rehydrating styles on the client, so use with caution in universal JavaScript applications.
 
 
 ## API
@@ -191,16 +202,19 @@ The rule object also includes chainable methods to add multiple rulesets with th
 
 ```js
 // Adds a pseudoclass rule with the same classname
-rule.hover()
-rule.focus()
-rule.active()
-rule.disabled()
+rule.hover(declarations)
+rule.focus(declarations)
+rule.active(declarations)
+rule.disabled(declarations)
+
+// Adds any child selector with the same classname
+rule.child(selector, declarations)
 
 // Adds a media query rule with the same classname
-rule.media(mediaQuery, cssDeclarationBlock)
+rule.media(mediaQuery, declarations)
 
 // Adds another rule with the same classname
-rule.push()
+rule.push(declarations, options)
 ```
 
 ```js

@@ -47,7 +47,6 @@ const Editor = cxs(LiveEditor)`
   color: ${blue};
   background-color: ${dark};
 `.media(media[1])`
-  padding: 48px;
   width: 50%;
 `
 

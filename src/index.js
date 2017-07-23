@@ -1,8 +1,8 @@
 let _id = 0
 export const uuid = () => _id++
-export const createClassName = () => '_' + uuid().toString(36)
+export const createClassName = () => 'x' + uuid().toString(36)
 
-export const Sheet = () => {
+export const Sheet = (id) => {
   const browser = typeof window !== 'undefined'
 
   if (!browser) {
@@ -18,7 +18,7 @@ export const Sheet = () => {
   }
 
   const tag = document.createElement('style')
-  tag.id = '__cxs__'
+  tag.id = id || '__cxs__'
 
   document.head.appendChild(tag)
 
@@ -36,7 +36,7 @@ export const Sheet = () => {
   }
 
   Object.defineProperty(sheet, 'css', {
-    get: () => [ ...sheet.cssRules ]
+    get: () => [].slice.call(sheet.cssRules)
       .map(rule => rule.cssText)
       .join('')
   })
@@ -45,7 +45,8 @@ export const Sheet = () => {
 }
 
 export let cache = {}
-export const sheet = Sheet()
+export const sheet = Sheet('__cxs__')
+export const mediaSheet = Sheet('__cxs-media__')
 
 export const cxs = (style, opts = {}) => {
   const {
@@ -66,17 +67,24 @@ export const cxs = (style, opts = {}) => {
   const selector = opts.selector || '.' + className
 
   const css = createCSS(selector, style, child, media)
-  sheet.insert(css)
+  if (media) {
+    mediaSheet.insert(css)
+  } else {
+    sheet.insert(css)
+  }
 
   const rule = {
     toString: () => '' + className,
+    _push: (child, media) => style => cxs(style, { child, media, className }),
     push: (style, opts) => cxs(style, Object.assign(opts, { className })),
-    hover: (style) => cxs(style, { child: ':hover', className }),
-    focus: (style) => cxs(style, { child: ':focus', className }),
-    active: (style) => cxs(style, { child: ':active', className }),
-    disabled: (style) => cxs(style, { child: ':disabled', className }),
-    media: (media, style) => cxs(style, { media, className })
+    child: (child, style) => rule._push(child)(style),
+    media: (media, style) => rule._push(null, media)(style)
   }
+
+  rule.hover = rule._push(':hover')
+  rule.focus = rule._push(':focus')
+  rule.active = rule._push(':active')
+  rule.disabled = rule._push(':disabled')
 
   cache[key] = Object.assign({}, rule)
 
@@ -103,11 +111,12 @@ export const createCSS = (selector, declarations, child = '', media) => {
 }
 
 Object.defineProperty(cxs, 'css', {
-  get: () => sheet.css
+  get: () => sheet.css + mediaSheet.css
 })
 
 export const reset = () => {
   sheet.reset()
+  mediaSheet.reset()
   cache = {}
   _id = 0
 }

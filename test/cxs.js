@@ -66,6 +66,19 @@ test('creates media at rules with pseudoclasses', t => {
   t.is(cxs.css, '@media print{' + '.' + a.toString() + ':focus{color: tomato;}}')
 })
 
+test('media rules are always after base rules', t => {
+  const a = cxs('width:50%', { media: '@media print' })
+  const b = cxs('width:100%')
+  cxs('width:50%', { media: '@media print' })
+  const css = cxs.css
+  const cn1 = a.toString()
+  const cn2 = b.toString()
+  const RE1 = new RegExp('^\.' + cn2 + '{width:100%}')
+  const RE2 = new RegExp('print{\.' + cn1 + '{width:50%}}$')
+  t.regex(css, RE1)
+  t.regex(css, RE2)
+})
+
 test('creates rules with custom classnames', t => {
   cxs('color: tomato;', { className: 'hello' })
   t.is(cxs.css, '.hello{color: tomato;}')
