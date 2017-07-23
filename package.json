@@ -1,7 +1,7 @@
 {
   "name": "cxs",
   "version": "4.0.0-0",
-  "description": "Fast af css-in-js in 1 kb",
+  "description": "Fast af css-in-js in 1kb",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
@@ -51,9 +51,9 @@
     ]
   },
   "bundlesize": [
-    { "path": "./dist/index.js" },
-    { "path": "./dist/component.js" },
-    { "path": "./dist/object.js" }
+    { "path": "./dist/index.js", "maxSize": "1.1 kb" },
+    { "path": "./dist/component.js", "maxSize": "1.1 kb" },
+    { "path": "./dist/object.js", "maxSize": "2 kb" }
   ],
   "dependencies": {
     "objss": "^1.0.3"

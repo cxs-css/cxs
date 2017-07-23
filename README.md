@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-Fast af css-in-js in 1 kb
+Fast af css-in-js in 1kb
 
 
 ```js
@@ -29,7 +29,7 @@ to maximize performance and reduce bloat.
 - Nested selectors
 - Avoid maintaining separate stylesheets
 - Use plain CSS strings
-- Optional [React component](#react-components) module
+- Optional [React component](#react-components) API
 
 
 ## Install

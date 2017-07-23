@@ -36,9 +36,9 @@ export const createDeclarations = (strings, args) => props => {
   return strings.map((string, i) => {
     const val = args[i] || ''
     const token = typeof val === 'function' ? val(props) : val
-    const parsed = typeof token === 'object'
+    const parsed = token !== null && typeof token === 'object'
       ? objss(token)
-      : token
+      : token || ''
     return string + parsed
   }).join('')
 }

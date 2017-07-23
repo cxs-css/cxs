@@ -1,4 +1,5 @@
 import cxs from 'cxs/component'
+import colors from './colors'
 
 const reg = /^[mp][trblxy]?$/
 
@@ -12,7 +13,6 @@ const scale = [
   128
 ]
 
-const px = n => typeof n === 'number' ? n + 'px' : n
 const space = props => {
   const decs = []
 
@@ -23,11 +23,8 @@ const space = props => {
       .filter(n => !!n)
       .join('')
     const val = props[key]
-    console.log(key, a, b, px(scale[val]))
     decs.push({ [prop]: scale[val] || val })
-    // decs.push(prop + ':' + px(scale[val] || val))
   }
-  console.log(decs)
 
   return decs.reduce((a, b) => Object.assign(a, b), {})
   return decs.join(';')
@@ -45,8 +42,25 @@ const directions = {
   l: 'Left',
 }
 
+const per = n => typeof n !== 'number' || n > 1 ? n : (n * 100) + '%'
+
+const width = props => props.w
+  ? { width: per(props.w) }
+  : null
+
+const color = props => props.color
+  ? { color: colors[props.color] || props.color }
+  : null
+
+const bg = props => props.bg
+  ? { backgroundColor: colors[props.bg] || props.bg }
+  : null
+
 const Box = cxs('div')`
   ${space}
+  ${width}
+  ${color}
+  ${bg}
 `
 
 export default Box
