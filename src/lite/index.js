@@ -113,7 +113,7 @@ export const alphaHash = (n) => {
   return result
 }
 
-const alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+const alpha = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
 export const hyphenate = (str) => ('' + str)
   .replace(/[A-Z]|^ms/g, '-$&')
