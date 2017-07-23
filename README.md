@@ -1,11 +1,10 @@
 
 # ϟ CXS
 
-Fast af css-in-js in 1kb
+fast af css-in-js in 1kb
 
 [![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style][std]](http://standardjs.com/)
-
 [![1kb gzip][kb]](https://github.com/siddharthkp/bundlesize)
 
 [b]: https://travis-ci.org/jxnblk/cxs.svg?branch=master
