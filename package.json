@@ -63,6 +63,10 @@
     {
       "path": "./dist/object.js",
       "maxSize": "2 kb"
+    },
+    {
+      "path": "./dist/atomic.js",
+      "maxSize": "2 kb"
     }
   ],
   "dependencies": {
