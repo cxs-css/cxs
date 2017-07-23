@@ -2,20 +2,9 @@
 import React from 'react'
 import withCxs from '.'
 
-class Base extends React.Component {
-  render () {
-    const {
-      tag = 'div',
-      ...rest
-    } = this.props
-
-    const Comp = tag
-
-    return (
-      <Comp {...rest} />
-    )
-  }
+const Base = ({ tag = 'div', ...props }) => {
+  const Comp = tag
+  return <Comp {...props} />
 }
 
 export default withCxs(Base)
-
