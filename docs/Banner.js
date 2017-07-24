@@ -21,6 +21,12 @@ const Root = cxs('header')`
   position: relative;
   color: white;
   background-color: ${dark};
+  box-shadow: inset 0 0 256px rgba(0, 136, 255, .125);
+  background-image: linear-gradient(
+    60deg,
+    transparent,
+    rgba(0, 136, 255, .25)
+  );
   overflow: hidden;
 `
 

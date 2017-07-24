@@ -18,8 +18,6 @@ const Header = props => (
   <Banner>
     <Flex align='center' w={1} p={3}>
       <Flex ml='auto'>
-        <Tweet />
-        <Box ml={2} />
         <HideMobile>
           <Badge
             href='https://travis-ci.org/jxnblk/cxs'
@@ -41,6 +39,8 @@ const Header = props => (
           />
         </HideMobile>
         <Box ml={2} />
+        <Tweet />
+        <Box ml={2} />
         <Badge
           href='https://github.com/jxnblk/cxs'
           image='https://img.shields.io/github/stars/jxnblk/cxs.svg?style=social&label=Star'
@@ -51,7 +51,7 @@ const Header = props => (
       column
       mt='auto'
       mb='auto'>
-      <Bar mb={3} />
+      <Bar />
       <Title>
         cxs
       </Title>
