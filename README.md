@@ -47,7 +47,7 @@ npm install cxs
 
 ## Usage
 
-Xxs works with any framework, but this example uses React for demonstration purposes.
+cxs works with any framework, but this example uses React for demonstration purposes.
 
 ```js
 import React from 'react'
