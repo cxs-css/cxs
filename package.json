@@ -6,6 +6,7 @@
   "scripts": {
     "prepublish": "babel src -d dist",
     "build": "NODE_ENV=production webpack -p",
+    "static": "static-react docs/App.js > docs/index.html",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundlesize",
     "standard": "standard",
@@ -15,10 +16,15 @@
   "keywords": [],
   "author": "Brent Jackson",
   "license": "MIT",
+  "dependencies": {
+    "objss": "^1.0.3",
+    "tag-hoc": "^1.0.0-0"
+  },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.1.1",
+    "babel-plugin-module-resolver": "^2.7.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "browser-env": "^3.1.0",
@@ -31,6 +37,7 @@
     "react-live": "^1.7.0",
     "react-test-renderer": "^15.6.1",
     "standard": "^10.0.2",
+    "static-react": "^4.0.0-2",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.0"
   },
@@ -66,8 +73,45 @@
       "maxSize": "2 kb"
     }
   ],
-  "dependencies": {
-    "objss": "^1.0.3",
-    "tag-hoc": "^1.0.0-0"
+  "static-react": {
+    "title": "cxs",
+    "meta": [
+      {
+        "name": "viewport",
+        "content": "width=device-width,initial-scale=1"
+      },
+      {
+        "name": "descriptoin",
+        "content": "fast af css-in-js in 1kb"
+      },
+      {
+        "name": "twitter:card",
+        "content": "summary"
+      },
+      {
+        "name": "twitter:site",
+        "content": "summary"
+      },
+      {
+        "name": "twitter:title",
+        "content": "cxs"
+      },
+      {
+        "name": "twitter:description",
+        "content": "fast af css-in-js in 1kb"
+      },
+      {
+        "name": "twitter:image",
+        "content": "http://jxnblk.com/cxs/cxs.png"
+      },
+      {
+        "name": "x",
+        "content": "x"
+      }
+    ],
+    "scripts": [
+      "bundle.js",
+      "meta.js"
+    ]
   }
 }
