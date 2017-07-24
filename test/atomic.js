@@ -1,211 +1,137 @@
-
 import test from 'ava'
-import { StyleSheet } from 'glamor/lib/sheet'
-import prefixer from 'inline-style-prefixer/static'
-import jsdom from 'jsdom-global'
-import cxs, { sheet, mediaSheet, reset, getCss } from '../src/atomic'
+import cxs from '../src/atomic'
+import {
+  createClassName,
+  abbrMedia,
+  abbr,
+  clean,
+  combine,
+  hyphenate,
+  addPx,
+} from '../src/atomic'
 
-jsdom('<html></html>')
-
-const style = {
-  color: 'tomato',
-  display: 'flex',
-  fontSize: 32
-}
-
-test.beforeEach(() => {
-  reset()
+test.afterEach(() => {
+  cxs.reset()
 })
 
-test('does not throw', t => {
-  t.notThrows(() => {
-    cxs(style)
-  })
+test('exports a function', t => {
+  t.is(typeof cxs, 'function')
 })
 
-test('returns a classname', t => {
-  const cx = cxs(style)
-  t.is(typeof cx, 'string')
-})
-
-test('returns a consistent micro classname', t => {
-  const name = 'c-blue'
-  const cx = cxs({ color: 'blue' })
-  const cxtwo = cxs({ color: 'blue' })
-  t.is(cx, name)
-  t.is(cx, cxtwo) // Double-double checking
-})
-
-test('has glamor StyleSheet instances', t => {
-  t.true(sheet instanceof StyleSheet)
-  t.true(mediaSheet instanceof StyleSheet)
-})
-
-test('Adds px unit to number values', t => {
-  cxs({
-    fontSize: 32
-  })
-  t.regex(getCss(), /font-size:32px}$/)
-})
-
-test('creates pseudoclass rules', t => {
-  cxs({
-    color: 'cyan',
+test('returns classnames', t => {
+  const cn = cxs({
+    color: 'tomato',
+    fontSize: 32,
     ':hover': {
-      color: 'magenta'
+      color: 'blue'
     }
   })
-  t.regex(getCss(), /:hover/)
+  t.is(typeof cn, 'string')
+  t.true(cn.length > 0)
+  t.regex(cn, /c_tomato/)
+  t.regex(cn, /c_blue_-hover/)
+  t.regex(cn, /fs_32px/)
 })
 
-test('creates @media rules', t => {
+test('creates css', t => {
   cxs({
-    color: 'cyan',
-    '@media screen and (min-width:32em)': {
-      color: 'magenta'
+    color: 'tomato',
+    fontSize: 32,
+    ':hover': {
+      color: 'blue'
     }
   })
-  t.regex(getCss(), /@media/)
+  const css = cxs.css
+  t.is(typeof css, 'string')
+  t.true(css.length > 0)
+  t.regex(css, /color:tomato/)
+  t.regex(css, /font-size:32px/)
+  t.regex(css, /color:blue/)
 })
 
-test('keeps @media rules order', t => {
-  t.plan(4)
-  const sx = {
-    color: 'cyan',
-    '@media screen and (min-width:32em)': {
-      color: 'magenta'
-    },
-    '@media screen and (min-width:48em)': {
-      color: 'yellow'
-    },
-    '@media screen and (min-width:64em)': {
-      color: 'black'
+test('handles media queries', t => {
+  const cn = cxs({
+    color: 'tomato',
+    '@media screen and (min-width: 32em)': {
+      color: 'red'
     }
-  }
-  cxs(sx)
-  const rules = mediaSheet.rules().map(rule => rule.cssText)
-  t.is(rules.length, 3)
-  t.regex(rules[0], /32/)
-  t.regex(rules[1], /48/)
-  t.regex(rules[2], /64/)
+  })
+  const css = cxs.css
+  t.true(cn.length > 0)
+  t.regex(css, /^\.c_tomato{/)
+  t.regex(css, /\@media screen and \(min-width: 32em\){/)
+  t.regex(css, /\.m0_c_red{/)
 })
 
-test('creates @supports rules correctly', t => {
+test('handles nested child selectors', t => {
   cxs({
-    '@supports (--bg: tomato)': {
-      color: 'tomato'
-    }
-  })
-  const css = cxs.getCss()
-  t.regex(css, /^@supports \(--bg: tomato\)\{\..+\{color/)
-})
-
-test('creates nested selectors', t => {
-  t.plan(4)
-  let cx
-  t.notThrows(() => {
-    cx = cxs({
-      color: 'blue',
-      'h1': {
-        fontSize: 32,
-        'a': {
-          color: 'inherit',
-          ':hover': {
-            textDecoration: 'underline'
-          }
-        }
+    '@media screen and (min-width: 32em)': {
+      ':hover': {
+        color: 'tomato'
+      },
+      ' > h1': {
+        color: 'black'
       }
-    })
-  })
-  t.true(/h1/.test(cx))
-  t.regex(getCss(), /h1/)
-  t.regex(getCss(), /a:hover/)
-})
-
-test('dedupes repeated styles', t => {
-  const dupe = {
-    color: 'cyan',
-    fontSize: 32
-  }
-
-  cxs(dupe)
-  cxs(dupe)
-
-  t.is(sheet.rules().length, 2)
-})
-
-test('handles array values', t => {
-  t.pass(2)
-  t.notThrows(() => {
-    cxs({
-      color: [ 'blue', 'var(--blue)' ]
-    })
-  })
-  const css = getCss()
-  t.is(css, '.c-blue{color:blue}.c-var--blue{color:var(--blue)}')
-})
-
-test('handles prefixed styles with array values', t => {
-  t.pass(3)
-  t.notThrows(() => {
-    const prefixed = prefixer({
-      display: 'flex'
-    })
-    cxs(prefixed)
-  })
-  const css = cxs.getCss()
-  t.regex(css, /\-webkit\-flex/)
-  t.regex(css, /\-ms\-flexbox/)
-})
-
-test('handles prefixed styles in keys', t => {
-  t.pass(3)
-  t.notThrows(() => {
-    const prefixed = prefixer({
-      alignItems: 'center'
-    })
-    cxs(prefixed)
-  })
-  t.regex(getCss(), /\-webkit\-align-items/)
-})
-
-test('ignores null values', t => {
-  cxs({
-    color: 'tomato',
-    padding: null
-  })
-  t.is(getCss().includes('null'), false)
-})
-
-test('handles 0 values', t => {
-  cxs({
-    padding: 0,
-    fontFamily: 0,
-    border: 0
-  })
-  t.is(getCss().includes('border'), true)
-})
-
-test('should handle ::-moz-inner-focus', t => {
-  cxs({
-    color: 'tomato',
-    '::-moz-inner-focus': {
-      border: 0,
-      padding: 0
     }
   })
-  t.is(getCss().includes('-moz-inner-focus'), true)
+  const css = cxs.css
+  t.regex(css, /\@media screen and \(min-width: 32em\){/)
+  t.regex(css, /:hover{color:tomato/)
+  t.regex(css, /h1{color:black/)
 })
 
-test('can set prefix option', t => {
-  cxs.setOptions({ prefix: 'foo-' })
-  const className = cxs({ color: 'tomato' })
-  t.regex(className, /^foo\-/)
+test('skips null values', t => {
+  cxs({
+    color: 'tomato',
+    fontSize: null
+  })
+  const css = cxs.css
+  t.regex(css, /color:tomato/)
+  t.notRegex(css, /font-size/)
 })
 
-test('className replaces !', t => {
-  const className = cxs({
-    color: 'red!important',
-  });
-  t.is(className.includes('!'), false);
+test('createClassName returns a className', t => {
+  const a = createClassName('font-size', '32px', '@media print', ':hover')
+  t.is(a, 'm0_fs_32px_-hover')
+})
+
+test('clean removes special characters', t => {
+  const str = `abc0-_<>%.:'"#`
+  const a = clean(str)
+  t.is(a, 'abc0-_--------')
+})
+
+test('combine joins strings', t => {
+  const a = combine('-')('hi', 'hello', null, 'beep')
+  t.is(a, 'hi-hello-beep')
+})
+
+test('abbrMedia returns a shorthand media query reference', t => {
+  const a = abbrMedia('@media print')
+  t.is(a, 'm0')
+})
+
+test('abbr abbreviates properties', t => {
+  const a = abbr('margin-top')
+  const b = abbr('font-family')
+  const c = abbr('font')
+  t.is(a, 'mt')
+  t.is(b, 'ff')
+  t.is(c, 'font')
+})
+
+test('hyphenates camelCase strings', t => {
+  const a = hyphenate('fontSize')
+  const b = hyphenate('WebkitAppearance')
+  const c = hyphenate('msAppearance')
+  t.is(a, 'font-size')
+  t.is(b, '-webkit-appearance')
+  t.is(c, '-ms-appearance')
+})
+
+test('addPx adds px unit to number values', t => {
+  const a = addPx('fontSize', 32)
+  const b = addPx('lineHeight', 1.5)
+  t.is(a, '32px')
+  t.is(b, 1.5)
 })

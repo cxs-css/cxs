@@ -1,41 +1,40 @@
-
 const path = require('path')
+const webpack = require('webpack')
 
 const config = {
-  entry: {
-    bundle: './example/entry.js'
-  },
+  entry: './docs/entry.js',
   output: {
-    path: path.join(__dirname, '/example'),
-    filename: '[name].js'
+    path: path.join(__dirname, '/docs'),
+    filename: 'bundle.js'
   },
   resolve: {
     alias: {
-      'cxs/lite': path.join(__dirname, 'src/lite'),
-      'cxs/monolithic': path.join(__dirname, 'src/monolithic'),
-      cxs: path.join(__dirname, 'src/atomic')
+      'cxs': path.join(__dirname, 'src')
     }
   },
+
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       {
         test: /\.js$/,
-        include: /pretty\-bytes/,
-        loader: 'babel'
-      },
-      { test: /\.json$/, loader: 'json' },
-      { test: /\.md/, loader: 'html!markdown' }
+        include: /objss/,
+        loader: 'babel-loader'
+      }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    })
+  ],
   devServer: {
-    contentBase: 'example'
+    contentBase: 'docs'
   }
 }
 
 module.exports = config
-

@@ -1,33 +1,43 @@
 
-# ϟ CXS
+# cxs
 
-[![Build Status](https://travis-ci.org/jxnblk/cxs.svg?branch=master)](https://travis-ci.org/jxnblk/cxs)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+fast af css-in-js in 1kb
 
-Functional CSS for functional UI components
+http://jxnblk.com/cxs
+
+[![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
+[![js-standard-style][std]](http://standardjs.com/)
+[![1kb gzip][kb]](https://github.com/siddharthkp/bundlesize)
+
+[b]: https://travis-ci.org/jxnblk/cxs.svg?branch=master
+[std]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
+[kb]: https://img.shields.io/badge/gzip-1%20kb-brightgreen.svg
 
 ```js
-const className = cxs({ color: 'tomato' })
+const rule = cxs(`color: tomato`)
 ```
 
-CXS is a functional CSS-in-JS solution that uses atomic styles
-to maximize deduplication and help with dead code elimination.
+cxs is a minimal CSS-in-JS solution with
+an API that closely follows the native CSSStyleSheet API
+to maximize performance and reduce bloat.
 
 ## Features
 
-- Three different [modes](#modes) of operation: Atomic, Lite, & Monolithic
-- < 5KB
-- Avoids collisions with atomic rulesets
+- 1 KB
+- Zero dependencies
+- High performance
+- Style encapsulation
 - Deduplicates repeated styles
 - Dead-code elimination
 - Framework independent
-- CSS-in-JS
 - Media queries
 - Pseudoclasses
 - Nested selectors
-- Avoid maintaining separate stylesheets
-- Use plain JS objects and types
-- No tagged template literals
+- No CSS files
+- Use plain CSS strings
+- Optional [React component](#react-components) API
+- Optional [Atomic mode](#atomic-mode)
+
 
 ## Install
 
@@ -37,7 +47,7 @@ npm install cxs
 
 ## Usage
 
-CXS works with any framework, but this example uses React for demonstration purposes.
+cxs works with any framework, but this example uses React for demonstration purposes.
 
 ```js
 import React from 'react'
@@ -49,50 +59,100 @@ const Box = (props) => {
   )
 }
 
-const className = cxs({
-  padding: 32,
-  backgroundColor: 'tomato'
-})
+const className = cxs(`
+  padding: 32px;
+  backgroundColor: tomato;
+`)
 
 export default Box
 ```
 
-### Pseudoclasses
+### Simple Rules
+
+The cxs API works similarly to how native CSS works, by inserting one ruleset at a time.
 
 ```js
-cxs({
-  color: 'tomato',
-  ':hover': {
-    color: 'red'
-  }
-})
+// Insert a CSS rule and return a cxs rule object
+const rule = cxs('color: tomato')
+
+// return the generated classname
+rule.toString()
+```
+
+### Pseudoclasses
+
+To add a pseudoclass to the generated cxs classname, pass a string to `options.child`.
+
+```js
+const rule = cxs('color: lime', { child: ':hover' })
+```
+
+Commonly used pseudoclasses include chainable methods to hook multiple rules to the same classname.
+Just as native CSS does *not* have any notion of nesting, each chained method call creates a CSS ruleset.
+
+```js
+const rule = cxs('color: tomato')
+  .hover('color: red')
+  .focus('outline: 1px solid blue')
+  .active('color: blue')
+  .disabled('opacity: .5')
 ```
 
 ### Media Queries
 
+To create a rule scoped by a media query, pass a string to `options.media`.
+
 ```js
-cxs({
-  color: 'tomato',
-  '@media (min-width: 40em)': {
-    color: 'red'
-  }
+const rule = cxs('color: tomato', { media: '@media screen and (min-width: 40em)' })
+```
+
+The chainable `.media()` method can also be used to reuse a classname.
+
+```js
+const rule = cxs('color: tomato')
+  .media('@media (min-width: 40em)', 'color: red')
 })
 ```
 
-### Nested Selectors
+### Child Selectors
+
+Any valid CSS child selector syntax can be passed to `options.child`, which will be concatenated with the generated classname.
 
 ```js
-cxs({
-  color: 'tomato',
-  h1: {
-    color: 'red'
-  }
-})
+cxs('color: tomato', { child: ' > h1' })
 ```
 
-### Server-Side Rendering
+The chainable `.child()` method can also be used to reuse a classname.
 
-To use CXS in server environments, use the `getCss()` function to get the static CSS string *after* rendering a view.
+```js
+const rule = cxs('color: tomato')
+  .child(' > h1', 'color: black')
+  .child(' > h1:hover', 'color: blue')
+```
+
+### Push Method
+
+The `.push()` method can be used like the other chainable methods with the same options argument as the core `cxs` function.
+
+```js
+const rule = cxs('color: tomato')
+  .push('color: black', { child: ':checked' })
+  .push('color: blue', { child: ' > h1' })
+```
+
+### Global and Other Selectors
+
+To add rules without the generated classname, use `options.selector`. This can be useful for global base styles.
+
+```js
+cxs('box-sizing: border-box', { selector: '*' })
+cxs('font-family: sans-serif; margin: 0', { selector: 'body' })
+```
+
+
+### Static/Server-Side Rendering
+
+For Node.js environments, use the `css` getter to return the static CSS string *after* rendering a view.
 
 ```js
 import React from 'react'
@@ -101,125 +161,69 @@ import cxs from 'cxs'
 import App from './App'
 
 const html = ReactDOMServer.renderToString(<App />)
-const css = cxs.getCss()
+const css = cxs.css
 
 const doc = `<!DOCTYPE html>
 <style>${css}</style>
 ${html}
 `
 
-// Optionally reset the cache for the next render
+// Reset the cache for the next render
 cxs.reset()
-
 ```
 
-## Modes
+Note: cxs does not currently have a mechanism for rehydrating styles on the client, so use with caution in universal JavaScript applications.
 
-CXS offers three different modes of operation, which produce different rules and class names.
-
-```js
-import cxsAtomic from 'cxs'
-import cxsMonolithic from 'cxs/monolithic'
-import cxsLite from 'cxs/lite'
-
-const styles = {
-  margin: 0,
-  marginBottom: 32,
-  padding: 16,
-  color: 'tomato',
-  ':hover': {
-    color: 'orangered'
-  },
-  '@media (min-width: 40em)': {
-    padding: 32
-  }
-}
-
-// Each mode returns a different set of class names
-
-cxsAtomic(styles)
-// m-0 mb-32 p-16 c-tomato -hover-c-orangered _zsp35u
-
-cxsMonolithic(styles)
-// _q5nmba
-
-cxsLite(styles)
-// a b c d e f
-```
-
-### Atomic Mode (Default)
-
-```js
-import cxs from 'cxs'
-```
-
-The default mode is the atomic mode.
-This creates atomic rulesets and attempts to create human readable classnames.
-If a classname is longer than 24 characters, a hashed classname will be used instead.
-
-### Lite Mode
-
-```js
-import cxs from 'cxs/lite'
-```
-
-For super fast performance, use the `cxs/lite` module.
-Lite mode creates alphabetic class names in a sequential order and does not support nested selectors.
-
-Since the class names in cxs/lite are *not* created in a functional manner,
-when using cxs/lite on both the server and client, the styles will need to be rehydrated.
-
-```js
-// Server
-const css = cxs.getCss()
-cxs.reset()
-
-const html = `<!DOCTYPE html>
-<style id='cxs-style'>${css}</style>
-${body}
-`
-```
-
-```js
-// Client
-import cxs from 'cxs/lite'
-
-const styleTag = document.getElementById('cxs-style')
-const serverCss = styleTag.innerHTML
-
-cxs.rehydrate(serverCss)
-```
-
-### Monolithic Mode
-
-```js
-import cxs from 'cxs/monolithic'
-```
-
-To create encapsulated monolithic styles with CXS and use single hashed class names, import the monolithic module.
-
-The monolithic module also accepts custom selectors for styling things like the body element.
-
-```js
-cxs('body', {
-  fontFamily: '-apple-system, sans-serif',
-  margin: 0,
-  lineHeight: 1.5
-})
-```
 
 ## API
 
+Calling the `cxs` function returns a cxs rule object.
+
 ```js
 import cxs from 'cxs'
 
-// Creates styles and returns micro classnames
-cxs({ color: 'tomato' })
+const rule = cxs(cssDeclarationBlock, options)
+```
 
-// Returns a CSS string of attached rules. Useful for server-side rendering
-cxs.getCss()
+The first argument to `cxs` should be a string containing a valid CSS declaration block.
 
-// Clear the cache and flush the glamor stylesheet.
+The second argument is an options object, where:
+
+- `options.media` is a CSS media query string
+- `options.child` is a pseudoclass or child selector string that follows the class selector
+- `options.selector` is any valid CSS selector string, this will replace the generated classname
+- `options.className` is a string for internal use to manually set the classname
+
+The `.toString()` method on the rule object returns a classname for use in HTML.
+
+```js
+rule.toString() // '_0'
+```
+
+The rule object also includes chainable methods to add multiple rulesets with the same classname.
+
+```js
+// Adds a pseudoclass rule with the same classname
+rule.hover(declarations)
+rule.focus(declarations)
+rule.active(declarations)
+rule.disabled(declarations)
+
+// Adds any child selector with the same classname
+rule.child(selector, declarations)
+
+// Adds a media query rule with the same classname
+rule.media(mediaQuery, declarations)
+
+// Adds another rule with the same classname
+rule.push(declarations, options)
+```
+
+```js
+// Gets a CSS string of CSS rules. Useful for server-side rendering
+cxs.css
+
+// Clear the cache and flush the stylesheet.
 // This is useful for cleaning up in server-side contexts.
 cxs.reset()
 ```
@@ -228,43 +232,77 @@ Additional exports
 
 ```
 import {
-  // The threepointone/glamor StyleSheet instance
-  // See https://github.com/threepointone/glamor
-  sheet,
-  // Same as cxs.getCss
-  getCss,
-  // Same as cxs.reset
-  reset
+  Sheet,  // create stylesheet function
+  css,    // string of rendered CSS - same as cxs.css
+  reset   // same as cxs.reset
 } from 'cxs'
 ```
 
-### Vendor prefixes
 
-CXS **does not** handle vendor prefixing to keep the module size at a minimum.
-To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
+## React Components
+
+cxs also has an alternative higher order component API for creating styled React components, similar to the [styled-components][0] API.
 
 ```js
-import cxs from 'cxs'
-import prefixer from 'inline-style-prefixer/static'
+import cxs from 'cxs/component'
 
-const prefixed = prefixer({
-  display: 'flex'
-})
-const cx = cxs(prefixed)
+const Heading = cxs('h1')`
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.25;
+`
 ```
 
-### Browser support
+cxs components can also handle dynamic styling based on props by passing a function in to the tagged template literal.
+To remove non-HTML attribute props used for styling a component, pass an array of keys as the `removeProps` option.
 
-IE9+, due to the following:
-- `Array.filter`
-- `Array.map`
-- `Array.forEach`
+```js
+const removeProps = [
+  'color'
+]
 
-## Related
+const Heading = cxs('h1', { removeProps })`
+  color: ${props => props.color};
+`
+```
 
-- [cxs-components](https://github.com/jxnblk/cxs/tree/master/packages/cxs-components)
-- [react-cxs](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs)
-- [react-cxs-hoc](https://github.com/jxnblk/cxs/tree/master/packages/react-cxs-hoc)
+## Atomic Mode
+
+For an alternative JavaScript object-based API that creates atomic CSS rules – similar to those found in [Basscss][2] or [Tachyons][3] , import the atomic module.
+
+```js
+import cxs from 'cxs/atomic'
+
+const className = cxs({
+  fontSize: 16,
+  color: 'tomato',
+  ':hover': {
+    color: 'black'
+  },
+  '@media screen and (min-width: 32em)': {
+    fontSize: 20
+  }
+})
+```
+
+## Limitations
+
+### Nesting
+
+For performance reasons, and since nesting is not part of native CSS, the default mode in cxs **does not** support nesting like some preprocessors do.
+
+### Vendor prefixes
+
+cxs **does not** handle vendor prefixing to keep the module size at a minimum.
+
+
+## Previous Version
+
+For the previous version of cxs, see the [v3 branch][1]
+
+[0]: https://www.styled-components.com (styled-components)
+[1]: https://github.com/jxnblk/cxs/tree/v3
+[2]: http://basscss.com
+[3]: http://tachyons.io
 
 [MIT License](LICENSE.md)
-

@@ -1,7 +1,8 @@
-
-example
+docs
 src
-test
+test.js
 .travis.yml
 .babelrc
 webpack.config.js
+coverage
+.nyc_output
