@@ -13,7 +13,6 @@ class Stats extends React.Component {
   }
 
   componentDidMount () {
-    console.timeEnd('mount')
     const css = cxs.css
     this.setState({
       css,

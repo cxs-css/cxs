@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
-    "build": "NODE_ENV=production webpack -p",
+    "build": "npm run static && NODE_ENV=production webpack -p",
     "static": "static-react docs/App.js > docs/index.html",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundlesize",
