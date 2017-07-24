@@ -233,7 +233,6 @@ Additional exports
 ```
 import {
   Sheet,  // create stylesheet function
-  sheet,  // cxs stylesheet instance
   css,    // string of rendered CSS - same as cxs.css
   reset   // same as cxs.reset
 } from 'cxs'
