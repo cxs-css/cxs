@@ -14,7 +14,7 @@ class Tweet extends React.Component {
       <a
         ref={ref => this.root = ref}
         className='twitter-share-button'
-        href='https://twitter.com/intent/tweet'
+        href='https://twitter.com/intent/tweet?text=fast%20af%20css-in-js%20in%201kb&via=jxnblk'
         children='Tweet'
       />
     )

@@ -10,7 +10,8 @@ const Pre = cxs(Text)`
 `
 
 Pre.defaultProps = {
-  is: 'pre'
+  is: 'pre',
+  f: 1
 }
 
 export default Pre
