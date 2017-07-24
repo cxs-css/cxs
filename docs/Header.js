@@ -5,7 +5,7 @@ import Flex from './Flex'
 import Badge from './Badge'
 import Tweet from './Tweet'
 import Title from './Title'
-import Logo from './Logo'
+import Bar from './Bar'
 import Text from './Text'
 import Pre from './Pre'
 import HideMobile from './HideMobile'
@@ -17,11 +17,6 @@ import cxs from 'cxs/component'
 const Header = props => (
   <Banner>
     <Flex align='center' w={1} p={3}>
-      <Logo
-        size={32}
-        color={blue}
-        strokeWidth={1}
-      />
       <Flex ml='auto'>
         <Tweet />
         <Box ml={2} />
@@ -56,8 +51,9 @@ const Header = props => (
       column
       mt='auto'
       mb='auto'>
+      <Bar mb={3} />
       <Title>
-        CXS
+        cxs
       </Title>
       <Text>fast af css-in-js in 1kb</Text>
       <Box mb={5} />

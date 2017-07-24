@@ -1,7 +1,9 @@
 
-# ϟ CXS
+# cxs
 
 fast af css-in-js in 1kb
+
+http://jxnblk.com/cxs
 
 [![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
 [![js-standard-style][std]](http://standardjs.com/)
@@ -15,7 +17,7 @@ fast af css-in-js in 1kb
 const rule = cxs(`color: tomato`)
 ```
 
-CXS is a minimal CSS-in-JS solution with
+cxs is a minimal CSS-in-JS solution with
 an API that closely follows the native CSSStyleSheet API
 to maximize performance and reduce bloat.
 
@@ -45,7 +47,7 @@ npm install cxs
 
 ## Usage
 
-CXS works with any framework, but this example uses React for demonstration purposes.
+Xxs works with any framework, but this example uses React for demonstration purposes.
 
 ```js
 import React from 'react'
@@ -67,10 +69,10 @@ export default Box
 
 ### Simple Rules
 
-The CXS API works similarly to how native CSS works, by inserting one ruleset at a time.
+The cxs API works similarly to how native CSS works, by inserting one ruleset at a time.
 
 ```js
-// Insert a CSS rule and return a CXS rule object
+// Insert a CSS rule and return a cxs rule object
 const rule = cxs('color: tomato')
 
 // return the generated classname
@@ -79,7 +81,7 @@ rule.toString()
 
 ### Pseudoclasses
 
-To add a pseudoclass to the generated CXS classname, pass a string to `options.child`.
+To add a pseudoclass to the generated cxs classname, pass a string to `options.child`.
 
 ```js
 const rule = cxs('color: lime', { child: ':hover' })
@@ -170,12 +172,12 @@ ${html}
 cxs.reset()
 ```
 
-Note: CXS does not currently have a mechanism for rehydrating styles on the client, so use with caution in universal JavaScript applications.
+Note: cxs does not currently have a mechanism for rehydrating styles on the client, so use with caution in universal JavaScript applications.
 
 
 ## API
 
-Calling the `cxs` function returns a CXS rule object.
+Calling the `cxs` function returns a cxs rule object.
 
 ```js
 import cxs from 'cxs'
@@ -240,7 +242,7 @@ import {
 
 ## React Components
 
-CXS also has an alternative higher order component API for creating styled React components, similar to the [styled-components][0] API.
+cxs also has an alternative higher order component API for creating styled React components, similar to the [styled-components][0] API.
 
 ```js
 import cxs from 'cxs/component'
@@ -252,7 +254,7 @@ const Heading = cxs('h1')`
 `
 ```
 
-CXS components can also handle dynamic styling based on props by passing a function in to the tagged template literal.
+cxs components can also handle dynamic styling based on props by passing a function in to the tagged template literal.
 To remove non-HTML attribute props used for styling a component, pass an array of keys as the `removeProps` option.
 
 ```js
@@ -288,17 +290,16 @@ const className = cxs({
 
 ### Nesting
 
-For performance reasons, and since nesting is not part of native CSS, the default mode in CXS **does not** support nesting like some preprocessors do.
+For performance reasons, and since nesting is not part of native CSS, the default mode in cxs **does not** support nesting like some preprocessors do.
 
 ### Vendor prefixes
 
-CXS **does not** handle vendor prefixing to keep the module size at a minimum.
-To add vendor prefixes, use a prefixing module like [`inline-style-prefixer`](https://github.com/rofrischmann/inline-style-prefixer)
+cxs **does not** handle vendor prefixing to keep the module size at a minimum.
 
 
 ## Previous Version
 
-For the previous version of CXS, see the [v3 branch][1]
+For the previous version of cxs, see the [v3 branch][1]
 
 [0]: https://www.styled-components.com (styled-components)
 [1]: https://github.com/jxnblk/cxs/tree/v3

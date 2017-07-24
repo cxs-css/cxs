@@ -8,11 +8,11 @@ import Button from './Button'
 const CTA = () => (
   <section id='cta' style={{ textAlign: 'center' }}>
     <Box mt={6} mb={6}>
-      <Heading>
+      <Heading mb={3}>
         Documentation
       </Heading>
       <Text mb={4}>
-        Read the documentation on GitHub to learn more about using CXS.
+        Read the documentation on GitHub to learn more about using cxs.
       </Text>
       <Button
         href='https://github.com/jxnblk/cxs'

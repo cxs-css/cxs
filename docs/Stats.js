@@ -29,7 +29,7 @@ class Stats extends React.Component {
         wrap
         title={css}
         onClick={e => alert(css) }>
-        CXS generated {format(bytes)} bytes of CSS to render this page.
+        cxs generated {format(bytes)} bytes of CSS to render this page.
       </Pre>
     )
   }

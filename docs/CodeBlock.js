@@ -10,7 +10,7 @@ const CodeBlock = cxs(Pre)`
 CodeBlock.defaultProps = {
   p: 3,
   mb: 4,
-  color: 'blue',
+  color: 'white',
   bg: 'dark'
 }
 

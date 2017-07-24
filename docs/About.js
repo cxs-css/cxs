@@ -3,12 +3,14 @@ import Flex from './Flex'
 import Box from './Box'
 import Text from './Text'
 import Column from './Column'
+import Bar from './Bar'
 
 const About = () => (
   <section id='about'>
     <Box pt={5} pb={5}>
+      <Bar mb={4} />
       <Text f={4}>
-        CXS is a minimal CSS-in-JS solution with an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
+        cxs is a minimal css-in-js solution with an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
       </Text>
     </Box>
     <Flex wrap ml={-3} mr={-3}>

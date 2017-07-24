@@ -2,15 +2,15 @@ import cxs from 'cxs/component'
 import media from './media'
 
 const Title = cxs('h1')`
-  font-size: 48px;
-  line-height: 1;
+  font-size: 64px;
+  line-height: 1.25;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .5em;
   margin: 0;
   margin-right: -.5em;
 `.media(media[0])`
-  font-size: 64px;
+  font-size: 72px;
 `.media(media[1])`
   font-size: 96px;
 `.media(media[2])`

@@ -5,17 +5,19 @@ import Pre from './Pre'
 import Heading from './Heading'
 import Text from './Text'
 import CodeBlock from './CodeBlock'
+import Bar from './Bar'
 
 const Usage = () => (
   <section id='usage'>
     <Box pt={5} pb={5}>
+      <Bar mb={4} />
       <Heading mb={3}>Getting Started</Heading>
       <CodeBlock>npm i cxs</CodeBlock>
       <Heading>
         Usage
       </Heading>
       <Text mb={3}>
-        CXS works equally well in plain JavaScript or any UI framework where you can apply a className to an element.
+        cxs works equally well in plain JavaScript or any UI framework where you can apply a className to an element.
       </Text>
       <CodeBlock children={code.import} />
       <Text mb={3}>

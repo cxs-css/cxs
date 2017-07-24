@@ -16,6 +16,18 @@ cxs(`
   media: '@keyframes slow-spin'
 })
 
+cxs(`
+  transform: rotate(0deg);
+`, {
+  selector: 'from',
+  media: '@keyframes spin-alt'
+}).push(`
+  transform: rotate(-360deg);
+`, {
+  selector: 'to',
+  media: '@keyframes spin-alt'
+})
+
 const Root = comp('div')`
   color: ${blue};
   // background-color: ${dark};
@@ -55,18 +67,57 @@ const Ring = comp(props => (
   </svg>
 ))`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: 50% 50%;
-  transform: translate(-58%, -58%);
+  bottom: -50%;
+  right: -50%;
   opacity: .125;
+`
+
+const Ring2 = comp(Ring)`
+outline: 1px solid red;
+  bottom: -55%;
+  right: -55%;
+  transform-origin: 48% 49%;
+  animation-name: spin-alt;
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+`
+
+const Vector = comp(props => (
+  <svg
+    {...props}
+    viewBox='0 0 32 2'
+    width={props.size}
+    height={props.size / 16}
+    fill='none'
+    stroke='currentcolor'
+    strokeWidth={2}
+  >
+    <path
+      d='M0 1 h32'
+      vectorEffect='non-scaling-stroke'
+    />
+  </svg>
+))`
+  position: absolute;
+  bottom: -30%;
+  right: -50%;
+  opacity: .5;
+  transform: rotate(-6deg);
+`
+
+const Vector2 = comp(Vector)`
+  transform: translate(256px, -512px) rotate(30deg);
 `
 
 const Graphic = props => (
   <Root {...props}>
     <Blend>
       <Spinning size={320} />
-      <Ring size={768}/>
+      <Ring size={768} />
+      <Ring2 size={832} />
+      <Vector size={2048} />
+      <Vector2 size={2048} />
     </Blend>
   </Root>
 )
