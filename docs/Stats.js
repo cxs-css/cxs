@@ -13,7 +13,7 @@ class Stats extends React.Component {
   }
 
   componentDidMount () {
-    const css = cxs.css
+    const css = cxs.css()
     this.setState({
       css,
       bytes: css.length

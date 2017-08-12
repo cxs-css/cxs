@@ -4,7 +4,7 @@ import Box from './Box'
 import Pre from './Pre'
 import Heading from './Heading'
 import Text from './Text'
-import CodeBlock from './CodeBlock'
+// import CodeBlock from './CodeBlock'
 import Bar from './Bar'
 
 const Usage = () => (
@@ -12,29 +12,18 @@ const Usage = () => (
     <Box pt={5} pb={5}>
       <Bar mb={4} />
       <Heading mb={3}>Getting Started</Heading>
-      <CodeBlock>npm i cxs</CodeBlock>
+      <Pre>npm i cxs</Pre>
       <Heading>
         Usage
       </Heading>
-      <Text mb={3}>
-        cxs works equally well in plain JavaScript or any UI framework where you can apply a className to an element.
-      </Text>
-      <CodeBlock children={code.import} />
-      <Text mb={3}>
-        Pass a CSS declaration block to the cxs function to create a rule object.
-      </Text>
-      <CodeBlock children={code.basic} />
-      <Text mb={3}>
-        Get the generated classname to apply to any element.
-      </Text>
-      <CodeBlock children={code.classname} />
-      <Text mb={3}>
-        Use the chainable rule methods to create styles for pseudoclasses, child elements, or media queries.
-      </Text>
-      <CodeBlock children={code.chaining} />
+      <Pre children={example} />
     </Box>
   </section>
 )
+
+const example = `const className = cxs({
+  color: 'tomato'
+})`
 
 const code = {
   import: `import cxs from 'cxs'`,

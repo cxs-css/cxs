@@ -29,7 +29,7 @@ test('cxs.css() returns a string', t => {
 })
 
 test('creates a CSS rule', t => {
-  const a = cxs({ color: 'tomato' })
+  cxs({ color: 'tomato' })
   t.is(typeof cxs.css(), 'string')
   t.is(cxs.css(), '.x0{color:tomato}')
 })
@@ -54,7 +54,7 @@ test('handles multiple declarations', t => {
 })
 
 test('handles child selectors', t => {
-  const a = cxs({
+  cxs({
     color: 'tomato',
     ':hover': {
       color: 'black'
@@ -64,7 +64,7 @@ test('handles child selectors', t => {
 })
 
 test('handles media queries', t => {
-  const a = cxs({
+  cxs({
     color: 'tomato',
     '@media print': {
       color: 'black'
@@ -74,7 +74,7 @@ test('handles media queries', t => {
 })
 
 test('handles nested objects', t => {
-  const a = cxs({
+  cxs({
     '@media screen': {
       ':hover': {
         color: 'tomato'
@@ -93,13 +93,13 @@ test('ignores null values', t => {
 })
 
 test('resets cached rules', t => {
-  const a = cxs({ color: 'tomato' })
+  cxs({ color: 'tomato' })
   cxs.reset()
   t.is(cxs.css().length, 0)
 })
 
 test('media rules stay in order', t => {
-  const a = cxs({
+  cxs({
     color: 'tomato',
     '@media screen': {
       color: 'black'

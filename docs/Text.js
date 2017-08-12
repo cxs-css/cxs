@@ -21,7 +21,7 @@ const bold = props => props.bold ? { fontWeight: 'bold' } : null
 
 const Text = cxs(Box)(size, bold, {
   ' a': {
-    color: 'blue'
+    color: blue
   }
 })
 

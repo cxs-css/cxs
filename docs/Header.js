@@ -68,21 +68,21 @@ const Header = props => (
       </Title>
       <Box mb={3} />
       <Text f={3}>fast af css-in-js in 0.7kb</Text>
-      <Flex mt={5} align='center' color='blue'>
+      <Flex mt={5} align='center'>
         <Button href='https://github.com/jxnblk/cxs'>GitHub</Button>
         <Box mr={3} />
-        <Pre f={0}>npm install cxs</Pre>
+        <Pre>npm install cxs</Pre>
       </Flex>
     </Flex>
     <Flex
       wrap
       align='baseline'
       w={1}
-      pt={3}
-    >
-      <Pre f={0}>v{version}</Pre>
+      pt={3}>
       <Box ml='auto' />
-      <Pre f={0}>0.7kB</Pre>
+      <Pre>v{version}</Pre>
+      <Box mr={3} />
+      <Pre>0.7kB</Pre>
     </Flex>
   </Banner>
 )

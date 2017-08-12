@@ -15,10 +15,10 @@ const parse = (obj, child = '', media) =>
       const c2 = m2 ? child : child + key
       return parse(val, c2, m2 || media)
     }
-    const _key = key + val + media
+    const _key = key + val + child + media
     if (cache[_key]) return cache[_key]
     const className = 'x' + (rules.length).toString(36)
-    insert(mx(rx(className + child, key, val) , media))
+    insert(mx(rx(className + child, key, val), media))
     cache[_key] = className
     return className
   })

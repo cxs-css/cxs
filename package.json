@@ -56,7 +56,12 @@
   },
   "standard": {
     "ignore": [
-      "/docs/"
+      "benchmarks",
+      "coverage",
+      ".nyc_output",
+      "dist",
+      "_test",
+      "docs"
     ]
   },
   "bundlesize": [

@@ -6,7 +6,7 @@ import Text from './Text'
 import Button from './Button'
 
 const CTA = () => (
-  <section id='cta' style={{ textAlign: 'center' }}>
+  <section id='cta'>
     <Box mt={6} mb={6}>
       <Heading mb={3}>
         Documentation

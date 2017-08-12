@@ -20,10 +20,9 @@ test('inserts a style tag', t => {
 })
 
 test('inserts CSS rules', t => {
-  const a = cxs({
+  cxs({
     color: 'tomato'
   })
   const { sheet } = document.head.querySelector('style')
   t.is(sheet.cssRules.length, 1)
 })
-

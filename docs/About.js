@@ -9,14 +9,16 @@ const About = () => (
   <section id='about'>
     <Box pt={5} pb={5}>
       <Bar mb={4} />
-      <Text f={4}>
-        cxs is a minimal css-in-js solution with an API that closely follows the native CSSStyleSheet API to maximize performance and reduce bloat.
+      <Text f={20}>
+        cxs is a minimal css-in-js solution
+        that uses an atomic css approach
+        to maximize performance and deduplication
       </Text>
     </Box>
     <Flex wrap ml={-3} mr={-3}>
       {features.map(feat => (
         <Column key={feat} p={3}>
-          <Text bold>
+          <Text>
             {feat}
           </Text>
         </Column>
@@ -26,7 +28,7 @@ const About = () => (
 )
 
 const features = [
-  '1 KB',
+  '0.7 KB',
   'Zero dependencies',
   'High performance',
   'Style encapsulation',
@@ -35,7 +37,7 @@ const features = [
   'Framework independent',
   'Media queries',
   'Pseudoclasses',
-  'Nested selectors',
+  'Nesting',
   'No CSS files',
   'React component API',
 ]
