@@ -4,10 +4,10 @@ const suite = new Benchmark.Suite
 // benchmark hates browser-env
 require('browser-env')()
 const cxs = require('./lib/cxs')
+const fela = require('./lib/fela')
 const styledComponents = require('./lib/styled-components')
 const glamorous = require('./lib/glamorous')
 const inlineStyles = require('./lib/inline-styles')
-const fela = require('./lib/fela')
 
 // must be imported after others to prevent globbering other libraries
 require('babel-register')({
@@ -20,9 +20,9 @@ const emotion = require('./lib/emotion')
 suite
   .add('inline-styles', inlineStyles)
   .add('cxs', cxs)
+  .add('fela', fela)
   .add('emotion', emotion)
   .add('glamorous', glamorous)
-  .add('fela', fela)
   .add('styled-components', styledComponents)
   .on('cycle', e => {
     console.log(String(e.target))
