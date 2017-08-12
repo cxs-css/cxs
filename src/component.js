@@ -3,11 +3,13 @@ const PropTypes = require('prop-types')
 const cxs = require('./index')
 
 module.exports = C => (...args) => {
-  const Comp = props =>
+  const Comp = (props, context) =>
     h(C, Object.assign({}, props, {
       className: [
         props.className,
-        ...args.map(a => typeof a === 'function' ? a(props) : a)
+        ...args.map(a => typeof a === 'function'
+          ? a(Object.assign({ theme: context.theme }, props))
+          : a)
           .filter(s => s !== null)
           .map(s => cxs(s))
       ].join(' ')

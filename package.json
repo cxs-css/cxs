@@ -38,6 +38,7 @@
     "react-test-renderer": "^15.6.1",
     "standard": "^10.0.2",
     "static-react": "^4.0.0-2",
+    "styled-system": "^1.0.0-12",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.0"
   },
@@ -68,6 +69,10 @@
     {
       "path": "./dist/index.js",
       "maxSize": "0.8 kb"
+    },
+    {
+      "path": "./dist/component.js",
+      "maxSize": "0.6 kb"
     }
   ],
   "static-react": {
