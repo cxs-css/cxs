@@ -1,8 +1,8 @@
 docs
 src
-test.js
+test
+coverage
+.nyc_output
 .travis.yml
 .babelrc
 webpack.config.js
-coverage
-.nyc_output

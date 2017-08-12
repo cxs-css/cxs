@@ -1,33 +1,19 @@
 import React from 'react'
-import cxs from 'cxs'
-import Header from './Header'
-import About from './About'
-import Usage from './Usage'
-import ReactAPI from './ReactAPI'
-import CTA from './CTA'
-import Footer from './Footer'
+import cxs from 'cxs/component'
 import Container from './Container'
-import { dark } from './colors'
+import Header from './Header'
 
-cxs(`box-sizing:border-box`, { selector: '*' })
-cxs(`
-  font-family: 'Roboto Mono', 'SF Mono', Menlo, monospace;
-  line-height: 1.5;
-  margin:0;
-  color: ${dark};
-`, { selector: 'body' })
+const Root = cxs('div')({
+  fontFamily: '"Roboto Mono", Menlo, monospace',
+  lineHeight: '1.5'
+})
 
 const App = props => (
-  <div>
-    <Header />
-    <Container pl={3} pr={3}>
-      <About />
-      <Usage />
-      <ReactAPI />
-      <CTA />
-      <Footer />
+  <Root>
+    <Container>
+      <Header />
     </Container>
-  </div>
+  </Root>
 )
 
 export default App

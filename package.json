@@ -1,7 +1,7 @@
 {
   "name": "cxs",
-  "version": "4.0.0-0",
-  "description": "Fast af css-in-js in 1kb",
+  "version": "5.0.0-0",
+  "description": "Fast af css-in-js in under 1kb",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
@@ -62,15 +62,7 @@
   "bundlesize": [
     {
       "path": "./dist/index.js",
-      "maxSize": "1.1 kb"
-    },
-    {
-      "path": "./dist/component.js",
-      "maxSize": "1.1 kb"
-    },
-    {
-      "path": "./dist/atomic.js",
-      "maxSize": "2 kb"
+      "maxSize": "0.8 kb"
     }
   ],
   "static-react": {
@@ -109,6 +101,7 @@
         "content": "x"
       }
     ],
+    "css": "*{box-sizing:border-box}body{margin:0}",
     "scripts": [
       "bundle.js",
       "meta.js"

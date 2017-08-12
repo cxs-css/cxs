@@ -19,11 +19,10 @@ const size = props => props.f !== null || props.f !== undefined
 
 const bold = props => props.bold ? { fontWeight: 'bold' } : null
 
-const Text = cxs(Box)`
-  ${size}
-  ${bold}
-`.push({ child: ' a' })`
-  color: ${blue};
-`
+const Text = cxs(Box)(size, bold, {
+  ' a': {
+    color: 'blue'
+  }
+})
 
 export default Text

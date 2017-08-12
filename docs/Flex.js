@@ -12,12 +12,13 @@ const justify = props => props.justify
 const column = props => props.column ? { flexDirection: 'column' } : null
 const wrap = props => props.wrap ? { flexWrap: 'wrap' } : null
 
-const Flex = cxs(Box)`
-  display: flex;
-  ${column}
-  ${wrap}
-  ${align}
-  ${justify}
-`
+const Flex = cxs(Box)({
+  display: 'flex',
+},
+  column,
+  wrap,
+  align,
+  justify
+)
 
 export default Flex

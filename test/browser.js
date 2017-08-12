@@ -1,46 +1,29 @@
 import test from 'ava'
 import browser from 'browser-env'
-import { Sheet } from '../src'
 browser()
 
+const cxs = require('../src')
+
 test.afterEach(() => {
-  const tag = document.head.querySelector('#__cxs__')
+  const tag = document.head.querySelector('style')
   if (tag) {
-    document.head.removeChild(tag)
+    const { sheet } = tag
+    while (sheet.cssRules.length) {
+      sheet.deleteRule(0)
+    }
   }
 })
 
-test('Sheet is a function', t => {
-  t.is(typeof Sheet, 'function')
+test('inserts a style tag', t => {
+  const tag = document.head.querySelector('style')
+  t.truthy(tag)
 })
 
-test('Sheet returns a CSSStyleSheet', t => {
-  const sheet = Sheet()
-  t.is(typeof sheet, 'object')
-  t.true(sheet instanceof window.CSSStyleSheet)
+test('inserts CSS rules', t => {
+  const a = cxs({
+    color: 'tomato'
+  })
+  const { sheet } = document.head.querySelector('style')
+  t.is(sheet.cssRules.length, 1)
 })
 
-test('sheet.css returns a string', t => {
-  const sheet = Sheet()
-  t.is(typeof sheet.css, 'string')
-})
-
-test('sheet.insert adds a rule', t => {
-  const sheet = Sheet()
-  sheet.insert('body {margin: 0;}')
-  t.is(sheet.css, 'body {margin: 0;}')
-})
-
-test('sheet.reset removes all rules', t => {
-  const sheet = Sheet()
-  sheet.insert('body {margin: 0;}')
-  sheet.insert('* {box-sizing: border-box;}')
-  sheet.reset()
-  t.is(sheet.css, '')
-})
-
-test('Sheet injects a style tag', t => {
-  Sheet()
-  const el = document.head.querySelector('style')
-  t.true(el instanceof window.HTMLStyleElement)
-})

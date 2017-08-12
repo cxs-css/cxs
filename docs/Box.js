@@ -87,11 +87,11 @@ const opts = {
   ]
 }
 
-const Box = cxs('div', opts)`
-  ${space}
-  ${width}
-  ${color}
-  ${bg}
-`
+const Box = cxs('div')(
+  space,
+  width,
+  color,
+  bg
+)
 
 export default Box

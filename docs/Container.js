@@ -1,10 +1,12 @@
 import cxs from 'cxs/component'
 import Box from './Box'
 
-const Container = cxs(Box)`
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
-`
+const Container = cxs(Box)({
+  maxWidth: 1024,
+  paddingLeft: 32,
+  paddingRight: 32,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+})
 
 export default Container
