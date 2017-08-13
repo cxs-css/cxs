@@ -6,12 +6,14 @@ fast af css-in-js in 0.7kb
 http://jxnblk.com/cxs
 
 [![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
+[![Coverage][cov]](https://codecov.io/github/jxnblk/cxs)
 [![js-standard-style][std]](http://standardjs.com/)
 [![0.7kb gzip][kb]](https://github.com/siddharthkp/bundlesize)
 
 [b]: https://img.shields.io/travis/jxnblk/cxs/master.svg?style=flat-square
 [std]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [kb]: https://img.shields.io/badge/gzip-0.7%20kb-brightgreen.svg?style=flat-square
+[cov]: https://img.shields.io/codecov/c/github/jxnblk/cxs.svg?style=flat-square
 
 ```js
 const className = cxs({ color: 'tomato' })
