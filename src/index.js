@@ -5,6 +5,7 @@ const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
 const px = n => typeof n === 'number' ? n + 'px' : n
 const mx = (rule, media) => media ? `${media}{${rule}}` : rule
 const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${px(val)}}`
+const noAnd = s => s.replace(/&/g, '')
 
 const parse = (obj, child = '', media) =>
   Object.keys(obj).map(key => {
@@ -18,7 +19,7 @@ const parse = (obj, child = '', media) =>
     const _key = key + val + child + media
     if (cache[_key]) return cache[_key]
     const className = 'x' + (rules.length).toString(36)
-    insert(mx(rx(className + child, key, val), media))
+    insert(mx(rx(className + noAnd(child), key, val), media))
     cache[_key] = className
     return className
   })
