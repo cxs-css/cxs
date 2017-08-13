@@ -28,7 +28,7 @@ module.exports = (...styles) =>
   styles.map(style => parse(style))
   .join(' ').trim()
 
-module.exports.css = () => rules.join('')
+module.exports.css = () => rules.sort().join('')
 
 module.exports.reset = () => {
   cache = {}
