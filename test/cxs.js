@@ -63,6 +63,16 @@ test('handles child selectors', t => {
   t.is(cxs.css(), '.x0{color:tomato}.x1:hover{color:black}')
 })
 
+test('removes ampersand selectors', t => {
+  cxs({
+    color: 'tomato',
+    '&:hover': {
+      color: 'black'
+    }
+  })
+  t.is(cxs.css(), '.x0{color:tomato}.x1:hover{color:black}')
+})
+
 test('handles media queries', t => {
   cxs({
     color: 'tomato',
