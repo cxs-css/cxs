@@ -125,7 +125,7 @@ Note: cxs does not currently have a mechanism for rehydrating styles on the clie
 
 ## React Components
 
-cxs also has an alternative higher order component API for creating styled React components, similar to the [styled-components][0] API.
+cxs also has an alternative higher order component API for creating styled React components, similar to the [styled-components][sc] API.
 
 ```js
 import cxs from 'cxs/component'
@@ -220,12 +220,21 @@ const Heading = cxs('h2')(props => ({
 
 ## API
 
-### `cxs()`
+### `cxs(...styles)`
+
+Accepts styles objects or functions that return style objects and returns a className string.
+
 ### `cxs.css()`
+
+Returns the rendered CSS string for static and server-side rendering.
+
 ### `cxs.reset()`
+
+Resets the cache for server-side rendering
 
 ### `cxs/component`
 
+A [styled-components][sc]-like API for creating React components with cxs.
 
 ---
 
@@ -237,7 +246,7 @@ cxs **does not** handle vendor prefixing to keep the module size at a minimum.
 
 For previous versions of cxs, see the [v3 branch][v3] or [v4 branch][v4]
 
-[0]: https://www.styled-components.com (styled-components)
+[sc]: https://www.styled-components.com (styled-components)
 [2]: http://basscss.com
 [3]: http://tachyons.io
 
