@@ -3,23 +3,24 @@ import React from 'react'
 import { create as render } from 'react-test-renderer'
 import cxs from '../src/component'
 
-test('cxs/component exports a function', t => {
+test('exports a function', t => {
   t.is(typeof cxs, 'function')
+  t.is(typeof cxs('div'), 'function')
 })
 
-test('cxs/component creates a component', t => {
-  const Hello = cxs('h1')`color:tomato`
-  const json = render(<Hello />).toJSON()
-  t.is(json.type, 'h1')
-  t.snapshot(json)
+test('renders', t => {
+  const A = cxs('div')()
+  const B = cxs('div')({
+    color: 'tomato'
+  })
+  const C = cxs('div')(props => ({
+    color: props.color
+  }))
+  const a = render(<A />).toJSON()
+  const b = render(<B />).toJSON()
+  const c = render(<C />).toJSON()
+  t.snapshot(a)
+  t.snapshot(b)
+  t.snapshot(c)
 })
 
-test('cxs/component creates a component with hover', t => {
-  const Beep = cxs('h2')`color:tomato`
-    .hover`
-      color: black;
-    `
-  const json = render(<Beep />).toJSON()
-  t.is(json.type, 'h2')
-  t.snapshot(json)
-})

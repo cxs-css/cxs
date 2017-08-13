@@ -1,7 +1,7 @@
 {
   "name": "cxs",
-  "version": "4.0.0-0",
-  "description": "Fast af css-in-js in 1kb",
+  "version": "5.0.0-0",
+  "description": "Fast af css-in-js in under 1kb",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src -d dist",
@@ -10,7 +10,7 @@
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundlesize",
     "standard": "standard",
-    "cover": "npm test && nyc report --reporter=html --reporter-lcov",
+    "cover": "npm test && nyc report --reporter=html --reporter=lcov > coverage.lcov && codecov",
     "test": "nyc ava"
   },
   "keywords": [],
@@ -30,6 +30,7 @@
     "browser-env": "^3.1.0",
     "bundlesize": "^0.12.1",
     "bytes": "^2.5.0",
+    "codecov": "^2.3.0",
     "loglevel": "^1.4.1",
     "nyc": "^11.0.3",
     "react": "^15.6.1",
@@ -38,6 +39,7 @@
     "react-test-renderer": "^15.6.1",
     "standard": "^10.0.2",
     "static-react": "^4.0.0-2",
+    "styled-system": "^1.0.0-12",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.0"
   },
@@ -56,21 +58,22 @@
   },
   "standard": {
     "ignore": [
-      "/docs/"
+      "benchmarks",
+      "coverage",
+      ".nyc_output",
+      "dist",
+      "_test",
+      "docs"
     ]
   },
   "bundlesize": [
     {
       "path": "./dist/index.js",
-      "maxSize": "1.1 kb"
+      "maxSize": "0.8 kb"
     },
     {
       "path": "./dist/component.js",
-      "maxSize": "1.1 kb"
-    },
-    {
-      "path": "./dist/atomic.js",
-      "maxSize": "2 kb"
+      "maxSize": "0.6 kb"
     }
   ],
   "static-react": {
@@ -109,6 +112,7 @@
         "content": "x"
       }
     ],
+    "css": "*{box-sizing:border-box}body{margin:0}",
     "scripts": [
       "bundle.js",
       "meta.js"

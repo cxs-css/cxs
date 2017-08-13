@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [],
+  "author": "Brent Jackson",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-register": "^6.24.1",
+    "babel-standalone": "^6.25.0",
+    "benchmark": "^2.1.4",
+    "browser-env": "^3.1.0",
+    "emotion": "^6.0.3",
+    "glamor": "^2.20.37",
+    "glamorous": "^3.24.0",
+    "jsdom-global": "^3.0.2",
+    "microtime": "^2.1.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-fela": "^5.2.0",
+    "styled-components": "^2.1.1"
+  }
+}
