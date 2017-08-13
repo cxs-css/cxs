@@ -10,7 +10,7 @@
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundlesize",
     "standard": "standard",
-    "cover": "npm test && nyc report --reporter=html --reporter-lcov",
+    "cover": "npm test && nyc report --reporter=html --reporter-lcov > coverage.lcov && codecov",
     "test": "nyc ava"
   },
   "keywords": [],
@@ -30,6 +30,7 @@
     "browser-env": "^3.1.0",
     "bundlesize": "^0.12.1",
     "bytes": "^2.5.0",
+    "codecov": "^2.3.0",
     "loglevel": "^1.4.1",
     "nyc": "^11.0.3",
     "react": "^15.6.1",
