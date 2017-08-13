@@ -11,7 +11,7 @@ http://jxnblk.com/cxs
 
 [b]: https://img.shields.io/travis/jxnblk/cxs/master.svg?style=flat-square
 [std]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
-[kb]: https://img.shields.io/badge/gzip-1%20kb-brightgreen.svg?style=flat-square
+[kb]: https://img.shields.io/badge/gzip-0.7%20kb-brightgreen.svg?style=flat-square
 
 ```js
 const className = cxs({ color: 'tomato' })
@@ -66,9 +66,36 @@ export default Box
 
 ### Pseudoclasses
 
+```js
+const className = cxs({
+  color: 'tomato',
+  ':hover': {
+    color: 'black'
+  }
+})
+```
+
 ### Media Queries
 
+```js
+const className = cxs({
+  fontSize: 32,
+  '@media screen and (min-width: 40em)': {
+    fontSize: 48
+  }
+})
+```
+
 ### Child Selectors
+
+```js
+const className = cxs({
+  color: 'black',
+  ' > a': {
+    color: 'tomato'
+  }
+})
+```
 
 
 ### Static/Server-Side Rendering
@@ -164,22 +191,49 @@ import {
 const Heading = cxs('h2')(space, color)
 ```
 
+### Theming
+
+Theming is supported with the `<ThemeProvider>` component.
+
+```jsx
+import React from 'react'
+import ThemeProvider from 'cxs/ThemeProvider'
+import theme from './theme'
+
+const App = props => (
+  <ThemeProvider theme={theme}>
+    <Heading>
+      Hello
+    </Heading>
+  </ThemeProvider>
+)
+```
+
+```jsx
+import cxs from 'cxs/component'
+
+const Heading = cxs('h2')(props => ({
+  fontSize: props.theme.fontSizes[4],
+  color: props.theme.blue
+}))
+```
+
 ## API
 
-- cxs()
-- cxs.css()
-- cxs.reset()
-- cxs/component
+### `cxs()`
+### `cxs.css()`
+### `cxs.reset()`
+
+### `cxs/component`
 
 
-## Limitations
+---
 
 ### Vendor prefixes
 
 cxs **does not** handle vendor prefixing to keep the module size at a minimum.
 
-
-## Previous Version
+### Previous Versions
 
 For previous versions of cxs, see the [v3 branch][v3] or [v4 branch][v4]
 
