@@ -1,6 +1,6 @@
 {
   "name": "cxs",
-  "version": "5.0.0-1",
+  "version": "5.0.0",
   "description": "Fast af css-in-js in under 1kb",
   "main": "dist/index.js",
   "scripts": {
