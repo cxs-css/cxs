@@ -179,6 +179,25 @@ const Heading = cxs('h1')(props => ({
 }))
 ```
 
+#### Removing style props
+
+To remove style props from the rendered HTML element,
+use the [`prop-types`][pt] package to define `propTypes` on a component.
+cxs/component will remove any prop that matches a key from the `propTypes` object.
+
+```js
+import cxs from 'cxs/component'
+import PropTypes from 'prop-types'
+
+const Heading = cxs('h2')(props => ({
+  fontSize: props.big ? 48 : 32
+}))
+
+Heading.propTypes = {
+  big: PropTypes.bool
+}
+```
+
 ### styled-system
 
 Style utility functions, like those in [styled-system][s2], can be used with cxs/component.
@@ -249,8 +268,7 @@ cxs **does not** handle vendor prefixing to keep the module size at a minimum.
 For previous versions of cxs, see the [v3 branch][v3] or [v4 branch][v4]
 
 [sc]: https://www.styled-components.com (styled-components)
-[2]: http://basscss.com
-[3]: http://tachyons.io
+[pt]: https://www.npmjs.com/package/prop-types
 
 [s2]: https://github.com/jxnblk/styled-system
 [v3]: https://github.com/jxnblk/cxs/tree/v3

@@ -1,4 +1,5 @@
 import cxs from 'cxs/component'
+import PropTypes from 'prop-types'
 import Box from './Box'
 
 const align = props => props.align
@@ -20,5 +21,12 @@ const Flex = cxs(Box)({
   align,
   justify
 )
+
+Flex.propTypes = {
+  align: PropTypes.string,
+  justify: PropTypes.string,
+  column: PropTypes.bool,
+  wrap: PropTypes.bool,
+}
 
 export default Flex

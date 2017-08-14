@@ -11,7 +11,7 @@ const Usage = () => (
   <section id='usage'>
     <Box pt={5} pb={5}>
       <Bar mb={4} />
-      <Heading mb={3}>Getting Started</Heading>
+      <Heading>Getting Started</Heading>
       <Pre>npm i cxs</Pre>
       <Heading>
         Usage
