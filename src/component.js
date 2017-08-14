@@ -22,7 +22,6 @@ module.exports = C => (...args) => {
     return h(C, next)
   }
 
-  Comp.displayName = C.displayName
   Comp.contextTypes = {
     theme: PropTypes.object
   }
