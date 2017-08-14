@@ -1,4 +1,5 @@
 import cxs from 'cxs/component'
+import PropTypes from 'prop-types'
 import Box from './Box'
 import { blue } from './colors'
 
@@ -24,5 +25,10 @@ const Text = cxs(Box)(size, bold, {
     color: blue
   }
 })
+
+Text.propTypes = {
+  f: PropTypes.number,
+  bold: PropTypes.bool,
+}
 
 export default Text

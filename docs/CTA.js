@@ -8,7 +8,7 @@ import Button from './Button'
 const CTA = () => (
   <section id='cta'>
     <Box mt={6} mb={6}>
-      <Heading mb={3}>
+      <Heading>
         Documentation
       </Heading>
       <Text mb={4}>

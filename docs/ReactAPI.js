@@ -11,7 +11,7 @@ const ReactAPI = () => (
   <section id='react-api'>
     <Box pt={5} pb={5}>
       <Bar mb={4} />
-      <Heading mb={3}>React API</Heading>
+      <Heading>React API</Heading>
       <Text mb={4}>
         cxs also includes a React higher order component API similar to <a href='https://styled-components.com'>styled-components</a>.
       </Text>

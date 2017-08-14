@@ -3,17 +3,24 @@ const PropTypes = require('prop-types')
 const cxs = require('./index')
 
 module.exports = C => (...args) => {
-  const Comp = (props, context) =>
-    h(C, Object.assign({}, props, {
-      className: [
-        props.className,
-        ...args.map(a => typeof a === 'function'
-          ? a(Object.assign({ theme: context.theme }, props))
-          : a)
-          .filter(s => s !== null)
-          .map(s => cxs(s))
-      ].join(' ')
-    }))
+  const Comp = (props, context) => {
+    const stylePropKeys = Object.keys(Comp.propTypes || {})
+    const styleProps = Object.assign({ theme: context.theme }, props)
+
+    const next = {}
+    for (let key in props) {
+      if (stylePropKeys.includes(key)) continue
+      next[key] = props[key]
+    }
+    next.className = [
+      next.className,
+      ...args.map(a => typeof a === 'function' ? a(styleProps) : a)
+        .filter(s => s !== null)
+        .map(s => cxs(s))
+    ].join(' ').trim()
+
+    return h(C, next)
+  }
 
   Comp.displayName = C.displayName
   Comp.contextTypes = {
