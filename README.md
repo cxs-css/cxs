@@ -182,7 +182,7 @@ const Heading = cxs('h1')(props => ({
 #### Removing style props
 
 To remove style props from the rendered HTML element,
-use the `prop-types` package to define `propTypes` on a component.
+use the [`prop-types`][pt] package to define `propTypes` on a component.
 cxs/component will remove any prop that matches a key from the `propTypes` object.
 
 ```js
@@ -268,8 +268,7 @@ cxs **does not** handle vendor prefixing to keep the module size at a minimum.
 For previous versions of cxs, see the [v3 branch][v3] or [v4 branch][v4]
 
 [sc]: https://www.styled-components.com (styled-components)
-[2]: http://basscss.com
-[3]: http://tachyons.io
+[pt]: https://www.npmjs.com/package/prop-types
 
 [s2]: https://github.com/jxnblk/styled-system
 [v3]: https://github.com/jxnblk/cxs/tree/v3
