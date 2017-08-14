@@ -37,7 +37,7 @@ test('removes props defined as propTypes', t => {
   C.propTypes = {
     color: PropTypes.string
   }
-  const json = render(<C color='tomato' />).toJSON()
+  const json = render(<C color='tomato' children='Hello' />).toJSON()
   t.falsy(json.props.color)
   t.is(json.props.className, 'x0')
   t.is(cxs.css(), '.x0{color:tomato}')
