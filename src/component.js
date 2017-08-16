@@ -23,7 +23,10 @@ module.exports = C => (...args) => {
   }
 
   Comp.contextTypes = {
-    theme: PropTypes.object
+    theme: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func
+    ])
   }
 
   return Comp

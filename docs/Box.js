@@ -1,5 +1,4 @@
 import cxs from 'cxs/component'
-import colors from './colors'
 import { space, width, color } from 'styled-system'
 import PropTypes from 'prop-types'
 

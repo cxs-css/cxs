@@ -1,11 +1,12 @@
 const React = require('react')
 const PropTypes = require('prop-types')
+const createTheme = require('./createTheme')
 const h = React.createElement
 
 class ThemeProvider extends React.Component {
   getChildContext () {
     return {
-      theme: this.props.theme
+      theme: createTheme(this.props.theme)
     }
   }
 
@@ -17,7 +18,10 @@ class ThemeProvider extends React.Component {
 }
 
 ThemeProvider.childContextTypes = {
-  theme: PropTypes.object
+  theme: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object
+  ])
 }
 
 module.exports = ThemeProvider

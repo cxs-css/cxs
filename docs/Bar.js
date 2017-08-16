@@ -1,11 +1,10 @@
 import cxs from 'cxs/component'
 import Box from './Box'
-import { blue } from './colors'
 
-const Bar = cxs(Box)({
+const Bar = cxs(Box)(props => ({
   width: 32,
   height: 8,
-  backgroundColor: blue
-})
+  backgroundColor: props.theme('colors.blue')
+}))
 
 export default Bar
