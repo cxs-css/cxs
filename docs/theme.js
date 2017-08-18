@@ -1,3 +1,4 @@
+import colors from './colors'
 const space = [
   0,
   4,
@@ -9,5 +10,6 @@ const space = [
 ]
 
 module.exports = {
-  space
+  space,
+  colors
 }
