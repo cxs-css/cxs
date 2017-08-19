@@ -6,7 +6,7 @@ const h = React.createElement
 class ThemeProvider extends React.Component {
   getChildContext () {
     return {
-      theme: createTheme(this.props.theme)
+      theme: createTheme(this.props.theme, this.props.scope)
     }
   }
 

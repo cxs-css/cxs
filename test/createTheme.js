@@ -30,3 +30,12 @@ test('returns null for non-existing keys', t => {
   const theme = createTheme(config)
   t.is(theme('colors.gray.3'), null)
 })
+
+test('accepts a scope option', t => {
+  const theme = createTheme({ scope: config }, 'scope')
+  t.falsy(theme.colors)
+  t.is(typeof theme.scope, 'object')
+  t.is(theme.scope.colors.blue, config.colors.blue)
+  t.is(theme('colors.blue'), config.colors.blue)
+  t.is(theme('scope.colors.blue'), null)
+})
