@@ -9,7 +9,7 @@ module.exports = C => (...args) => {
 
     const next = {}
     for (let key in props) {
-      if (stylePropKeys.includes(key)) continue
+      if (!stylePropKeys.includes(key)) continue
       next[key] = props[key]
     }
     next.className = [
