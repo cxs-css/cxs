@@ -4,7 +4,10 @@ const cxs = require('./index')
 
 module.exports = C => (...args) => {
   const Comp = (props, context) => {
-    const stylePropKeys = Object.keys(Comp.propTypes || {})
+    const stylePropKeys = [
+      ...Object.keys(Comp.propTypes || {}),
+      'css'
+    ]
     const styleProps = Object.assign({ theme: context.theme }, props)
 
     const next = {}
@@ -16,7 +19,8 @@ module.exports = C => (...args) => {
       next.className,
       ...args.map(a => typeof a === 'function' ? a(styleProps) : a)
         .filter(s => s !== null)
-        .map(s => cxs(s))
+      .map(s => cxs(s)),
+      cxs(props.css || {})
     ].join(' ').trim()
 
     return h(C, next)
