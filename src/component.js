@@ -3,9 +3,9 @@ const PropTypes = require('prop-types')
 const cxs = require('./index')
 
 module.exports = C => (...args) => {
-  const Comp = (props, context) => {
+  const Comp = (props, context = {}) => {
     const stylePropKeys = Object.keys(Comp.propTypes || {})
-    const styleProps = Object.assign({ theme: context.theme }, props)
+    const styleProps = Object.assign({ theme: context.theme || {} }, props)
 
     const next = {}
     for (let key in props) {
