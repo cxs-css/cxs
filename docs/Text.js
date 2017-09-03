@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Box from './Box'
 import { blue } from './colors'
 
-const scale = n => [
+const scale = n => ([
   12,
   14,
   16,
@@ -12,7 +12,7 @@ const scale = n => [
   32,
   48,
   64
-][n] || n
+][n] || n) + 'px'
 
 const size = props => props.f !== null || props.f !== undefined
   ? { fontSize: scale(props.f) }

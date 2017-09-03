@@ -4,7 +4,6 @@ import Box from './Box'
 import Pre from './Pre'
 import Heading from './Heading'
 import Text from './Text'
-// import CodeBlock from './CodeBlock'
 import Bar from './Bar'
 
 const Usage = () => (
