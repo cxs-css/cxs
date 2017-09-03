@@ -12,7 +12,7 @@ import Footer from './Footer'
 const Root = cxs('div')(props => ({
   fontFamily: '"Roboto Mono", Menlo, monospace',
   color: typeof props.theme,
-  lineHeight: '1.5'
+  lineHeight: 1.5
 }))
 
 const App = props => (

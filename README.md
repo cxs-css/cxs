@@ -59,7 +59,7 @@ const Box = (props) => {
 }
 
 const className = cxs({
-  padding: 32,
+  padding: '32px',
   backgroundColor: 'tomato'
 })
 
@@ -81,9 +81,9 @@ const className = cxs({
 
 ```js
 const className = cxs({
-  fontSize: 32,
+  fontSize: '32px',
   '@media screen and (min-width: 40em)': {
-    fontSize: 48
+    fontSize: '48px'
   }
 })
 ```
@@ -134,8 +134,8 @@ import cxs from 'cxs/component'
 
 const Heading = cxs('h1')({
   margin: 0,
-  fontSize: 32,
-  lineHeight: '1.25'
+  fontSize: '32px',
+  lineHeight: 1.25
 })
 ```
 
@@ -190,7 +190,7 @@ import cxs from 'cxs/component'
 import PropTypes from 'prop-types'
 
 const Heading = cxs('h2')(props => ({
-  fontSize: props.big ? 48 : 32
+  fontSize: props.big ? '48px' : '32px'
 }))
 
 Heading.propTypes = {
@@ -234,7 +234,7 @@ const App = props => (
 import cxs from 'cxs/component'
 
 const Heading = cxs('h2')(props => ({
-  fontSize: props.theme.fontSizes[4],
+  fontSize: props.theme.fontSizes[4] + 'px',
   color: props.theme.blue
 }))
 ```
