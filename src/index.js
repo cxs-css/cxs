@@ -2,9 +2,8 @@ let cache = {}
 const rules = []
 let insert = rule => rules.push(rule)
 const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
-const px = n => typeof n === 'number' ? n + 'px' : n
 const mx = (rule, media) => media ? `${media}{${rule}}` : rule
-const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${px(val)}}`
+const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${val}}`
 const noAnd = s => s.replace(/&/g, '')
 
 const parse = (obj, child = '', media) =>

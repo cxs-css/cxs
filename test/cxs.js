@@ -43,7 +43,7 @@ test('deduplicates', t => {
 
 test('handles multiple declarations', t => {
   const a = cxs({
-    fontSize: 48,
+    fontSize: '48px',
     color: 'tomato',
     background: null,
     ':hover': {
