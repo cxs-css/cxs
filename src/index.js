@@ -1,4 +1,5 @@
 let cache = {}
+let mqs = 0
 const rules = []
 let insert = rule => rules.push(rule)
 const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
@@ -18,7 +19,7 @@ const parse = (obj, child = '', media) =>
     const _key = key + val + child + media
     if (cache[_key]) return cache[_key]
     const className = 'x' + (rules.length).toString(36)
-    insert(mx(rx(className + noAnd(child), key, val), media))
+    insert(mx(rx(className + noAnd(child), key, val), media), !!media)
     cache[_key] = className
     return className
   })
@@ -39,8 +40,9 @@ if (typeof document !== 'undefined') {
   const sheet = document.head.appendChild(
     document.createElement('style')
   ).sheet
-  insert = rule => {
+  insert = (rule, media) => {
     rules.push(rule)
-    sheet.insertRule(rule, sheet.cssRules.length)
+    if (media) mqs += 1
+    sheet.insertRule(rule, sheet.cssRules.length - (media ? 0 : mqs))
   }
 }
