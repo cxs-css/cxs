@@ -1,5 +1,5 @@
 {
-  "name": "cxs",
+  "name": "@mattclough/cxs",
   "version": "6.0.0",
   "description": "Fast af css-in-js in under 1kb",
   "main": "dist/index.js",
