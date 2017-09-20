@@ -17,7 +17,7 @@ const parse = (obj, child = '', media) =>
     }
     const _key = key + val + child + media
     if (cache[_key]) return cache[_key]
-    const className = 'x' + (rules.length).toString(36)
+    const className = module.exports.prefix + (rules.length).toString(36)
     insert(mx(rx(className + noAnd(child), key, val), media))
     cache[_key] = className
     return className
@@ -34,6 +34,8 @@ module.exports.reset = () => {
   cache = {}
   while (rules.length) rules.pop()
 }
+
+module.exports.prefix = 'x';
 
 if (typeof document !== 'undefined') {
   const sheet = document.head.appendChild(
