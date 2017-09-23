@@ -78,9 +78,11 @@ module.exports.reset = () => {
 module.exports.prefix = val => prefix = val
 
 if (typeof document !== 'undefined') {
-  const sheet = document.head.appendChild(
+  const style = document.head.appendChild(
     document.createElement('style')
-  ).sheet
+  )
+  const sheet = style.sheet
+  style.id = '_cxs_'
   insert = rule => {
     cssRules.push(rule)
     sheet.insertRule(rule, sheet.cssRules.length)
