@@ -72,7 +72,11 @@
     },
     {
       "path": "./dist/component.js",
-      "maxSize": "0.6 kb"
+      "maxSize": "0.7 kb"
+    },
+    {
+      "path": "./dist/monolithic.js",
+      "maxSize": "1.0 kb"
     }
   ]
 }

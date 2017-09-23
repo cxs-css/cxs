@@ -2,12 +2,10 @@ let cache = {}
 let prefix = '_cxs'
 const cssRules = []
 let insert = rule => cssRules.push(rule)
+
 const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
 const mx = (rule, media) => media ? `${media}{${rule}}` : rule
-const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${val}}`
 const noAnd = s => s.replace(/&/g, '')
-
-const isMedia = key => /^@/.test(key)
 const createDeclaration = (key, value) => hyph(key) + ':' + value
 const createRule = ({
   className,
@@ -26,7 +24,7 @@ const parseRules = (obj, child = '', media) => {
     if (value === null) continue
 
     if (typeof value === 'object') {
-      const _media = isMedia(key) ? key : null
+      const _media = /^@/.test(key) ? key : null
       const _child = _media ? child : child + noAnd(key)
       parseRules(value, _child, _media)
         .forEach(r => rules.push(r))
