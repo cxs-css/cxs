@@ -3,6 +3,7 @@ import browser from 'browser-env'
 browser()
 
 const cxs = require('../src')
+const mono = require('../src/monolithic')
 
 test.afterEach(() => {
   const tag = document.head.querySelector('style')
@@ -24,5 +25,13 @@ test('inserts CSS rules', t => {
     color: 'tomato'
   })
   const { sheet } = document.head.querySelector('style')
+  t.is(sheet.cssRules.length, 1)
+})
+
+test('monolithic inserts CSS rules', t => {
+  mono({
+    color: 'tomato'
+  })
+  const { sheet } = document.getElementById('_cxs_')
   t.is(sheet.cssRules.length, 1)
 })
