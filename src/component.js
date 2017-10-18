@@ -15,7 +15,7 @@ module.exports = C => (...args) => {
     next.className = [
       next.className,
       ...args.map(a => typeof a === 'function' ? a(styleProps) : a)
-        .filter(s => s !== null)
+        .filter(s => !!s)
         .map(s => cxs(s))
     ].join(' ').trim()
 
