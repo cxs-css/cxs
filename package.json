@@ -15,10 +15,6 @@
   "keywords": [],
   "author": "Brent Jackson",
   "license": "MIT",
-  "dependencies": {
-    "objss": "^1.0.3",
-    "tag-hoc": "^1.0.0-0"
-  },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": "^6.24.1",
@@ -33,6 +29,7 @@
     "codecov": "^2.3.0",
     "loglevel": "^1.4.1",
     "nyc": "^11.0.3",
+    "objss": "^1.0.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-live": "^1.7.0",
