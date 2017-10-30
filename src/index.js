@@ -35,7 +35,7 @@ module.exports.reset = () => {
   while (rules.length) rules.pop()
 }
 
-module.exports.prefix = 'x';
+module.exports.prefix = 'x'
 
 if (typeof document !== 'undefined') {
   const sheet = document.head.appendChild(
