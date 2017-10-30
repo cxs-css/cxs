@@ -1,11 +1,9 @@
 import test from 'ava'
 import cxs from '../src'
 
-const originalPrefix = cxs.prefix
-
 test.afterEach.always(() => {
   cxs.reset()
-  cxs.prefix = originalPrefix
+  cxs.prefix('x')
 })
 
 test('exports a function', t => {
@@ -123,12 +121,12 @@ test('media rules stay in order', t => {
   t.regex(css, /@media/)
 })
 
-test("cxs.prefix defaults to 'x'", t => {
-  t.is(cxs.prefix, 'x' )
+test('cxs.prefix is a function', t => {
+  t.is(typeof cxs.prefix, 'function' )
 })
 
 test('uses custom prefix', t => {
-  cxs.prefix = '_cxs'
+  cxs.prefix('_cxs')
   cxs({ color: 'tomato' })
   t.is(cxs.css(), '._cxs0{color:tomato}')
 })
