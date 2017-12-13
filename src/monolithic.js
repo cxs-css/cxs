@@ -49,16 +49,16 @@ const parse = obj => {
   const classNames = []
 
   rules.forEach(rule => {
-    const cacheKey = JSON.stringify(rule)
-    if (cache[cacheKey]) {
-      classNames.push(cache[cacheKey])
+    const key = JSON.stringify(rule)
+    if (cache[key]) {
+      classNames.push(cache[key])
       return
     }
     const className = prefix + cssRules.length.toString(36)
     classNames.push(className)
     const ruleset = createRule(Object.assign(rule, { className }))
     insert(ruleset)
-    cache[cacheKey] = className
+    cache[key] = className
   })
 
   return classNames.join(' ')
@@ -78,9 +78,9 @@ module.exports.reset = () => {
 module.exports.prefix = val => prefix = val
 
 if (typeof document !== 'undefined') {
-  const style = document.head.appendChild(
-    document.createElement('style')
-  )
+  const s = document.createElement('style')
+  if (window) s.nonce = window.__webpack_nonce__
+  const style = document.head.appendChild(s)
   const sheet = style.sheet
   style.id = '_cxs_'
   insert = rule => {
