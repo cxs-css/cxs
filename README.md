@@ -3,10 +3,8 @@
 
 fast af css-in-js in 0.7kb
 
-http://jxnblk.com/cxs
-
-[![Build Status][b]](https://travis-ci.org/jxnblk/cxs)
-[![Coverage][cov]](https://codecov.io/github/jxnblk/cxs)
+[![Build Status][b]](https://travis-ci.org/cxs-css/cxs)
+[![Coverage][cov]](https://codecov.io/github/cxs-css/cxs)
 [![js-standard-style][std]](http://standardjs.com/)
 [![0.7kb gzip][kb]](https://github.com/siddharthkp/bundlesize)
 
@@ -271,7 +269,7 @@ For previous versions of cxs, see the [v3 branch][v3] or [v4 branch][v4]
 [pt]: https://www.npmjs.com/package/prop-types
 
 [s2]: https://github.com/jxnblk/styled-system
-[v3]: https://github.com/jxnblk/cxs/tree/v3
-[v4]: https://github.com/jxnblk/cxs/tree/v4
+[v3]: https://github.com/cxs-css/cxs/tree/v3
+[v4]: https://github.com/cxs-css/cxs/tree/v4
 
 [MIT License](LICENSE.md)
