@@ -44,3 +44,8 @@ test('removes props defined as propTypes', t => {
   t.snapshot(json)
 })
 
+test('accepts css prop', t => {
+  const C = cxs('div')()
+  const json = render(<C css={{ color: 'tomato' }} />).toJSON()
+  t.snapshot(json)
+})
