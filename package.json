@@ -15,10 +15,6 @@
   "keywords": [],
   "author": "Brent Jackson",
   "license": "MIT",
-  "dependencies": {
-    "objss": "^1.0.3",
-    "tag-hoc": "^1.0.0-0"
-  },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": "^6.24.1",
