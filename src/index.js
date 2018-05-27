@@ -4,7 +4,7 @@ const rules = []
 let insert = rule => rules.push(rule)
 const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
 const mx = (rule, media) => media ? `${media}{${rule}}` : rule
-const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${val}}`
+let rx = (cn, prop, val) => `.${cn}{${prop}:${val}}`
 const noAnd = s => s.replace(/&/g, '')
 
 const parse = (obj, child = '', media) =>
@@ -19,7 +19,7 @@ const parse = (obj, child = '', media) =>
     const _key = key + val + child + media
     if (cache[_key]) return cache[_key]
     const className = prefix + (rules.length).toString(36)
-    insert(mx(rx(className + noAnd(child), key, val), media))
+    insert(mx(rx(className + noAnd(child), hyph(key), val), media))
     cache[_key] = className
     return className
   })
@@ -36,6 +36,7 @@ module.exports.reset = () => {
   while (rules.length) rules.pop()
 }
 
+module.exports.processor = val => rx = val
 module.exports.prefix = val => prefix = val
 
 if (typeof document !== 'undefined') {
