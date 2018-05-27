@@ -251,6 +251,10 @@ Returns the rendered CSS string for static and server-side rendering.
 
 Resets the cache for server-side rendering
 
+### `cxs.prefix(val)`
+
+Updates the default class name prefix with the value passed to this function.
+
 ### `cxs/component`
 
 A [styled-components][sc]-like API for creating React components with cxs.
