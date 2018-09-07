@@ -26,7 +26,7 @@
     "dist/monolithic.js",
     "dist/monolithic.min.js",
     "dist/ThemeProvider.js",
-    "dist/ThemeProvider.min.js",
+    "dist/ThemeProvider.min.js"
   ],
   "author": "Brent Jackson",
   "license": "MIT",
@@ -53,7 +53,6 @@
     "rollup": "^0.65.2",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.6",
-    "rollup-plugin-multi-entry": "^2.0.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-uglify": "^5.0.2",
     "standard": "^10.0.2",
