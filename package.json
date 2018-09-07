@@ -3,8 +3,9 @@
   "version": "6.2.0",
   "description": "Fast af css-in-js in under 1kb",
   "main": "dist/index.js",
+  "unpkg": "dist/index.js",
   "scripts": {
-    "prepublish": "babel src -d dist",
+    "prepublish": "rollup -c",
     "build": "node docs/build.js",
     "start": "webpack-dev-server",
     "size": "npm run prepublish && bundlesize",
@@ -13,26 +14,48 @@
     "test": "nyc ava"
   },
   "keywords": [],
+  "files": [
+    "dist/component.js",
+    "dist/component.min.js",
+    "dist/createTheme.js",
+    "dist/createTheme.min.js",
+    "dist/index.js",
+    "dist/index.min.js",
+    "dist/monocomponent.js",
+    "dist/monocomponent.min.js",
+    "dist/monolithic.js",
+    "dist/monolithic.min.js",
+    "dist/ThemeProvider.js",
+    "dist/ThemeProvider.min.js",
+  ],
   "author": "Brent Jackson",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.21.0",
-    "babel-cli": "^6.24.1",
-    "babel-loader": "^7.1.1",
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "ava": "1.0.0-beta.1",
+    "babel-loader": "^8.0.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "browser-env": "^3.1.0",
     "bundlesize": "^0.12.1",
     "bytes": "^2.5.0",
-    "codecov": "^2.3.0",
+    "codecov": "^3.1.0",
     "loglevel": "^1.4.1",
-    "nyc": "^11.0.3",
+    "nyc": "^13.0.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-live": "^1.7.0",
     "react-test-renderer": "^15.6.1",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-multi-entry": "^2.0.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-uglify": "^5.0.2",
     "standard": "^10.0.2",
     "styled-system": "^1.0.0-12",
     "webpack": "^3.3.0",
@@ -40,9 +63,13 @@
   },
   "ava": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
-    "babel": "inherit"
+    "babel": {
+      "testOptions": {
+        "babelrc": true
+      }
+    }
   },
   "nyc": {
     "exclude": [
@@ -68,7 +95,7 @@
     },
     {
       "path": "./dist/component.js",
-      "maxSize": "0.7 kb"
+      "maxSize": "0.75 kb"
     },
     {
       "path": "./dist/monolithic.js",

@@ -1,6 +1,7 @@
-const React = require('react')
-const PropTypes = require('prop-types')
-const createTheme = require('./createTheme')
+import createTheme from './createTheme'
+import PropTypes from 'prop-types'
+import React from 'react'
+
 const h = React.createElement
 
 class ThemeProvider extends React.Component {
@@ -24,4 +25,4 @@ ThemeProvider.childContextTypes = {
   ])
 }
 
-module.exports = ThemeProvider
+export default ThemeProvider

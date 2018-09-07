@@ -1,22 +1,22 @@
 {
   "presets": [
     [
-      "env", {
+      "@babel/env", {
+        "modules": false,
         "exclude": [
-          "transform-es2015-typeof-symbol"
+          "transform-typeof-symbol"
         ]
       }
     ],
-    "react"
+    "@babel/react"
   ],
-  "plugins": [
-    [
-      "module-resolver",
-      {
-        "alias": {
-          "cxs": "./src"
-        }
-      }
-    ]
-  ]
+
+  "env": {
+    "test": { 
+      "plugins": [
+        "add-module-exports",
+        "transform-es2015-modules-commonjs"
+      ],
+    }
+  }
 }

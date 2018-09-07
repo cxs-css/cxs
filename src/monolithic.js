@@ -64,18 +64,19 @@ const parse = obj => {
   return classNames.join(' ')
 }
 
-module.exports = (...styles) =>
-  styles.map(style => parse(style))
+function cxs (...styles) {
+  return styles.map(style => parse(style))
   .join(' ').trim()
+}
 
-module.exports.css = () => cssRules.sort().join('')
+cxs.css = () => cssRules.sort().join('')
 
-module.exports.reset = () => {
+cxs.reset = () => {
   cache = {}
   while (cssRules.length) cssRules.pop()
 }
 
-module.exports.prefix = val => prefix = val
+cxs.prefix = val => (prefix = val)
 
 if (typeof document !== 'undefined') {
   const style = document.head.appendChild(
@@ -88,3 +89,5 @@ if (typeof document !== 'undefined') {
     sheet.insertRule(rule, sheet.cssRules.length)
   }
 }
+
+export default cxs

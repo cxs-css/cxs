@@ -3,3 +3,6 @@ coverage
 dist
 package-lock.json
 coverage.lcov
+node_modules
+tmp
+yarn-error.log
