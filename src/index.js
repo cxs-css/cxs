@@ -25,18 +25,21 @@ const parse = (obj, child = '', media) =>
   })
     .join(' ')
 
-module.exports = (...styles) =>
-  styles.map(style => parse(style))
-  .join(' ').trim()
+function cxs (...styles) {
+  return styles
+    .map(style => parse(style))
+    .join(' ')
+    .trim()
+}
 
-module.exports.css = () => rules.sort().join('')
+cxs.css = () => rules.sort().join('')
 
-module.exports.reset = () => {
+cxs.reset = () => {
   cache = {}
   while (rules.length) rules.pop()
 }
 
-module.exports.prefix = val => prefix = val
+cxs.prefix = val => (prefix = val)
 
 if (typeof document !== 'undefined') {
   const sheet = document.head.appendChild(
@@ -47,3 +50,5 @@ if (typeof document !== 'undefined') {
     sheet.insertRule(rule, sheet.cssRules.length)
   }
 }
+
+export default cxs

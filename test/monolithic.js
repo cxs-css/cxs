@@ -33,7 +33,7 @@ test('returns cached classNames', t => {
   const a = cxs({ color: 'tomato' })
   const b = cxs({ color: 'tomato' })
 
-  const css = cxs.css()
+  const css = cxs.css() // eslint-disable-line
   t.is(a, b)
 })
 

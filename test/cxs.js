@@ -122,7 +122,7 @@ test('media rules stay in order', t => {
 })
 
 test('cxs.prefix is a function', t => {
-  t.is(typeof cxs.prefix, 'function' )
+  t.is(typeof cxs.prefix, 'function')
 })
 
 test('uses custom prefix', t => {
