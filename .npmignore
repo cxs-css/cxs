@@ -6,3 +6,4 @@ coverage
 .travis.yml
 .babelrc
 webpack.config.js
+benchmarks
