@@ -98,7 +98,7 @@
     },
     {
       "path": "./dist/monolithic.js",
-      "maxSize": "1.0 kb"
+      "maxSize": "1.01 kb"
     }
   ]
 }
