@@ -6,6 +6,7 @@ const hyph = s => s.replace(/[A-Z]|^ms/g, '-$&').toLowerCase()
 const mx = (rule, media) => media ? `${media}{${rule}}` : rule
 const rx = (cn, prop, val) => `.${cn}{${hyph(prop)}:${val}}`
 const noAnd = s => s.replace(/&/g, '')
+const isDev = (process.env.NODE_ENV === 'development') || (!process.env.NODE_ENV)
 
 const parse = (obj, child = '', media) =>
   Object.keys(obj).map(key => {
@@ -47,7 +48,11 @@ if (typeof document !== 'undefined') {
   ).sheet
   insert = rule => {
     rules.push(rule)
-    sheet.insertRule(rule, sheet.cssRules.length)
+    try{
+      sheet.insertRule(rule, rule.includes('@import') ? 0 : sheet.cssRules.length)
+    }catch(e){
+      if (isDev) console.warn('whoops, illegal rule inserted', rule)
+    }
   }
 }
 
