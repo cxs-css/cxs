@@ -58,7 +58,7 @@
     "standard": "^10.0.2",
     "styled-system": "^1.0.0-12",
     "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.6.0"
+    "webpack-dev-server": "^3.1.11"
   },
   "ava": {
     "require": [
