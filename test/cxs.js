@@ -130,3 +130,11 @@ test('uses custom prefix', t => {
   cxs({ color: 'tomato' })
   t.is(cxs.css(), '._cxs0{color:tomato}')
 })
+
+test('uses custom hook', t => {
+  const fakeAutoprefixer = (val) => val.split("grid").join("-ms-grid");
+  cxs.hook(fakeAutoprefixer);
+
+  cxs({ display: 'grid' })
+  t.is(cxs.css(), '.x0{display:-ms-grid}')
+})
